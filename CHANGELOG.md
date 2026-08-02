@@ -2,6 +2,15 @@
 
 Projedeki tüm majör revizyonlar, güvenlik güncellemeleri me yeni özellikler bu dosyada SemVer prensiplerine uygun olarak kayıt altına alınmaktadır.
 
+## [v1.11.0] - 2026-08-02 (Teklif Üret Ekranına Canlı Son 3 Teklif Paneli Entegrasyonu)
+
+### 📋 Teklif Üret Ekranı Canlı Listeleme (`templates/index.html`)
+- **⚡ "Teklif Üret" Modülünde Son 3 Teklif:** "Teklif Üret" sekmesine (`#interactiveWorkspaceSection`) üretilen en güncel 3 teklifin anında görüntülendiği `#recentQuotesList` paneli eklendi.
+- **🔄 Modüler Kart Render Sistemi:** Teklif kartı HTML üretimi `renderSingleQuoteCard()` yardımcı fonksiyonuna taşınarak hem arşivde hem de Teklif Üret ekranında aksiyon butonlarıyla (Onayla, Reddet, Önizle, İndir) eksiksiz çalışması sağlandı.
+- **🚀 Otomatik Senkronizasyon:** Sesli veya yazılı yeni teklif üretildiğinde veya durum güncellendiğinde Son 3 Teklif alanı canlı olarak yenilenmektedir.
+
+---
+
 ## [v1.10.0] - 2026-08-02 (Ekran İçi Kurumsal Dükkan Profil & Logo Yönetim Masası)
 
 ### ⚙️ Ekran İçi Profil Mimarisi (`templates/index.html`)

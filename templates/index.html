@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dijital Ustabaşı v1.0.5 - Bulut Oto Servis Platformu</title>
+    <title>Dijital Ustabaşı v1.11.0 - Bulut Oto Servis Platformu</title>
     <!-- Google Fonts & FontAwesome -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Premium Style Sheet -->
-    <link rel="stylesheet" href="/static/style.css?v=1.0.6">
+    <link rel="stylesheet" href="/static/style.css?v=1.11.0">
 </head>
 <body>
     <!-- Toast Container -->
@@ -221,7 +221,7 @@
                     <i class="fa-solid fa-screwdriver-wrench glow-icon"></i>
                     <div class="logo-text">
                         <h1 id="headerShopName">DİJİTAL USTABAŞI</h1>
-                        <span id="headerShopSub">v1.0.5 Bulut Oto Servis Platformu</span>
+                        <span id="headerShopSub">v1.11.0 Bulut Oto Servis Platformu</span>
                     </div>
                 </div>
 
@@ -369,6 +369,23 @@
                         <button class="chip" onclick="useDashboardTemplate('35 KNK 45 VW Golf debriyaj seti 7500 TL, işçilik 2500 TL')" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; padding: 6px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; white-space: nowrap;">
                             ⚡ VW Golf (Debriyaj)
                         </button>
+                    </div>
+
+                    <!-- Live Recent 3 Quotes Section on Teklif Üret Page -->
+                    <div id="recentQuotesSection" style="margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                            <h4 style="margin: 0; font-size: 14px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 8px;">
+                                <i class="fa-solid fa-clock-rotate-left" style="color: #3b82f6;"></i> Son 3 Oluşturulan Teklif
+                            </h4>
+                            <button onclick="switchWorkspaceTab('archive')" style="background: transparent; border: none; color: #3b82f6; font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                                Tüm Arşivi Gör <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                        <div id="recentQuotesList" style="display: flex; flex-direction: column; gap: 10px;">
+                            <div style="padding: 14px; text-align: center; color: #94a3b8; font-size: 13px; background: rgba(255, 255, 255, 0.03); border-radius: 10px;">
+                                Henüz teklif üretilmedi. Metin yazarak veya mikrofona konuşarak teklif üretebilirsiniz.
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -1051,6 +1068,20 @@
             if (statPendingCount) statPendingCount.innerText = pendingCount;
             if (statRejectedCount) statRejectedCount.innerText = rejectedCount;
 
+            // Render top 3 recent quotes into #recentQuotesList on "Teklif Üret" tab
+            const recentContainer = document.getElementById("recentQuotesList");
+            if (recentContainer) {
+                const top3Quotes = dedupedQuotes.slice(0, 3);
+                if (top3Quotes.length === 0) {
+                    recentContainer.innerHTML = `
+                        <div style="padding: 14px; text-align: center; color: #94a3b8; font-size: 13px; background: rgba(255, 255, 255, 0.03); border-radius: 10px;">
+                            Henüz teklif üretilmedi. Metin yazarak veya mikrofona konuşarak teklif üretebilirsiniz.
+                        </div>`;
+                } else {
+                    recentContainer.innerHTML = top3Quotes.map(q => renderSingleQuoteCard(q)).join("");
+                }
+            }
+
             const listContainer = document.getElementById("quotesList");
             if (!listContainer) return;
 
@@ -1068,67 +1099,69 @@
                 return;
             }
 
-            listContainer.innerHTML = filteredQuotes.map(q => {
-                if (!q) return "";
-                const date = q.created_at ? new Date(q.created_at).toLocaleDateString('tr-TR', {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'}) : 'Tarih Belirtilmedi';
-                const status = q.status || "beklemede";
-                const plaka = q.plaka || "PLAKASIZ";
-                const vehicle = q.vehicle || "Bilinmeyen Araç";
-                const totalPriceStr = (typeof q.total_price === 'number') ? q.total_price.toLocaleString('tr-TR') : (q.total_price || '0');
-                const discountPriceStr = (typeof q.discount_price === 'number') ? q.discount_price.toLocaleString('tr-TR') : (q.discount_price || '0');
-                const pdfFilename = q.pdf_filename || '';
-                const quoteId = q.quote_id || '';
+            listContainer.innerHTML = filteredQuotes.map(q => renderSingleQuoteCard(q)).join("");
+        }
 
-                let statusBadge = "";
-                let actionButtons = "";
-                
-                if (status === "onaylandi") {
-                    statusBadge = `<span class="status-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-left: 6px;"><i class="fa-solid fa-circle-check"></i> Onaylandı</span>`;
-                    actionButtons = `<button class="btn-action-pill reject" onclick="changeQuoteStatus('${quoteId}', 'ret')" title="Reddet"><i class="fa-solid fa-xmark"></i> Reddet</button>`;
-                } else if (status === "ret") {
-                    statusBadge = `<span class="status-badge" style="background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-left: 6px;"><i class="fa-solid fa-circle-xmark"></i> Reddedildi</span>`;
-                    actionButtons = `<button class="btn-action-pill approve" onclick="changeQuoteStatus('${quoteId}', 'onaylandi')" title="Onayla"><i class="fa-solid fa-check"></i> Onayla</button>`;
-                } else {
-                    statusBadge = `<span class="status-badge" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-left: 6px;"><i class="fa-solid fa-clock"></i> Beklemede</span>`;
-                    actionButtons = `
-                        <button class="btn-action-pill approve" onclick="changeQuoteStatus('${quoteId}', 'onaylandi')" title="Onayla"><i class="fa-solid fa-check"></i> Onayla</button>
-                        <button class="btn-action-pill reject" onclick="changeQuoteStatus('${quoteId}', 'ret')" title="Reddet"><i class="fa-solid fa-xmark"></i> Reddet</button>
-                    `;
-                }
-                
-                let itemsListHtml = "";
-                if (q.items && q.items.length > 0) {
-                    itemsListHtml = `<div style="font-size: 11px; color: #94a3b8; margin-top: 4px;">• ${q.items.map(i => i.description + ' (' + (i.price ? i.price.toLocaleString('tr-TR') : 0) + ' TL)').join(', ')}</div>`;
-                }
+        function renderSingleQuoteCard(q) {
+            if (!q) return "";
+            const date = q.created_at ? new Date(q.created_at).toLocaleDateString('tr-TR', {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'}) : 'Tarih Belirtilmedi';
+            const status = q.status || "beklemede";
+            const plaka = q.plaka || "PLAKASIZ";
+            const vehicle = q.vehicle || "Bilinmeyen Araç";
+            const totalPriceStr = (typeof q.total_price === 'number') ? q.total_price.toLocaleString('tr-TR') : (q.total_price || '0');
+            const discountPriceStr = (typeof q.discount_price === 'number') ? q.discount_price.toLocaleString('tr-TR') : (q.discount_price || '0');
+            const pdfFilename = q.pdf_filename || '';
+            const quoteId = q.quote_id || '';
 
-                return `
-                    <div class="quote-card animate-card" style="display: flex; flex-direction: column; gap: 10px; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; padding: 16px;">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 15px; width: 100%; flex-wrap: wrap;">
-                            <div class="card-left">
-                                <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
-                                    <span style="background: #f97316; color: #fff; padding: 2px 8px; border-radius: 4px; font-weight: 800; font-size: 12px;">${plaka}</span>
-                                    ${statusBadge}
-                                </div>
-                                <div class="vehicle-title" style="margin-top: 6px; font-weight: bold; color: #fff; font-size: 14px;">${vehicle}</div>
-                                ${itemsListHtml}
-                                <div class="quote-date" style="font-size: 11px; color: #64748b; margin-top: 4px;"><i class="fa-solid fa-clock"></i> ${date}</div>
+            let statusBadge = "";
+            let actionButtons = "";
+            
+            if (status === "onaylandi") {
+                statusBadge = `<span class="status-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-left: 6px;"><i class="fa-solid fa-circle-check"></i> Onaylandı</span>`;
+                actionButtons = `<button class="btn-action-pill reject" onclick="changeQuoteStatus('${quoteId}', 'ret')" title="Reddet"><i class="fa-solid fa-xmark"></i> Reddet</button>`;
+            } else if (status === "ret") {
+                statusBadge = `<span class="status-badge" style="background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-left: 6px;"><i class="fa-solid fa-circle-xmark"></i> Reddedildi</span>`;
+                actionButtons = `<button class="btn-action-pill approve" onclick="changeQuoteStatus('${quoteId}', 'onaylandi')" title="Onayla"><i class="fa-solid fa-check"></i> Onayla</button>`;
+            } else {
+                statusBadge = `<span class="status-badge" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-left: 6px;"><i class="fa-solid fa-clock"></i> Beklemede</span>`;
+                actionButtons = `
+                    <button class="btn-action-pill approve" onclick="changeQuoteStatus('${quoteId}', 'onaylandi')" title="Onayla"><i class="fa-solid fa-check"></i> Onayla</button>
+                    <button class="btn-action-pill reject" onclick="changeQuoteStatus('${quoteId}', 'ret')" title="Reddet"><i class="fa-solid fa-xmark"></i> Reddet</button>
+                `;
+            }
+            
+            let itemsListHtml = "";
+            if (q.items && q.items.length > 0) {
+                itemsListHtml = `<div style="font-size: 11px; color: #94a3b8; margin-top: 4px;">• ${q.items.map(i => i.description + ' (' + (i.price ? i.price.toLocaleString('tr-TR') : 0) + ' TL)').join(', ')}</div>`;
+            }
+
+            return `
+                <div class="quote-card animate-card" style="display: flex; flex-direction: column; gap: 10px; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; padding: 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 15px; width: 100%; flex-wrap: wrap;">
+                        <div class="card-left">
+                            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                                <span style="background: #f97316; color: #fff; padding: 2px 8px; border-radius: 4px; font-weight: 800; font-size: 12px;">${plaka}</span>
+                                ${statusBadge}
                             </div>
-                            <div class="card-right" style="text-align: right;">
-                                <span class="price-cc" style="font-size: 17px; font-weight: 800; color: #f97316; display: block;">${totalPriceStr} TL</span>
-                                <span class="price-cash-badge" style="font-size: 11px; color: #10b981;"><i class="fa-solid fa-piggy-bank"></i> ${discountPriceStr} TL (Nakit)</span>
-                            </div>
+                            <div class="vehicle-title" style="margin-top: 6px; font-weight: bold; color: #fff; font-size: 14px;">${vehicle}</div>
+                            ${itemsListHtml}
+                            <div class="quote-date" style="font-size: 11px; color: #64748b; margin-top: 4px;"><i class="fa-solid fa-clock"></i> ${date}</div>
                         </div>
-                        
-                        <div style="height: 1px; background: rgba(255, 255, 255, 0.08); width: 100%; margin: 2px 0;"></div>
-                        
-                        <div class="card-actions-bar">
-                            ${actionButtons}
-                            <button class="btn-action-pill preview" onclick="previewPdf('/api/download/${pdfFilename}')" title="Önizle"><i class="fa-solid fa-eye"></i> Önizle</button>
-                            <a class="btn-action-pill download" href="/api/download/${pdfFilename}" download="${pdfFilename}" title="İndir"><i class="fa-solid fa-download"></i> İndir</a>
+                        <div class="card-right" style="text-align: right;">
+                            <span class="price-cc" style="font-size: 17px; font-weight: 800; color: #f97316; display: block;">${totalPriceStr} TL</span>
+                            <span class="price-cash-badge" style="font-size: 11px; color: #10b981;"><i class="fa-solid fa-piggy-bank"></i> ${discountPriceStr} TL (Nakit)</span>
                         </div>
                     </div>
-                `;
-            }).join("");
+                    
+                    <div style="height: 1px; background: rgba(255, 255, 255, 0.08); width: 100%; margin: 2px 0;"></div>
+                    
+                    <div class="card-actions-bar">
+                        ${actionButtons}
+                        <button class="btn-action-pill preview" onclick="previewPdf('/api/download/${pdfFilename}')" title="Önizle"><i class="fa-solid fa-eye"></i> Önizle</button>
+                        <a class="btn-action-pill download" href="/api/download/${pdfFilename}" download="${pdfFilename}" title="İndir"><i class="fa-solid fa-download"></i> İndir</a>
+                    </div>
+                </div>
+            `;
         }
 
         async function changeQuoteStatus(quoteId, status) {
@@ -1345,8 +1378,8 @@
                 }
                 
                 headerShopName.innerText = shop.name ? shop.name.toUpperCase() : "DİJİTAL USTABAŞI";
-                headerShopSub.innerText = `${shop.phone_number} - v1.0.5 Oto Servis Platformu`;
-                headerPackageBadge.innerText = pkgLabel;
+                headerShopSub.innerText = `${shop.phone_number} - v1.11.0 Oto Servis Platformu`;
+                if (headerPackageBadge) headerPackageBadge.innerText = pkgLabel;
             }
         }
 
