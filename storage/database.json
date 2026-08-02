@@ -1,0 +1,1158 @@
+{
+    "shops": {
+        "5551112233": {
+            "phone_number": "5551112233",
+            "name": "Oto Servis",
+            "logo_url": "",
+            "package": "cirak",
+            "is_active": true,
+            "created_at": "2026-07-26T18:57:47.374547"
+        },
+        "5554443322": {
+            "phone_number": "5554443322",
+            "name": "Test Package Limits Shop",
+            "logo_url": "",
+            "package": "kalfa",
+            "is_active": true,
+            "created_at": "2026-07-25T11:23:43.177952",
+            "expires_at": "2026-09-01T11:23:43.177952",
+            "upgrade_request": null
+        }
+    },
+    "quotes": [
+        {
+            "quote_id": "Q-20260726185747230",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Periyodik Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_bb7d9d78.pdf",
+            "created_at": "2026-07-26T18:57:47.230565",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726185748355",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_1b67b7f1.pdf",
+            "created_at": "2026-07-26T18:57:48.355696",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726192237139",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_0be4f7e0.pdf",
+            "created_at": "2026-07-26T19:22:37.139298",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726192238386",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_db303468.pdf",
+            "created_at": "2026-07-26T19:22:38.386990",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726193615056",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Periyodik Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_db4a7870.pdf",
+            "created_at": "2026-07-26T19:36:15.056769",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726193615914",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_c693450c.pdf",
+            "created_at": "2026-07-26T19:36:15.914166",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726195013973",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Periyodik Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_f3b79eb6.pdf",
+            "created_at": "2026-07-26T19:50:13.973802",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726195014971",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_6728825f.pdf",
+            "created_at": "2026-07-26T19:50:14.971369",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726200352207",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Periyodik Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_883a19c7.pdf",
+            "created_at": "2026-07-26T20:03:52.207766",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726200353011",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_3ed5d7dd.pdf",
+            "created_at": "2026-07-26T20:03:53.011754",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726201428196",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Periyodik Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_01016921.pdf",
+            "created_at": "2026-07-26T20:14:28.196623",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726201429037",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_abcab2d3.pdf",
+            "created_at": "2026-07-26T20:14:29.037347",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726201850154",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Periyodik Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_60bf2dfb.pdf",
+            "created_at": "2026-07-26T20:18:50.154421",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726201851071",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_5c1382b1.pdf",
+            "created_at": "2026-07-26T20:18:51.071367",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726202358034",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Periyodik Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_0d9963ec.pdf",
+            "created_at": "2026-07-26T20:23:58.034650",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726202358904",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_0dcd6c50.pdf",
+            "created_at": "2026-07-26T20:23:58.904227",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726203645825",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Periyodik Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_a0d572ce.pdf",
+            "created_at": "2026-07-26T20:36:45.825689",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726203646657",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_0fcb751d.pdf",
+            "created_at": "2026-07-26T20:36:46.657818",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726203734274",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Periyodik Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_abc739b1.pdf",
+            "created_at": "2026-07-26T20:37:34.274454",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726203735094",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_0fb1bb36.pdf",
+            "created_at": "2026-07-26T20:37:35.094273",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726204521857",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Periyodik Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_ac7a1d48.pdf",
+            "created_at": "2026-07-26T20:45:21.857852",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726204522769",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_4889a274.pdf",
+            "created_at": "2026-07-26T20:45:22.769872",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726204750521",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_06da7134.pdf",
+            "created_at": "2026-07-26T20:47:50.521518",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726204751468",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_042292d4.pdf",
+            "created_at": "2026-07-26T20:47:51.468333",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726205618537",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_87b726a3.pdf",
+            "created_at": "2026-07-26T20:56:18.537054",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726205619496",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_f9d47aec.pdf",
+            "created_at": "2026-07-26T20:56:19.496777",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726205818014",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_a2fbb824.pdf",
+            "created_at": "2026-07-26T20:58:18.014671",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726205818949",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_32f0be4d.pdf",
+            "created_at": "2026-07-26T20:58:18.948822",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726212639613",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_8e710deb.pdf",
+            "created_at": "2026-07-26T21:26:39.613926",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726212640549",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_041db2d7.pdf",
+            "created_at": "2026-07-26T21:26:40.549761",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726213630785",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_c4e2a233.pdf",
+            "created_at": "2026-07-26T21:36:30.785672",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726213631754",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_20e50d35.pdf",
+            "created_at": "2026-07-26T21:36:31.754415",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726213711593",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Periyodik Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_f4c25da0.pdf",
+            "created_at": "2026-07-26T21:37:11.593144",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726213712611",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_77ba1763.pdf",
+            "created_at": "2026-07-26T21:37:12.611735",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726213742553",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Periyodik Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_94d555f8.pdf",
+            "created_at": "2026-07-26T21:37:42.553553",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726213743385",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_e4ff8501.pdf",
+            "created_at": "2026-07-26T21:37:43.385106",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726213824135",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Periyodik Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_fd83078a.pdf",
+            "created_at": "2026-07-26T21:38:24.135206",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726213824997",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_98b66afa.pdf",
+            "created_at": "2026-07-26T21:38:24.997247",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726213854111",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Periyodik Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_9ef61032.pdf",
+            "created_at": "2026-07-26T21:38:54.110683",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726213855035",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_4f961279.pdf",
+            "created_at": "2026-07-26T21:38:55.035785",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726214452371",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Periyodik Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_5b9bea77.pdf",
+            "created_at": "2026-07-26T21:44:52.371856",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726214453358",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_3b38657d.pdf",
+            "created_at": "2026-07-26T21:44:53.358834",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726214527245",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Periyodik Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_9e5b5091.pdf",
+            "created_at": "2026-07-26T21:45:27.245364",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726214528429",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_c622974c.pdf",
+            "created_at": "2026-07-26T21:45:28.429841",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726214903601",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Periyodik Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_b03051fd.pdf",
+            "created_at": "2026-07-26T21:49:03.601509",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726214904594",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_50dbd998.pdf",
+            "created_at": "2026-07-26T21:49:04.594961",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726221418590",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_91cf3302.pdf",
+            "created_at": "2026-07-26T22:14:18.590235",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260726221419524",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_f74a3d08.pdf",
+            "created_at": "2026-07-26T22:14:19.524232",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260727232616333",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Periyodik Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_5e9fe171.pdf",
+            "created_at": "2026-07-27T23:26:16.333252",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260727232617264",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_7f83ed7d.pdf",
+            "created_at": "2026-07-27T23:26:17.263906",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260802112321146",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_66712fc5.pdf",
+            "created_at": "2026-08-02T11:23:21.146115",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260802112321955",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_0d02ce64.pdf",
+            "created_at": "2026-08-02T11:23:21.955723",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260802112343152",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Periyodik Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_8bb73cf2.pdf",
+            "created_at": "2026-08-02T11:23:43.152285",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260802112343918",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_8ec7ea85.pdf",
+            "created_at": "2026-08-02T11:23:43.918121",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        }
+    ]
+}

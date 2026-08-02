@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dijital Ustabaşı v1.2.0 - Mobil Test & Saha Operasyon Simülatörü</title>
+    <!-- PWA & Mobile Meta -->
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="theme-color" content="#f97316">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/style.css?v=1.2.0">
+    <style>
+        body {
+            background: #09090b;
+            color: #f8fafc;
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .sim-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(24, 24, 27, 0.8);
+            border: 1px solid rgba(249, 115, 22, 0.3);
+            border-radius: 16px;
+            padding: 16px 24px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(12px);
+        }
+
+        .sim-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sim-title h1 {
+            font-size: 20px;
+            font-weight: 800;
+            margin: 0;
+            background: linear-gradient(90deg, #f97316, #facc15);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sim-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sim-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .sim-btn:hover, .sim-btn.active {
+            background: #f97316;
+            border-color: #f97316;
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+        }
+
+        /* 2-Column Lab Layout */
+        .sim-grid {
+            display: grid;
+            grid-template-columns: 440px 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        @media (max-width: 1024px) {
+            .sim-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Mobile Phone Shell Mockup */
+        .phone-wrapper {
+            position: relative;
+            width: 400px;
+            height: 820px;
+            background: #1e1e24;
+            border-radius: 50px;
+            padding: 12px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 0 4px #2d2d35, 0 0 0 8px #121215;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+        }
+
+        .phone-wrapper.landscape {
+            width: 780px;
+            height: 420px;
+        }
+
+        .phone-screen {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #09090b;
+            border-radius: 40px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Dynamic Island / Notch */
+        .phone-notch {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 110px;
+            height: 28px;
+            background: #000;
+            border-radius: 20px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10px;
+        }
+
+        .notch-camera {
+            width: 10px;
+            height: 10px;
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 50%;
+        }
+
+        .notch-sensor {
+            width: 8px;
+            height: 8px;
+            background: #080815;
+            border-radius: 50%;
+        }
+
+        .phone-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 40px;
+            padding-top: 40px;
+            box-sizing: border-box;
+        }
+
+        /* Right Control Panel */
+        .control-deck {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .deck-card {
+            background: rgba(24, 24, 27, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            padding: 20px;
+            backdrop-filter: blur(12px);
+        }
+
+        .deck-card h3 {
+            font-size: 16px;
+            font-weight: 800;
+            margin: 0 0 14px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #f97316;
+        }
+
+        .sample-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .chip-btn {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #e2e8f0;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .chip-btn:hover {
+            background: rgba(249, 115, 22, 0.2);
+            border-color: #f97316;
+            color: #fff;
+        }
+
+        /* WhatsApp Simulated Phone Box */
+        .wa-phone-box {
+            background: #0b141a;
+            border-radius: 16px;
+            border: 1px solid rgba(37, 211, 102, 0.3);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .wa-header {
+            background: #202c33;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #e9edef;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .wa-body {
+            padding: 16px;
+            min-height: 200px;
+            background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 16px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .wa-bubble {
+            max-width: 85%;
+            background: #005c4b;
+            color: #e9edef;
+            padding: 12px 14px;
+            border-radius: 12px 12px 0 12px;
+            align-self: flex-end;
+            font-size: 13px;
+            line-height: 1.4;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .wa-bubble-pdf {
+            background: #1f2c34;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 10px;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .wa-btn-confirm {
+            background: #25d366;
+            color: #0b141a;
+            border: none;
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 13px;
+            cursor: pointer;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .wa-btn-confirm:hover {
+            background: #20b858;
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <div class="sim-header">
+        <div class="sim-title">
+            <i class="fa-solid fa-mobile-screen-button" style="font-size: 26px; color: #f97316;"></i>
+            <div>
+                <h1>Dijital Ustabaşı Mobil Test Laboratuvarı</h1>
+                <span style="font-size: 12px; color: #94a3b8;">Saha Operasyonu, Plaka OCR, Ses Kaydı & WhatsApp Canlı Simülatörü</span>
+            </div>
+        </div>
+
+        <div class="sim-controls">
+            <button class="sim-btn active" id="btnPageLanding" onclick="switchFramePage('/')">
+                <i class="fa-solid fa-house"></i> Giriş Ekranı
+            </button>
+            <button class="sim-btn" id="btnPageDashboard" onclick="switchFramePage('/dashboard')">
+                <i class="fa-solid fa-gauge-high"></i> Usta Paneli
+            </button>
+            <button class="sim-btn" id="btnIphone" onclick="switchDevice('iphone')">
+                <i class="fa-brands fa-apple"></i> iPhone 15
+            </button>
+            <button class="sim-btn" id="btnAndroid" onclick="switchDevice('android')">
+                <i class="fa-brands fa-android"></i> Galaxy S24
+            </button>
+            <button class="sim-btn" onclick="toggleOrientation()">
+                <i class="fa-solid fa-rotate"></i> Döndür
+            </button>
+            <button class="sim-btn" onclick="reloadFrame()" style="background: rgba(16, 185, 129, 0.2); border-color: #10b981;">
+                <i class="fa-solid fa-arrows-rotate"></i> Yenile
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="sim-grid">
+        
+        <!-- Left: Interactive Mobile Device Shell -->
+        <div class="phone-wrapper" id="phoneWrapper">
+            <div class="phone-screen">
+                <div class="phone-notch" id="phoneNotch">
+                    <div class="notch-sensor"></div>
+                    <div class="notch-camera"></div>
+                </div>
+                <iframe src="/" id="appFrame" class="phone-iframe"></iframe>
+            </div>
+        </div>
+
+        <!-- Right: Control Deck -->
+        <div class="control-deck">
+            
+            <!-- Card 1: Plaka Tanıma (OCR) Simülatörü -->
+            <div class="deck-card">
+                <h3><i class="fa-solid fa-camera"></i> 1. Kamera ile Plaka Okuma (OCR) Simülatörü</h3>
+                <p style="font-size: 12px; color: #94a3b8; margin-top: 0;">Aşağıdaki örnek araç plakalarından birine tıklayarak ustanın dükkanda plaka fotoğrafı çekme aksiyonunu simüle edin:</p>
+                
+                <div class="sample-chips">
+                    <button class="chip-btn" onclick="simulatePlateOCR('34 ABC 123', 'Fiat Egea 1.3 Multijet')">
+                        <i class="fa-solid fa-car" style="color: #f97316;"></i> <b>34 ABC 123</b> (Fiat Egea)
+                    </button>
+                    <button class="chip-btn" onclick="simulatePlateOCR('06 USTA 06', 'Ford Transit Custom')">
+                        <i class="fa-solid fa-truck-ram" style="color: #3b82f6;"></i> <b>06 USTA 06</b> (Ford Transit)
+                    </button>
+                    <button class="chip-btn" onclick="simulatePlateOCR('35 EGEA 99', 'Renault Megane IV')">
+                        <i class="fa-solid fa-car-side" style="color: #10b981;"></i> <b>35 EGEA 99</b> (Renault Megane)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Card 2: Ses Kaydı & AI Çırak Simülatörü -->
+            <div class="deck-card">
+                <h3><i class="fa-solid fa-microphone-lines"></i> 2. Yağlı El Sesli Komut (AI Çırak) Simülatörü</h3>
+                <p style="font-size: 12px; color: #94a3b8; margin-top: 0;">Usta klavyeyle uğraşmadan ses kaydı atar. Hazır usta sesli notlarını simüle edin:</p>
+                
+                <div class="sample-chips">
+                    <button class="chip-btn" onclick="simulateVoiceInput('34 ABC 123 motor yağı 4 litre 5W30 ve yağ filtresi değişti 1500 TL işçilik 500 TL')">
+                        <i class="fa-solid fa-volume-high" style="color: #facc15;"></i> Ses Kaydı 1: Yağ & Filtre Bakımı (2.000 TL)
+                    </button>
+                    <button class="chip-btn" onclick="simulateVoiceInput('06 USTA 06 ön fren balataları değişti 1800 TL disk tornalama 800 TL')">
+                        <i class="fa-solid fa-volume-high" style="color: #ef4444;"></i> Ses Kaydı 2: Ön Fren & Balata (2.600 TL)
+                    </button>
+                </div>
+
+                <!-- Voice Wave Indicator -->
+                <div id="simVoiceWave" class="voice-wave-container" style="display: none; margin-top: 14px;">
+                    <div class="voice-wave-bar"></div>
+                    <div class="voice-wave-bar"></div>
+                    <div class="voice-wave-bar"></div>
+                    <div class="voice-wave-bar"></div>
+                    <div class="voice-wave-bar"></div>
+                    <span style="font-size: 12px; color: #10b981; margin-left: 10px; font-weight: bold;">🎤 Usta Ses Kaydı AI İle Deşifre Ediliyor...</span>
+                </div>
+            </div>
+
+            <!-- Card 3: WhatsApp Müşteri İletişim Simülatörü -->
+            <div class="deck-card">
+                <h3><i class="fa-brands fa-whatsapp"></i> 3. Meta WhatsApp Müşteri Onay Simülatörü</h3>
+                <p style="font-size: 12px; color: #94a3b8; margin-top: 0;">Müşterinin cep telefonuna gelen WhatsApp teklif mesajı ve canlı onay simülasyonu:</p>
+
+                <div class="wa-phone-box">
+                    <div class="wa-header">
+                        <i class="fa-solid fa-screwdriver-wrench" style="color: #25d366;"></i>
+                        <div>
+                            <div>Örnek Oto Tamir Servisi</div>
+                            <div style="font-size: 10px; color: #8696a0; font-weight: normal;">Çevrimiçi | WhatsApp Business Verified</div>
+                        </div>
+                    </div>
+                    <div class="wa-body" id="waBody">
+                        <div class="wa-bubble">
+                            Sayın Müşterimiz, <b>34 ABC 123</b> aracınızın periyodik bakım ve onarım teklifi detayları ekteki PDF belgesindedir.
+                            <div class="wa-bubble-pdf">
+                                <i class="fa-solid fa-file-pdf" style="font-size: 24px; color: #ef4444;"></i>
+                                <div>
+                                    <div style="font-weight: bold; font-size: 12px;">34_ABC_123_Teklif.pdf</div>
+                                    <div style="font-size: 10px; color: #8696a0;">2 Sayfa • PDF • 145 KB</div>
+                                </div>
+                            </div>
+                            <div style="font-size: 13px; font-weight: 800; color: #25d366; margin-top: 8px;">TOPLAM TEKLİF: 2.000 TL</div>
+                            <button class="wa-btn-confirm" onclick="triggerSimulatedClientApproval('34 ABC 123', '2.000 TL')">
+                                <i class="fa-solid fa-circle-check"></i> Teklifi Onayla & WhatsApp'tan Yanıtla
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        let currentDevice = 'iphone';
+        let isLandscape = false;
+
+        function switchDevice(device) {
+            currentDevice = device;
+            document.getElementById('btnIphone').classList.toggle('active', device === 'iphone');
+            document.getElementById('btnAndroid').classList.toggle('active', device === 'android');
+            
+            const notch = document.getElementById('phoneNotch');
+            if (device === 'android') {
+                notch.style.width = '24px';
+                notch.style.height = '24px';
+                notch.style.borderRadius = '50%';
+                notch.querySelector('.notch-sensor').style.display = 'none';
+            } else {
+                notch.style.width = '110px';
+                notch.style.height = '28px';
+                notch.style.borderRadius = '20px';
+                notch.querySelector('.notch-sensor').style.display = 'block';
+            }
+        }
+
+        function toggleOrientation() {
+            isLandscape = !isLandscape;
+            const wrapper = document.getElementById('phoneWrapper');
+            wrapper.classList.toggle('landscape', isLandscape);
+        }
+
+        function switchFramePage(path) {
+            const frame = document.getElementById('appFrame');
+            frame.src = path;
+            document.getElementById('btnPageLanding').classList.toggle('active', path === '/');
+            document.getElementById('btnPageDashboard').classList.toggle('active', path === '/dashboard');
+        }
+
+        function reloadFrame() {
+            const frame = document.getElementById('appFrame');
+            frame.src = frame.src;
+        }
+
+        function simulatePlateOCR(plate, vehicleModel) {
+            alert(`📸 [OCR SIMÜLATÖRÜ] Plaka Fotoğrafı İşlendi!\n\nPlaka: ${plate}\nAraç: ${vehicleModel}\n\nMobil ekrandaki teklif hazırlama kutusuna otomatik aktarılıyor...`);
+            
+            try {
+                const frameWindow = document.getElementById('appFrame').contentWindow;
+                const chatInput = frameWindow.document.getElementById('chatMessage') || frameWindow.document.getElementById('authPhoneInput');
+                if (chatInput) {
+                    chatInput.value = `${plate} ${vehicleModel} `;
+                    chatInput.focus();
+                }
+            } catch(e) {
+                console.log("Iframe cross-origin or note", e);
+            }
+        }
+
+        function simulateVoiceInput(transcribedText) {
+            const wave = document.getElementById('simVoiceWave');
+            wave.style.display = 'flex';
+            
+            setTimeout(() => {
+                wave.style.display = 'none';
+                alert(`🎤 [SES SİMÜLATÖRÜ DEŞİFRE EDİLDİ]\n\nMetin: "${transcribedText}"`);
+                
+                try {
+                    const frameWindow = document.getElementById('appFrame').contentWindow;
+                    const chatInput = frameWindow.document.getElementById('chatMessage');
+                    if (chatInput) {
+                        chatInput.value = transcribedText;
+                        chatInput.focus();
+                    }
+                } catch(e) {
+                    console.log(e);
+                }
+            }, 1200);
+        }
+
+        async function triggerSimulatedClientApproval(plate, amount) {
+            alert(`💬 [WHATSAPP MÜŞTERİ ONAYI]\n\nMüşteri ${plate} plakalı ${amount} tutarındaki teklifi WhatsApp üzerinden ONAYLADI! Usta telefonuna bildirim düşüyor...`);
+            
+            try {
+                const frameWindow = document.getElementById('appFrame').contentWindow;
+                if (frameWindow.showToast) {
+                    frameWindow.showToast(`🎉 MÜŞTERİ ONAYLADI! ${plate} plakalı ${amount} teklifiniz kabul edildi.`, 'success');
+                }
+            } catch(e) {
+                console.log(e);
+            }
+        }
+    </script>
+</body>
+</html>

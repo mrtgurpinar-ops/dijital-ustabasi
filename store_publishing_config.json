@@ -1,0 +1,29 @@
+{
+  "app_name": "Dijital Ustabaşı",
+  "app_subtitle": "Oto Tamir & Sesli Teklif Platformu",
+  "bundle_id": "com.dijitalustabasi.app",
+  "version": "1.4.0",
+  "build_number": "140",
+  "primary_category": "Business",
+  "secondary_category": "Productivity",
+  "content_rating": "4+",
+  "privacy_policy_url": "https://dijital-ustabasi-production.up.railway.app/privacy",
+  "terms_of_service_url": "https://dijital-ustabasi-production.up.railway.app/terms",
+  "support_url": "https://dijital-ustabasi-production.up.railway.app/",
+  "support_email": "destek@dijitalustabasi.com",
+  "app_store_connect": {
+    "issuer_id": "YOUR_APP_STORE_CONNECT_ISSUER_ID",
+    "key_id": "YOUR_APP_STORE_CONNECT_KEY_ID",
+    "private_key_path": "./AuthKey_APPSTORE.p8",
+    "sku": "dijital_ustabasi_ios_001"
+  },
+  "google_play_console": {
+    "package_name": "com.dijitalustabasi.app",
+    "service_account_json_path": "./play_console_service_account.json",
+    "track": "internal"
+  },
+  "firebase": {
+    "project_id": "dijital-ustabasi-app",
+    "app_distribution_group": "ustalar-beta-test"
+  }
+}

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dijital Ustabaşı - Yönetici Onay Masası</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Premium Style Sheet -->
+    <link rel="stylesheet" href="/static/style.css?v=1.0.4">
+    <style>
+        .admin-workspace {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            flex: 1;
+            width: 100% !important;
+            max-width: 100% !important;
+            min-height: 0;
+            height: calc(100vh - 100px);
+        }
+        .admin-login-container {
+            max-width: 400px;
+            width: 90%;
+            margin: auto;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--glass-shadow);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .admin-table-container {
+            overflow-x: auto;
+            max-height: 70vh;
+        }
+        .btn-admin-action {
+            padding: 6px 12px;
+            font-size: 11px;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+        }
+        .btn-admin-action:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Admin Login Screen (if not logged in) -->
+    <div class="lock-overlay" id="adminLoginOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 10000; background: rgba(9, 9, 11, 0.96); backdrop-filter: blur(15px);">
+        <div class="admin-login-container" style="text-align: center;">
+            <i class="fa-solid fa-user-shield glow-lock" style="font-size: 40px; color: #f97316; margin-bottom: 15px;"></i>
+            <h3>Yönetici Girişi</h3>
+            <p style="font-size: 11px; color: var(--text-secondary); margin-bottom: 20px;">Sistemi yönetmek için şifrenizi girin.</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 14px; text-align: left;">
+                <div class="form-group" style="display: flex; flex-direction: column; gap: 4px;">
+                    <label style="font-size: 11px; color: #94a3b8;"><i class="fa-solid fa-key"></i> Şifre</label>
+                    <input type="password" id="adminPassword" placeholder="Şifre" style="width: 100%; padding: 10px; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; color: #fff;" onkeypress="if(event.key === 'Enter') submitAdminLogin()">
+                </div>
+                
+                <button onclick="submitAdminLogin()" class="btn-upgrade" style="width: 100%; background: #f97316; color: white; border: none; padding: 12px; font-weight: bold; border-radius: 8px; justify-content: center; cursor: pointer;">
+                    Giriş Yap
+                </button>
+                <a href="/" style="text-align: center; color: var(--text-muted); font-size: 11px; text-decoration: none; margin-top: 5px;"><i class="fa-solid fa-arrow-left"></i> Dükkan Sayfasına Dön</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo-area">
+                <i class="fa-solid fa-user-shield glow-icon" style="color: #f97316;"></i>
+                <div class="logo-text">
+                    <h1>YÖNETİCİ ONAY PANELİ</h1>
+                    <span>Sistem Yönetim Masası v1.0.5</span>
+                </div>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <button onclick="adminResetDatabase()" class="btn-upgrade" style="background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #ef4444; cursor: pointer; padding: 8px 14px; border-radius: 6px; font-weight: bold; display: flex; align-items: center; gap: 6px;" title="Tüm Dükkan ve Teklifleri Kalıcı Sıfırla">
+                    <i class="fa-solid fa-trash-can"></i> Tüm Verileri Sıfırla
+                </button>
+
+                <a href="/" class="btn-upgrade" style="background: rgba(249, 115, 22, 0.15); border: 1px solid #f97316; color: #f97316; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; display: flex; align-items: center; gap: 6px;">
+                    <i class="fa-solid fa-store"></i> Dükkan Paneline Dön
+                </a>
+                <button onclick="logoutAdmin()" class="btn-upgrade" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #ef4444; cursor: pointer; padding: 8px 16px; border-radius: 6px; font-weight: bold;">
+                    <i class="fa-solid fa-right-from-bracket"></i> Çıkış Yap
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="admin-workspace">
+            <section class="panel glass" style="padding: 25px; flex-grow: 1;">
+                <div class="panel-header" style="margin-bottom: 20px; background: none; padding: 0 0 15px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fa-solid fa-store" style="color: #f97316; font-size: 18px;"></i>
+                        <h3 style="font-size: 15px; font-weight: 700; margin: 0;">Sistemdeki Dükkanlar ve Talepler</h3>
+                    </div>
+                    <button onclick="loadAdminShops()" class="btn-admin-action" style="padding: 8px 14px; font-size: 11px; background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; gap: 6px; cursor: pointer; border-radius: 6px;">
+                        <i class="fa-solid fa-rotate"></i> Yenile
+                    </button>
+                </div>
+
+                <div class="admin-table-container">
+                    <table class="admin-table" style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.02); text-align: left;">
+                                <th style="padding: 10px;">Kayıt Tarihi</th>
+                                <th style="padding: 10px;">İşletme / Dükkan</th>
+                                <th style="padding: 10px;">Telefon</th>
+                                <th style="padding: 10px;">Mevcut Paket</th>
+                                <th style="padding: 10px;">Yetki Statüsü</th>
+                                <th style="padding: 10px;">Geçerlilik / Kalan Süre</th>
+                                <th style="padding: 10px; text-align: right;">Paket Talebi & İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminShopTableBody">
+                            <tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 20px;">Dükkan verileri yükleniyor...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Script for Admin Logic -->
+    <script>
+        let currentAdminKey = localStorage.getItem('admin_key') || "ustabasi2026";
+
+        window.addEventListener("DOMContentLoaded", () => {
+            verifyAdminSession();
+        });
+
+        function verifyAdminSession() {
+            const isAdmin = localStorage.getItem('is_admin_logged_in') === 'true' || localStorage.getItem('is_admin_active') === 'true';
+            const overlay = document.getElementById("adminLoginOverlay");
+            
+            if (!isAdmin) {
+                if (overlay) overlay.style.display = "flex";
+            } else {
+                if (overlay) overlay.style.display = "none";
+                loadAdminShops();
+            }
+        }
+
+        function submitAdminLogin() {
+            const passEl = document.getElementById("adminPassword");
+            const pass = passEl ? passEl.value.trim() : "";
+            
+            if (pass === "admin" || pass === "ustabasi2026") {
+                localStorage.setItem('is_admin_logged_in', 'true');
+                localStorage.setItem('is_admin_active', 'true');
+                localStorage.setItem('admin_key', pass === "ustabasi2026" ? pass : "ustabasi2026");
+                currentAdminKey = localStorage.getItem('admin_key');
+                verifyAdminSession();
+                showToast("Yönetici girişi başarılı.", "success");
+            } else {
+                showToast("Hatalı yönetici şifresi!", "error");
+            }
+        }
+
+        function logoutAdmin() {
+            localStorage.removeItem('is_admin_logged_in');
+            localStorage.removeItem('is_admin_active');
+            localStorage.removeItem('admin_key');
+            window.location.reload();
+        }
+
+        async function loadAdminShops() {
+            const tableBody = document.getElementById("adminShopTableBody");
+            if (!tableBody) return;
+
+            try {
+                const response = await fetch("/api/admin/shops", {
+                    headers: { "X-Admin-Key": currentAdminKey }
+                });
+                if (!response.ok) throw new Error("Yetkilendirme hatası");
+
+                const shops = await response.json();
+                tableBody.innerHTML = "";
+                const shopKeys = Object.keys(shops);
+                
+                if (shopKeys.length === 0) {
+                    tableBody.innerHTML = `<tr><td colspan="7" style="font-size: 12px; color: #94a3b8; text-align: center; padding: 20px;">Sisteme kayıtlı dükkan bulunmuyor.</td></tr>`;
+                    return;
+                }
+
+                shopKeys.forEach(phone => {
+                    const shop = shops[phone];
+                    const tr = document.createElement("tr");
+                    tr.style.borderBottom = "1px solid rgba(255,255,255,0.05)";
+                    
+                    const createdAtDate = shop.created_at ? new Date(shop.created_at) : null;
+                    const createdAtFormatted = createdAtDate 
+                        ? createdAtDate.toLocaleDateString('tr-TR', {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'})
+                        : 'Tarih Belirtilmedi';
+
+                    const expDate = shop.expires_at 
+                        ? new Date(shop.expires_at) 
+                        : (createdAtDate ? new Date(createdAtDate.getTime() + (7 * 24 * 60 * 60 * 1000)) : new Date());
+                    const now = new Date();
+                    const daysLeft = Math.ceil((expDate - now) / (1000 * 60 * 60 * 24));
+                    
+                    let daysLeftStr = `${daysLeft} Gün Kaldı`;
+                    let daysLeftColor = daysLeft <= 2 ? "#f59e0b" : "#10b981";
+                    if (daysLeft <= 0 || shop.is_active === false) {
+                        daysLeftStr = `Süresi Doldu (Askıda)`;
+                        daysLeftColor = "#ef4444";
+                    }
+
+                    const expIsoDateStr = expDate.toISOString().split('T')[0];
+
+                    let actionCol = `<span style="color: #64748b; font-size: 11px;">Talep Yok</span>`;
+                    if (shop.upgrade_request) {
+                        actionCol = `
+                            <div style="display: inline-flex; gap: 6px; align-items: center;">
+                                <span style="font-size: 10px; font-weight: bold; color: #f97316;"><i class="fa-solid fa-crown"></i> ${shop.upgrade_request.toUpperCase()}</span>
+                                <button class="btn-admin-action" onclick="approveUpgrade('${phone}')" style="background: #10b981; color: white;">Onayla</button>
+                            </div>
+                        `;
+                    }
+
+                    const isActive = shop.is_active !== false && daysLeft > 0;
+                    const activeBtnText = isActive ? "Askıya Al" : "Aktifleştir";
+                    const activeBtnBg = isActive ? "rgba(239, 68, 68, 0.15)" : "rgba(16, 185, 129, 0.15)";
+                    const activeBtnBorder = isActive ? "1px solid #ef4444" : "1px solid #10b981";
+                    const activeBtnColor = isActive ? "#ef4444" : "#10b981";
+                    const statusBadge = isActive 
+                        ? `<span style="color: #10b981; font-weight: bold; font-size: 11px;"><i class="fa-solid fa-circle-check"></i> Aktif</span>`
+                        : `<span style="color: #ef4444; font-weight: bold; font-size: 11px;"><i class="fa-solid fa-circle-xmark"></i> Askıda</span>`;
+
+                    tr.innerHTML = `
+                        <td style="padding: 10px; font-size: 11px; color: #94a3b8;">${createdAtFormatted}</td>
+                        <td style="padding: 10px;"><b style="color: #f1f5f9; font-size: 13px;">${shop.name || 'Oto Servis'}</b></td>
+                        <td style="padding: 10px;"><span style="font-family: monospace; color: #cbd5e1; font-size: 12px; font-weight: bold;">${phone}</span></td>
+                        <td style="padding: 10px;">
+                            <select onchange="adminChangePackage('${phone}', this.value)" style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #fff; font-size: 11px; padding: 4px 8px; outline: none; cursor: pointer;">
+                                <option value="cirak" ${shop.package === 'cirak' ? 'selected' : ''}>Çırak (MVP)</option>
+                                <option value="kalfa" ${shop.package === 'kalfa' ? 'selected' : ''}>Kalfa</option>
+                                <option value="usta" ${shop.package === 'usta' ? 'selected' : ''}>Usta (Tam Sürüm)</option>
+                            </select>
+                        </td>
+                        <td style="padding: 10px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                ${statusBadge}
+                                <button class="btn-admin-action" onclick="toggleActive('${phone}', ${isActive})" style="background: ${activeBtnBg}; border: ${activeBtnBorder}; color: ${activeBtnColor}; font-size: 10px; padding: 3px 8px;">
+                                    ${activeBtnText}
+                                </button>
+                            </div>
+                        </td>
+                        <td style="padding: 10px;">
+                            <div style="display: flex; flex-direction: column; gap: 4px;">
+                                <span style="color: ${daysLeftColor}; font-weight: bold; font-size: 11px;">${daysLeftStr}</span>
+                                <div style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
+                                    <input type="date" value="${expIsoDateStr}" onchange="adminSetExpiration('${phone}', this.value)" style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; color: #fff; font-size: 10px; padding: 2px 4px; outline: none; width: 105px;" title="Özel Bitiş Tarihi Seç">
+                                    <button class="btn-admin-action" onclick="adminExtendTrial('${phone}', 7)" title="+7 Gün Ekle" style="padding: 2px 6px; font-size: 9px; background: rgba(249, 115, 22, 0.2); color: #f97316; border: 1px solid rgba(249,115,22,0.4);">+7g</button>
+                                    <button class="btn-admin-action" onclick="adminExtendTrial('${phone}', 30)" title="+30 Gün Ekle" style="padding: 2px 6px; font-size: 9px; background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid rgba(16,185,129,0.4);">+30g</button>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="padding: 10px; text-align: right;">
+                            <div style="display: inline-flex; align-items: center; gap: 8px; justify-content: flex-end;">
+                                ${actionCol}
+                                <button class="btn-admin-action" onclick="adminDeleteShop('${phone}')" style="background: #ef4444; color: white; padding: 5px 10px; border-radius: 6px; font-weight: bold;" title="Dükkanı kalıcı olarak sil">
+                                    <i class="fa-solid fa-trash-can"></i> Sil (X)
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+            } catch (err) {
+                tableBody.innerHTML = `<tr><td colspan="7" style="font-size: 12px; color: #ef4444; text-align: center; padding: 20px;">Dükkan verileri çekilemedi: ${err.message}</td></tr>`;
+            }
+        }
+
+        async function adminSetExpiration(phone, expDateStr) {
+            if (!expDateStr) return;
+            try {
+                const response = await fetch("/api/admin/set_expiration", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "X-Admin-Key": currentAdminKey },
+                    body: JSON.stringify({ phone_number: phone, expires_at: expDateStr })
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    showToast("✅ Bitiş tarihi güncellendi ve hesap aktifleştirildi.", "success");
+                    loadAdminShops();
+                } else {
+                    showToast(data.detail || "Tarih güncellenemedi.", "error");
+                }
+            } catch (err) {
+                showToast("Tarih güncellenirken hata oluştu.", "error");
+            }
+        }
+
+        async function adminExtendTrial(phone, days) {
+            try {
+                const response = await fetch("/api/admin/extend_trial", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "X-Admin-Key": currentAdminKey },
+                    body: JSON.stringify({ phone_number: phone, days: parseInt(days) })
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    showToast(`✅ Dükkan süresine +${days} gün eklendi.`, "success");
+                    loadAdminShops();
+                } else {
+                    showToast(data.detail || "Süre uzatılamadı.", "error");
+                }
+            } catch (err) {
+                showToast("Süre uzatılırken hata oluştu.", "error");
+            }
+        }
+
+        async function approveUpgrade(phone) {
+            try {
+                const response = await fetch("/api/admin/approve_upgrade", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "X-Admin-Key": currentAdminKey },
+                    body: JSON.stringify({ phone_number: phone })
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    showToast("✅ Paket talebi onaylandı ve paket aktif edildi.", "success");
+                    loadAdminShops();
+                } else {
+                    showToast(data.detail || "Talep onaylanırken hata oluştu.", "error");
+                }
+            } catch (err) {
+                showToast("Talep onaylanırken hata oluştu.", "error");
+            }
+        }
+
+        async function toggleActive(phone, currentIsActive) {
+            try {
+                const response = await fetch("/api/admin/toggle_active", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "X-Admin-Key": currentAdminKey },
+                    body: JSON.stringify({ phone_number: phone, is_active: !currentIsActive })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    showToast(`Dükkan ${!currentIsActive ? 'aktif edildi' : 'askıya alındı'}.`, "success");
+                    loadAdminShops();
+                }
+            } catch (err) {
+                showToast("Erişim durumu güncellenemedi.", "error");
+            }
+        }
+
+        async function adminChangePackage(phone, packageTier) {
+            try {
+                const response = await fetch("/api/shop/package", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ phone_number: phone, package: packageTier })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    showToast(`Dükkan paketi ${packageTier.toUpperCase()} olarak güncellendi.`, "success");
+                    loadAdminShops();
+                }
+            } catch (err) {
+                showToast("Paket değiştirilemedi.", "error");
+            }
+        }
+
+        async function adminDeleteShop(phone) {
+            if (!confirm(`'${phone}' numaralı dükkanı ve tüm teklif verilerini kalıcı olarak silmek istediğinizden emin misiniz?`)) return;
+            try {
+                const response = await fetch("/api/admin/delete_shop", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "X-Admin-Key": currentAdminKey },
+                    body: JSON.stringify({ phone_number: phone })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    showToast("Dükkan ve teklifleri kalıcı olarak silindi.", "success");
+                    loadAdminShops();
+                } else {
+                    showToast(data.detail || "Silme işlemi başarısız.", "error");
+                }
+            } catch (err) {
+                showToast("Silme hatası oluştu.", "error");
+            }
+        }
+
+        async function adminResetDatabase() {
+            if (!confirm("Tüm dükkan ve teklif kayıtlarını veritabanından kalıcı olarak sıfırlamak istediğinizden emin misiniz?")) return;
+            try {
+                const response = await fetch("/api/admin/reset_database", {
+                    method: "POST",
+                    headers: { "X-Admin-Key": currentAdminKey }
+                });
+                const data = await response.json();
+                if (data.success) {
+                    showToast("Sistem veritabanı tamamen sıfırlandı.", "success");
+                    loadAdminShops();
+                }
+            } catch (err) {
+                showToast("Sıfırlama hatası oluştu.", "error");
+            }
+        }
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById("toastContainer");
+            if (!container) return;
+            const toast = document.createElement("div");
+            toast.className = `toast ${type}`;
+            let icon = "fa-circle-info";
+            if (type === "success") icon = "fa-circle-check";
+            else if (type === "error") icon = "fa-circle-xmark";
+            
+            toast.innerHTML = `<i class="fa-solid ${icon}"></i><span>${message}</span>`;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add("fade-out");
+                setTimeout(() => { toast.remove(); }, 300);
+            }, 4000);
+        }
+    </script>
+</body>
+</html>

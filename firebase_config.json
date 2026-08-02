@@ -1,0 +1,8 @@
+{
+  "project_id": "dijital-ustabasi-app",
+  "app_id": "1:100000000000:android:dijitalustabasi001",
+  "app_name": "Dijital Ustabaşı (Android Beta)",
+  "bundle_id": "com.dijitalustabasi.app",
+  "distribution_groups": ["ustalar-beta-test"],
+  "release_notes": "Dijital Ustabaşı v1.3.0 - Plaka OCR, Sesli İş Kabulü & WhatsApp Bildirimli Mobil APK Beta Sürümü"
+}

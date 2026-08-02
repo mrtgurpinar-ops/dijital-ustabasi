@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dijital Ustabaşı v1.0.5 - Bulut Oto Servis Platformu</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Premium Style Sheet -->
+    <link rel="stylesheet" href="/static/style.css?v=1.0.5">
+</head>
+<body>
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Main App Container -->
+    <div class="app-container">
+        
+        <!-- ========================================================================== -->
+        <!-- VIEW 1: STRICT AUTHENTICATION WALL & LANDING GATE (#authLandingView)       -->
+        <!-- ========================================================================== -->
+        <div id="authLandingView" class="panel glass" style="padding: 28px; border: 1px solid rgba(249, 115, 22, 0.35); background: rgba(15, 23, 42, 0.85); border-radius: 20px; max-width: 800px; margin: 20px auto; width: 100%;">
+            
+            <div style="text-align: center; margin-bottom: 24px;">
+                <div style="display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; background: rgba(249, 115, 22, 0.15); border-radius: 50%; border: 1px solid #f97316; margin-bottom: 12px;" onclick="handleHeaderLogoClick(event)">
+                    <i class="fa-solid fa-screwdriver-wrench" style="font-size: 28px; color: #f97316;"></i>
+                </div>
+                <h1 style="font-size: 26px; font-weight: 800; margin: 0 0 6px 0; background: linear-gradient(90deg, #f97316, #facc15); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    DİJİTAL USTABAŞI
+                </h1>
+                <p style="font-size: 13px; color: var(--text-secondary); margin: 0;">
+                    Bulut Oto Servis Sesli Teklif & Kurumsal PDF Platformu
+                </p>
+            </div>
+
+            <!-- Step 1: Package Selection Cards -->
+            <div style="margin-bottom: 24px;">
+                <label style="font-size: 13px; font-weight: 700; color: #cbd5e1; display: block; margin-bottom: 10px; text-align: center;">
+                    <i class="fa-solid fa-tags" style="color: #f97316;"></i> Lütfen Uygun Esnaf Paketinizi Seçin:
+                </label>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px;">
+                    <!-- Çırak -->
+                    <div class="pkg-select-card" id="pkgCirak" onclick="selectPackage('cirak')" style="background: rgba(15, 23, 42, 0.6); border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 14px; padding: 16px; cursor: pointer; text-align: center; transition: all 0.2s ease;">
+                        <h4 style="margin: 0 0 4px 0; color: #fff; font-size: 15px; font-weight: bold;">Çırak (MVP)</h4>
+                        <span style="font-size: 16px; font-weight: 800; color: #f97316;">1.450 TL</span>
+                        <ul style="font-size: 11px; color: #94a3b8; list-style: none; padding: 0; margin: 10px 0 0 0; display: flex; flex-direction: column; gap: 4px; text-align: left;">
+                            <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Sesten & Yazılı Teklif Üretici</li>
+                            <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Logo & Dükkan İsmi Ekleme</li>
+                            <li><i class="fa-solid fa-xmark" style="color: #ef4444;"></i> Geçmiş Arşiv Kilitli (0)</li>
+                        </ul>
+                    </div>
+
+                    <!-- Kalfa (Selected Default) -->
+                    <div class="pkg-select-card selected" id="pkgKalfa" onclick="selectPackage('kalfa')" style="background: rgba(249, 115, 22, 0.1); border: 2px solid #f97316; border-radius: 14px; padding: 16px; cursor: pointer; text-align: center; position: relative; transition: all 0.2s ease;">
+                        <span style="position: absolute; top: -10px; right: 12px; background: #f97316; color: #fff; font-size: 9px; font-weight: 800; padding: 2px 8px; border-radius: 10px;">EN ÇOK TERCİH EDİLEN</span>
+                        <h4 style="margin: 0 0 4px 0; color: #f97316; font-size: 15px; font-weight: bold;">Kalfa Paketi</h4>
+                        <span style="font-size: 16px; font-weight: 800; color: #f97316;">1.950 TL</span>
+                        <ul style="font-size: 11px; color: #cbd5e1; list-style: none; padding: 0; margin: 10px 0 0 0; display: flex; flex-direction: column; gap: 4px; text-align: left;">
+                            <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Sesten & Yazılı Teklif Üretici</li>
+                            <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Logo & Dükkan İsmi Ekleme</li>
+                            <li><i class="fa-solid fa-clock-rotate-left" style="color: #f59e0b;"></i> <b>Son 15 Teklif Arşivi</b></li>
+                        </ul>
+                    </div>
+
+                    <!-- Usta -->
+                    <div class="pkg-select-card" id="pkgUsta" onclick="selectPackage('usta')" style="background: rgba(15, 23, 42, 0.6); border: 2px solid rgba(250, 204, 21, 0.3); border-radius: 14px; padding: 16px; cursor: pointer; text-align: center; transition: all 0.2s ease;">
+                        <h4 style="margin: 0 0 4px 0; color: #facc15; font-size: 15px; font-weight: bold;">Usta (Tam Sürüm)</h4>
+                        <span style="font-size: 16px; font-weight: 800; color: #f97316;">2.950 TL</span>
+                        <ul style="font-size: 11px; color: #94a3b8; list-style: none; padding: 0; margin: 10px 0 0 0; display: flex; flex-direction: column; gap: 4px; text-align: left;">
+                            <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Sınırsız Teklif Arşivi</li>
+                            <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Ciro & İstatistik Masası</li>
+                            <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Logo & Dükkan İsmi Ekleme</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Phone Input & Login / Trial Box -->
+            <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 16px; padding: 22px; max-width: 540px; margin: 0 auto; text-align: center;">
+                <label style="font-size: 13px; font-weight: 700; color: #fff; display: block; margin-bottom: 8px;">
+                    <i class="fa-solid fa-mobile-screen-button" style="color: #f97316;"></i> Dükkan Cep Telefonu Numaranız:
+                </label>
+                
+                <input type="tel" id="authPhoneInput" placeholder="05XX XXX XX XX" maxlength="14" onkeydown="preventNonNumericInput(event)" oninput="formatTurkishPhoneInput(this)" style="width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.05); color: #fff; font-size: 16px; font-weight: bold; text-align: center; outline: none; box-sizing: border-box; margin-bottom: 12px;" onkeypress="if(event.key === 'Enter') handleLoginClick()">
+
+                <!-- Error Notification Box (Initially Hidden) -->
+                <div id="authErrorBox" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 10px; padding: 12px; font-size: 12px; color: #ef4444; margin-bottom: 12px; text-align: left; line-height: 1.4;">
+                    <i class="fa-solid fa-triangle-exclamation"></i> <span id="authErrorMsg">Girilen numara sistemde kayıtlı değildir! Lütfen seçtiğiniz paket için talep oluşturun veya 7 gün ücretsiz denemeyi başlatın.</span>
+                </div>
+
+                <!-- Primary Action Buttons Bar -->
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <button onclick="handleLoginClick()" style="width: 100%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.25); color: white; padding: 12px; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <i class="fa-solid fa-key" style="color: #facc15;"></i> Kayıtlı Numara İle Giriş Yap
+                    </button>
+
+                    <button id="btnRequestPackage" onclick="handleRequestPackageClick()" style="display: none; width: 100%; background: #3b82f6; border: none; color: white; padding: 12px; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; align-items: center; justify-content: center; gap: 8px;">
+                        <i class="fa-solid fa-paper-plane"></i> <span id="btnRequestPackageText">Seçilen Paketi Talep Et (Yönetici Onayına Gönder)</span>
+                    </button>
+
+                    <div style="display: flex; align-items: center; gap: 10px; margin: 4px 0; color: #64748b; font-size: 11px;">
+                        <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.1);"></div>
+                        <span>VEYA</span>
+                        <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.1);"></div>
+                    </div>
+
+                    <button onclick="handleStartTrialClick()" style="width: 100%; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); border: none; color: white; padding: 13px; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 18px rgba(249, 115, 22, 0.4);">
+                        <i class="fa-solid fa-rocket"></i> 7 Gün Ücretsiz Denemeyi Başlat (USTA Yetkileri)
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ========================================================================== -->
+        <!-- VIEW 2: LOGGED-IN WORKSPACE & MANAGEMENT DESK (#mainWorkspace)             -->
+        <!-- ========================================================================== -->
+        <div id="mainWorkspace" style="display: none;">
+            
+            <!-- Application Header -->
+            <header class="app-header">
+                <div class="logo-area" onclick="handleHeaderLogoClick(event)">
+                    <i class="fa-solid fa-screwdriver-wrench glow-icon"></i>
+                    <div class="logo-text">
+                        <h1 id="headerShopName">DİJİTAL USTABAŞI</h1>
+                        <span id="headerShopSub">v1.0.5 Bulut Oto Servis Platformu</span>
+                    </div>
+                </div>
+
+                <div class="shop-config" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                    <div class="input-group" style="display: flex; align-items: center; gap: 6px;">
+                        <label for="phoneNumber" style="font-size: 11px; color: #94a3b8; white-space: nowrap;"><i class="fa-solid fa-phone"></i> Usta Telefonu:</label>
+                        <input type="tel" id="phoneNumber" readonly style="background: rgba(255, 255, 255, 0.05); font-weight: bold; width: 130px; padding: 8px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); color: #fff; outline: none; font-size: 13px;">
+                    </div>
+                    
+                    <button class="btn-dashboard-nav" onclick="openSettingsModal()" title="Dükkan Profil Ayarları" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: white; cursor: pointer; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; display: flex; align-items: center; gap: 6px;">
+                        <i class="fa-solid fa-gear"></i> Profil & Logo
+                    </button>
+
+                    <button class="btn-dashboard-nav" onclick="openUpgradeModal()" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); border: none; color: white; cursor: pointer; padding: 8px 14px; border-radius: 6px; font-weight: bold; font-size: 12px; display: flex; align-items: center; gap: 6px;">
+                        <i class="fa-solid fa-crown"></i> <span id="headerPackageBadge">Ücretsiz Deneme (USTA)</span>
+                    </button>
+
+                    <button class="btn-dashboard-nav" onclick="handleLogoutClick()" title="Giriş Ekranına Dön" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #ef4444; cursor: pointer; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; display: flex; align-items: center; gap: 6px;">
+                        <i class="fa-solid fa-right-from-bracket"></i> Çıkış Yap
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <main class="workspace-dashboard" style="display: flex; flex-direction: column; gap: 20px; padding: 20px 0 30px 0;">
+                
+                <!-- Section 1: Direct Voice & Text Quote Engine -->
+                <div class="panel glass" id="interactiveWorkspaceSection" style="padding: 22px; border: 1px solid rgba(249, 115, 22, 0.35); background: rgba(15, 23, 42, 0.7); border-radius: 16px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+                        <h3 style="margin: 0; font-size: 17px; font-weight: 800; color: #f97316; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-microphone-lines"></i> 🎤 Doğrudan Sesli & Yazılı Teklif Oluşturucu
+                        </h3>
+                        <span style="font-size: 12px; color: #cbd5e1;">
+                            <i class="fa-solid fa-bolt" style="color: #facc15;"></i> Konuşun veya yazın, kurumsal PDF teklif 2 saniyede otomatik üretilsin.
+                        </span>
+                    </div>
+
+                    <!-- Input Box & Buttons -->
+                    <div class="chat-input-area" style="background: rgba(255, 255, 255, 0.05); padding: 8px 12px; border-radius: 12px; border: 1px solid var(--panel-border); display: flex; align-items: center; gap: 10px; width: 100%; box-sizing: border-box;">
+                        <input type="text" id="chatMessage" placeholder="Örn: 34 ABC 123 Fiat Egea balata değişimi 1500 TL, yağ bakımı 2500 TL..." style="flex: 1; min-width: 160px; background: transparent; border: none; padding: 10px 6px; color: #fff; font-size: 14px; outline: none; box-sizing: border-box;">
+                        <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+                            <button class="btn-action" id="recordBtn" onclick="toggleVoiceRecord()" title="Mikrofona Basıp Konuşun" style="background: #f97316; color: white; width: 44px; height: 44px; min-width: 44px; flex-shrink: 0; border-radius: 10px; border: none; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fa-solid fa-microphone"></i>
+                            </button>
+                            <button class="btn-action primary" id="sendBtn" onclick="sendDirectTextMessage()" title="Teklifi Oluştur" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; padding: 0 18px; height: 44px; min-width: 120px; flex-shrink: 0; border-radius: 10px; border: none; cursor: pointer; font-weight: 700; font-size: 13px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap;">
+                                <i class="fa-solid fa-paper-plane"></i> Teklif Üret
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Voice Recording Indicator -->
+                    <div class="recording-status" id="recordStatus" style="display: none; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; padding: 12px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 10px; color: #fff; flex-wrap: wrap;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span class="pulse-dot"></span>
+                            <span id="recordTimer" style="font-weight: 700; font-size: 13px;">Ses Kaydediliyor (0:00)...</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            <button class="btn-stop-record" id="stopTranscribeBtn" onclick="stopRecordingAndTranscribeOnly()" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 14px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 12px;">
+                                <i class="fa-solid fa-stop"></i> 🛑 Durdur (Metne Dönüştür)
+                            </button>
+                            <button class="btn-stop-record" id="stopAndGenerateBtn" onclick="stopRecordingAndGenerateDirectly()" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 12px; box-shadow: 0 2px 10px rgba(249, 115, 22, 0.4);">
+                                <i class="fa-solid fa-rocket"></i> 🚀 Durdur & Teklif Üret
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Sample Fast Template Chips -->
+                    <div style="display: flex; gap: 8px; margin-top: 12px; overflow-x: auto; padding-bottom: 4px;">
+                        <button class="chip" onclick="useDashboardTemplate('34 ABC 123 Fiat Egea balata değişimi 1200 TL, periyodik bakım bin beş yüz lira, usta notu diskler temizlendi')" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; padding: 6px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; white-space: nowrap;">
+                            ⚡ Egea (Balata & Bakım)
+                        </button>
+                        <button class="chip" onclick="useDashboardTemplate('06 XYZ 987 Audi A4 ön disk değişimi 3200 lira, yağ değişimi bin beş yüz lira')" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; padding: 6px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; white-space: nowrap;">
+                            ⚡ Audi A4 (Disk & Yağ)
+                        </button>
+                        <button class="chip" onclick="useDashboardTemplate('35 KNK 45 VW Golf debriyaj seti 7500 TL, işçilik 2500 TL')" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; padding: 6px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; white-space: nowrap;">
+                            ⚡ VW Golf (Debriyaj)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Section 2: Live Analytics & Stats Desk -->
+                <div class="panel glass" style="padding: 20px; border-radius: 16px;">
+                    <div class="panel-header" style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+                        <i class="fa-solid fa-chart-line header-icon" style="color: #f97316; font-size: 20px;"></i>
+                        <h3 style="margin: 0; font-size: 16px; font-weight: 800;">Dükkan Teklif & Tamir İstatistik Masası</h3>
+                    </div>
+
+                    <div class="stats-grid" id="statsGridContainer">
+                        <div class="stat-card" id="cardQuotes">
+                            <i class="fa-solid fa-file-invoice-dollar card-icon blue"></i>
+                            <div class="stat-info">
+                                <span class="value" id="statTotalQuotes">0</span>
+                                <span class="label">Toplam Teklif</span>
+                            </div>
+                        </div>
+                        <div class="stat-card" id="cardPlates">
+                            <i class="fa-solid fa-car card-icon green"></i>
+                            <div class="stat-info">
+                                <span class="value" id="statActivePlates">0</span>
+                                <span class="label">Kayıtlı Araç</span>
+                            </div>
+                        </div>
+                        <div class="stat-card" id="ciroCard">
+                            <i class="fa-solid fa-sack-dollar card-icon gold"></i>
+                            <div class="stat-info" id="ciroInfo">
+                                <span class="value" id="statTotalEarnings">0 TL</span>
+                                <span class="label">Toplam Ciro (Usta)</span>
+                                <div class="ciro-breakdown" style="font-size: 10px; color: #94a3b8; margin-top: 4px; display: flex; gap: 8px;">
+                                    <span style="color: #10b981;"><i class="fa-solid fa-circle-check"></i> Onay: <b id="statApprovedCount">0</b></span>
+                                    <span style="color: #f59e0b;"><i class="fa-solid fa-clock"></i> Bekleyen: <b id="statPendingCount">0</b></span>
+                                    <span style="color: #ef4444;"><i class="fa-solid fa-circle-xmark"></i> Ret: <b id="statRejectedCount">0</b></span>
+                                </div>
+                            </div>
+                            <div class="card-lock" id="ciroLock" onclick="openUpgradeModal()" title="Usta Paketine Yükselt">
+                                <i class="fa-solid fa-lock"></i>
+                                <span>Usta Özel</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Filtered Quotes Archive & Management Desk -->
+                <div class="panel glass" style="padding: 20px; border-radius: 16px; position: relative; min-height: 260px;" id="quotesSection">
+                    <div class="lock-overlay" id="quotesLockOverlay" style="display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.94); backdrop-filter: blur(8px); border-radius: 16px; z-index: 10; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; overflow-y: auto;">
+                        <div class="lock-box" style="padding: 20px; text-align: center; max-width: 440px; margin: auto;">
+                            <i class="fa-solid fa-lock glow-lock" style="font-size: 34px; color: #f97316; margin-bottom: 10px;"></i>
+                            <h4 style="margin: 0 0 6px 0; color: #fff; font-size: 16px; font-weight: 800;">Teklif Arşivi Kalfa & Usta Paketine Özeldir 🔒</h4>
+                            <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">
+                                Çırak paketinde sınırsız teklif üretimi %100 açıktır; ancak geçmiş tekliflerinizi arşivlemek kilitlidir. Son 15 teklifinizi saklamak için <b>Kalfa paketine</b> geçebilirsiniz.
+                            </p>
+                            <button class="btn-large-touch btn-upgrade" onclick="openUpgradeModal('kalfa')" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; border: none; padding: 10px 20px; font-weight: 700; font-size: 13px; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 14px rgba(249, 115, 22, 0.4);">
+                                <i class="fa-solid fa-crown"></i> Kalfa Paketine Geçiş Talebi Gönder
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="section-header" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 14px;">
+                        <h4 style="margin: 0; font-size: 16px; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-clock-rotate-left"></i> Son Oluşturulan Teklifler & Arşiv
+                        </h4>
+                        
+                        <!-- Interactive Status Filter Tabs -->
+                        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                            <button class="filter-tab active" onclick="setQuoteFilter('all')" id="filterAll">Tüm Teklifler</button>
+                            <button class="filter-tab" onclick="setQuoteFilter('beklemede')" id="filterPending">Bekleyenler ⏳</button>
+                            <button class="filter-tab" onclick="setQuoteFilter('onaylandi')" id="filterApproved">Onaylananlar ✅</button>
+                            <button class="filter-tab" onclick="setQuoteFilter('ret')" id="filterRejected">Reddedilenler ❌</button>
+                            <button class="btn-refresh" onclick="loadQuotes()" title="Listeyi Yenile" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 6px 10px; border-radius: 6px; cursor: pointer;">
+                                <i class="fa-solid fa-rotate"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="quotes-list" id="quotesList">
+                        <div class="empty-state">
+                            <i class="fa-solid fa-circle-notch fa-spin"></i>
+                            <p>Teklifler yükleniyor...</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- PDF Preview Modal -->
+    <div class="modal" id="pdfModal" style="display: none;">
+        <div class="modal-content glass" style="max-width: 420px; text-align: center;">
+            <div class="modal-header" style="justify-content: center; position: relative;">
+                <h3><i class="fa-solid fa-file-pdf" style="color: #ef4444; font-size: 24px; display: block; margin-bottom: 8px;"></i> Teklif PDF Hazır!</h3>
+                <button class="btn-close" onclick="closeModal()" style="position: absolute; right: 15px; top: 15px;">&times;</button>
+            </div>
+            <div class="modal-body" style="padding: 20px;">
+                <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 20px;">
+                    Teklif belgeniz başarıyla oluşturulmuştur.
+                </p>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <button onclick="openPdfInNewTab()" class="btn-large-touch" style="width: 100%; background: rgba(249, 115, 22, 0.15); border: 1px solid #f97316; color: #f97316; font-weight: bold; cursor: pointer; padding: 12px; border-radius: 8px;">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Yeni Sekmede Önizle
+                    </button>
+                    <a href="" id="pdfDownloadLink" class="btn-large-touch" download style="width: 100%; background: #10b981; color: white; text-decoration: none; font-weight: bold; padding: 12px; border-radius: 8px; display: block; box-sizing: border-box;">
+                        <i class="fa-solid fa-download"></i> Cihaza İndir (PDF)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shop Identity Settings Modal -->
+    <div class="modal" id="settingsModal" style="display: none;">
+        <div class="modal-content glass" style="max-width: 450px; text-align: left;">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-gears"></i> Dükkan Profil Ayarları</h3>
+                <button class="btn-close" onclick="closeSettingsModal()">&times;</button>
+            </div>
+            <div class="modal-body" style="display: flex; flex-direction: column; gap: 14px; padding: 15px 0;">
+                <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); padding: 10px; border-radius: 8px; font-size: 12px; color: #10b981;">
+                    <i class="fa-solid fa-circle-check"></i> Logo yükleme ve dükkan ismi belirleme imkanı tüm paketlerde (Çırak, Kalfa, Usta) aktiftir.
+                </div>
+                <div class="form-group" style="display: flex; flex-direction: column; gap: 6px;">
+                    <label style="font-size: 12px; color: #94a3b8;"><i class="fa-solid fa-store"></i> Dükkan İsmi</label>
+                    <input type="text" id="settingsShopName" placeholder="Örn: Güven Oto Tamir Servisi" style="width: 100%; padding: 10px; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; color: #fff; outline: none; box-sizing: border-box;">
+                </div>
+                <div class="form-group" style="display: flex; flex-direction: column; gap: 6px;">
+                    <label style="font-size: 12px; color: #94a3b8;"><i class="fa-solid fa-image"></i> Dükkan Logo / Profil Fotoğrafı URL</label>
+                    <input type="text" id="settingsShopLogo" placeholder="https://example.com/logo.png" style="width: 100%; padding: 10px; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; color: #fff; outline: none; box-sizing: border-box;">
+                </div>
+            </div>
+            <div class="modal-footer" style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button class="btn-large-touch" onclick="closeSettingsModal()" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.15); padding: 8px 16px; border-radius: 6px; cursor: pointer;">İptal</button>
+                <button class="btn-large-touch primary" onclick="saveSettingsShop()" style="background: #f97316; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer;">Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Package Comparison Modal -->
+    <div class="modal" id="upgradeComparisonModal" style="display: none;">
+        <div class="modal-content glass" style="max-width: 680px; text-align: left; max-height: 90vh; overflow-y: auto;">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-crown" style="color: #f97316;"></i> Esnaf Paket Seçimi & Yükseltme Talebi</h3>
+                <button class="btn-close" onclick="closeUpgradeModal()">&times;</button>
+            </div>
+            <div class="modal-body" style="padding: 15px 0;">
+                <p style="font-size: 13px; color: #cbd5e1; margin-bottom: 14px;">
+                    Lütfen talep etmek istediğiniz pakete tıklayın ve yönetici onayına gönderin:
+                </p>
+                <!-- 3 Selectable Package Cards -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px;">
+                    <!-- Çırak -->
+                    <div class="modal-pkg-card" id="modalPkgCirak" onclick="selectModalPackage('cirak')" style="background: rgba(15, 23, 42, 0.7); border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 14px; cursor: pointer; text-align: center; transition: all 0.2s ease;">
+                        <h4 style="margin: 0 0 4px 0; color: #fff; font-size: 14px; font-weight: bold;">Çırak (MVP)</h4>
+                        <span style="font-size: 15px; font-weight: 800; color: #f97316;">1.450 TL</span>
+                        <ul style="font-size: 11px; color: #94a3b8; list-style: none; padding: 0; margin: 10px 0 0 0; display: flex; flex-direction: column; gap: 4px; text-align: left;">
+                            <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Sesten & Yazılı Teklif</li>
+                            <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Logo & Dükkan İsmi</li>
+                            <li><i class="fa-solid fa-xmark" style="color: #ef4444;"></i> Geçmiş Arşiv Kilitli</li>
+                        </ul>
+                    </div>
+
+                    <!-- Kalfa -->
+                    <div class="modal-pkg-card" id="modalPkgKalfa" onclick="selectModalPackage('kalfa')" style="background: rgba(249, 115, 22, 0.15); border: 2px solid #f97316; border-radius: 12px; padding: 14px; cursor: pointer; text-align: center; position: relative; transition: all 0.2s ease;">
+                        <span style="position: absolute; top: -10px; right: 10px; background: #f97316; color: #fff; font-size: 8px; font-weight: 800; padding: 2px 6px; border-radius: 8px;">POPÜLER</span>
+                        <h4 style="margin: 0 0 4px 0; color: #f97316; font-size: 14px; font-weight: bold;">Kalfa Paketi</h4>
+                        <span style="font-size: 15px; font-weight: 800; color: #f97316;">1.950 TL</span>
+                        <ul style="font-size: 11px; color: #cbd5e1; list-style: none; padding: 0; margin: 10px 0 0 0; display: flex; flex-direction: column; gap: 4px; text-align: left;">
+                            <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Sesten & Yazılı Teklif</li>
+                            <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Logo & Dükkan İsmi</li>
+                            <li><i class="fa-solid fa-clock-rotate-left" style="color: #f59e0b;"></i> <b>Son 15 Teklif Arşivi</b></li>
+                        </ul>
+                    </div>
+
+                    <!-- Usta -->
+                    <div class="modal-pkg-card" id="modalPkgUsta" onclick="selectModalPackage('usta')" style="background: rgba(15, 23, 42, 0.7); border: 2px solid rgba(250, 204, 21, 0.3); border-radius: 12px; padding: 14px; cursor: pointer; text-align: center; transition: all 0.2s ease;">
+                        <h4 style="margin: 0 0 4px 0; color: #facc15; font-size: 14px; font-weight: bold;">Usta (Tam Sürüm)</h4>
+                        <span style="font-size: 15px; font-weight: 800; color: #f97316;">2.950 TL</span>
+                        <ul style="font-size: 11px; color: #94a3b8; list-style: none; padding: 0; margin: 10px 0 0 0; display: flex; flex-direction: column; gap: 4px; text-align: left;">
+                            <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Sınırsız Teklif Arşivi</li>
+                            <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Ciro & İstatistik Masası</li>
+                            <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Logo & Dükkan İsmi</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="package-comparison-table-wrapper" style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 12px; text-align: center;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.02);">
+                                <th style="text-align: left; padding: 10px;">Özellik</th>
+                                <th style="padding: 10px; color: #cbd5e1;">Çırak (MVP)</th>
+                                <th style="padding: 10px; color: #f97316;">Kalfa (Tavsiye)</th>
+                                <th style="padding: 10px; color: #facc15;">Usta (Tam Sürüm)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                <td style="text-align: left; padding: 10px;">Teklif Oluşturma (Ses & Yazı)</td>
+                                <td><i class="fa-solid fa-check" style="color: #10b981;"></i> Sesten & Yazılı</td>
+                                <td><i class="fa-solid fa-check" style="color: #10b981;"></i> Sesten & Yazılı</td>
+                                <td><i class="fa-solid fa-check" style="color: #10b981;"></i> Sesten & Yazılı</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                <td style="text-align: left; padding: 10px;">Geçmiş Teklif Arşivi</td>
+                                <td><i class="fa-solid fa-xmark" style="color: #ef4444;"></i> Kilitli (0)</td>
+                                <td><i class="fa-solid fa-clock-rotate-left" style="color: #f59e0b;"></i> Son 15 Teklif</td>
+                                <td><i class="fa-solid fa-check" style="color: #10b981;"></i> Sınırsız Arşiv</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                <td style="text-align: left; padding: 10px;">Ciro & İstatistik Masası</td>
+                                <td><i class="fa-solid fa-xmark" style="color: #ef4444;"></i> Kilitli</td>
+                                <td><i class="fa-solid fa-xmark" style="color: #ef4444;"></i> Kilitli</td>
+                                <td><i class="fa-solid fa-check" style="color: #10b981;"></i> Aktif (Tam Sürüm)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer" style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button class="btn-large-touch" onclick="closeUpgradeModal()" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.15); padding: 8px 16px; border-radius: 6px; cursor: pointer;">İptal</button>
+                <button class="btn-large-touch primary" onclick="submitUpgradeRequestFromModal()" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer;" id="btnUpgradeModalSubmit">
+                    <i class="fa-solid fa-paper-plane"></i> <span id="modalSubmitText">'Kalfa' Paket Talebini Onaya Gönder</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Secret Admin Password Modal -->
+    <div id="adminSecretModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px); z-index: 99999; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box;">
+        <div style="background: rgba(15, 23, 42, 0.95); border: 1px solid #f97316; border-radius: 16px; width: 100%; max-width: 400px; padding: 28px; box-shadow: 0 10px 40px rgba(249, 115, 22, 0.3); text-align: center; position: relative;">
+            <button onclick="closeAdminSecretModal()" style="position: absolute; top: 12px; right: 12px; background: transparent; border: none; color: #94a3b8; font-size: 18px; cursor: pointer;">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div style="width: 60px; height: 60px; background: rgba(249, 115, 22, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; border: 1px solid #f97316;">
+                <i class="fa-solid fa-user-shield" style="font-size: 26px; color: #f97316;"></i>
+            </div>
+            <h3 style="margin: 0 0 6px 0; color: #fff; font-size: 18px; font-weight: 800;">Gizli Yönetici Girişi</h3>
+            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 20px;">Sistem yönetici masasına erişmek için şifrenizi girin.</p>
+            <input type="password" id="adminSecretPasswordInput" placeholder="Yönetici Şifreniz" onkeypress="if(event.key === 'Enter') submitAdminSecretPassword()" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color: #fff; font-size: 15px; font-weight: bold; outline: none; margin-bottom: 16px; box-sizing: border-box; text-align: center; letter-spacing: 2px;">
+            <button onclick="submitAdminSecretPassword()" style="width: 100%; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; border: none; padding: 12px; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                <i class="fa-solid fa-key"></i> Yönetici Masasına Geç
+            </button>
+        </div>
+    </div>
+
+    <!-- Script for Application Logic & Auth Gate -->
+    <script>
+        let activePhoneNumber = "";
+        let activeShopData = null;
+        let selectedPackageKey = "kalfa";
+        let currentPdfUrl = "";
+        let currentFilter = "all";
+        let rawQuotesList = [];
+        let isSubmittingQuote = false;
+
+        function preventNonNumericInput(e) {
+            const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Enter', 'Home', 'End'];
+            if (allowedKeys.includes(e.key) || e.ctrlKey || e.metaKey) return true;
+            if (!/^[0-9]$/.test(e.key)) {
+                e.preventDefault();
+                return false;
+            }
+        }
+
+        function formatTurkishPhoneInput(el) {
+            if (!el) return;
+            let val = el.value.replace(/\D/g, "");
+            if (val.length > 11) val = val.substring(0, 11);
+            if (val.length > 0 && !val.startsWith("0")) {
+                val = "0" + val;
+            }
+            let formatted = "";
+            if (val.length > 0) formatted += val.substring(0, 4);
+            if (val.length > 4) formatted += " " + val.substring(4, 7);
+            if (val.length > 7) formatted += " " + val.substring(7, 9);
+            if (val.length > 9) formatted += " " + val.substring(9, 11);
+            el.value = formatted;
+        }
+
+        function selectPackage(pkgKey) {
+            selectedPackageKey = pkgKey;
+            document.querySelectorAll(".pkg-select-card").forEach(card => card.classList.remove("selected"));
+            if (pkgKey === "cirak") document.getElementById("pkgCirak").classList.add("selected");
+            else if (pkgKey === "kalfa") document.getElementById("pkgKalfa").classList.add("selected");
+            else if (pkgKey === "usta") document.getElementById("pkgUsta").classList.add("selected");
+
+            const btnText = document.getElementById("btnRequestPackageText");
+            let pkgName = pkgKey === "cirak" ? "Çırak" : (pkgKey === "kalfa" ? "Kalfa" : "Usta");
+            if (btnText) {
+                btnText.innerText = `'${pkgName}' Paketini Talep Et (Yönetici Onayına Gönder)`;
+            }
+        }
+
+        window.addEventListener("DOMContentLoaded", () => {
+            const savedPhone = localStorage.getItem('active_phone');
+            if (savedPhone) {
+                activePhoneNumber = savedPhone.replace(/\D/g, "");
+                const phoneHeader = document.getElementById("phoneNumber");
+                if (phoneHeader) phoneHeader.value = savedPhone;
+                
+                // User is authenticated -> Show Workspace, Hide Landing Gate
+                document.getElementById("authLandingView").style.display = "none";
+                document.getElementById("mainWorkspace").style.display = "block";
+                loadQuotes();
+            } else {
+                // Guest mode -> Strictly show Landing Auth Gate, Hide Workspace
+                document.getElementById("authLandingView").style.display = "block";
+                document.getElementById("mainWorkspace").style.display = "none";
+            }
+        });
+
+        async function handleLoginClick() {
+            const input = document.getElementById("authPhoneInput");
+            const errBox = document.getElementById("authErrorBox");
+            const errText = document.getElementById("authErrorMsg");
+            const btnReq = document.getElementById("btnRequestPackage");
+
+            if (errBox) errBox.style.display = "none";
+
+            if (!input || !input.value.trim()) {
+                showToast("Lütfen 05XX ile başlayan telefon numaranızı girin.", "error");
+                return;
+            }
+
+            let phoneDigits = input.value.replace(/\D/g, "");
+            if (phoneDigits.length < 10) {
+                showToast("Lütfen geçerli 11 haneli (05XX XXX XX XX) dükkan numarası girin.", "error");
+                return;
+            }
+
+            showToast("🔍 Dükkan kaydı sorgulanıyor...", "info");
+
+            try {
+                const response = await fetch(`/api/shop?phone_number=${encodeURIComponent(phoneDigits)}`);
+                if (response.ok) {
+                    const shop = await response.json();
+                    activeShopData = shop;
+                    activePhoneNumber = phoneDigits;
+                    localStorage.setItem('active_phone', input.value);
+                    
+                    const phoneHeader = document.getElementById("phoneNumber");
+                    if (phoneHeader) phoneHeader.value = input.value;
+
+                    showToast(`✅ Hoş geldiniz, ${shop.name || 'Oto Servis'}!`, "success");
+                    
+                    document.getElementById("authLandingView").style.display = "none";
+                    document.getElementById("mainWorkspace").style.display = "block";
+                    
+                    updateUIForPackage(shop);
+                    updateShopIdentityUI(shop);
+                    loadQuotes();
+                } else {
+                    // Phone not registered
+                    if (errText) errText.innerText = `Girilen '${input.value}' numarası sistemde kayıtlı değildir! Lütfen seçtiğiniz paket için 'Paket Talep Et' butonuna basın veya '7 Gün Ücretsiz Denemeyi Başlat' butonunu kullanın.`;
+                    if (errBox) errBox.style.display = "block";
+                    if (btnReq) {
+                        btnReq.style.display = "flex";
+                        document.getElementById("btnRequestPackageText").innerText = "Seçilen Paketi Talep Et (Yönetici Onayına Gönder)";
+                    }
+                    showToast("❌ Numaraya ait kayıt bulunamadı.", "error");
+                }
+            } catch (err) {
+                showToast("Giriş yapılırken sunucu hatası oluştu.", "error");
+            }
+        }
+
+        async function handleRequestPackageClick() {
+            const input = document.getElementById("authPhoneInput");
+            if (!input || !input.value.trim()) {
+                showToast("Lütfen cep telefonu numaranızı girin.", "error");
+                return;
+            }
+            let phoneDigits = input.value.replace(/\D/g, "");
+
+            try {
+                const response = await fetch("/api/shop/request_upgrade", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ phone_number: phoneDigits, package: selectedPackageKey })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showToast("✅ Paket talebiniz alındı! Yönetici onayından sonra giriş yapabilirsiniz.", "success");
+                    const btnReq = document.getElementById("btnRequestPackage");
+                    if (btnReq) btnReq.style.display = "none";
+                    const errBox = document.getElementById("authErrorBox");
+                    if (errBox) errBox.style.display = "none";
+                }
+            } catch (err) {
+                showToast("Paket talebi iletilirken hata oluştu.", "error");
+            }
+        }
+
+        async function handleStartTrialClick() {
+            const input = document.getElementById("authPhoneInput");
+            if (!input || !input.value.trim()) {
+                showToast("Lütfen 05XX ile başlayan dükkan numaranızı girin.", "error");
+                return;
+            }
+
+            let phoneDigits = input.value.replace(/\D/g, "");
+            if (phoneDigits.length < 10) {
+                showToast("Lütfen geçerli 11 haneli dükkan numarası girin.", "error");
+                return;
+            }
+
+            showToast("🚀 7 Günlük Ücretsiz Denemeniz oluşturuluyor...", "info");
+
+            try {
+                const response = await fetch("/api/shop/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ phone_number: phoneDigits, shop_name: "Oto Servis" })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    activeShopData = data.shop;
+                    activePhoneNumber = phoneDigits;
+                    localStorage.setItem('active_phone', input.value);
+                    
+                    const phoneHeader = document.getElementById("phoneNumber");
+                    if (phoneHeader) phoneHeader.value = input.value;
+
+                    showToast("🚀 7 Günlük Denemeniz Başlatıldı! USTA paket yetkileriyle tekliflerinizi hazırlayabilirsiniz.", "success");
+                    
+                    document.getElementById("authLandingView").style.display = "none";
+                    document.getElementById("mainWorkspace").style.display = "block";
+                    
+                    updateUIForPackage(data.shop);
+                    updateShopIdentityUI(data.shop);
+                    loadQuotes();
+                }
+            } catch (err) {
+                showToast("Deneme başlatılırken sunucu hatası oluştu.", "error");
+            }
+        }
+
+        function handleLogoutClick() {
+            localStorage.removeItem('active_phone');
+            activePhoneNumber = "";
+            activeShopData = null;
+            document.getElementById("mainWorkspace").style.display = "none";
+            document.getElementById("authLandingView").style.display = "block";
+            const errBox = document.getElementById("authErrorBox");
+            if (errBox) errBox.style.display = "none";
+            const btnReq = document.getElementById("btnRequestPackage");
+            if (btnReq) btnReq.style.display = "none";
+            showToast("Giriş ekranına dönüldü.", "info");
+        }
+
+        async function loadQuotes() {
+            if (!activePhoneNumber) return;
+
+            try {
+                const shopResponse = await fetch(`/api/shop?phone_number=${encodeURIComponent(activePhoneNumber)}`);
+                if (shopResponse.ok) {
+                    const shop = await shopResponse.json();
+                    activeShopData = shop;
+                    updateUIForPackage(shop);
+                    updateShopIdentityUI(shop);
+                }
+
+                const response = await fetch(`/api/quotes?phone_number=${encodeURIComponent(activePhoneNumber)}`);
+                const resData = await response.json();
+                rawQuotesList = Array.isArray(resData) ? resData : (resData.quotes || []);
+                
+                renderQuotesListUI(rawQuotesList, resData);
+            } catch (err) {
+                console.error("Quotes load error:", err);
+            }
+        }
+
+        function setQuoteFilter(filterType) {
+            currentFilter = filterType;
+            document.querySelectorAll(".filter-tab").forEach(tab => tab.classList.remove("active"));
+            if (filterType === "all") document.getElementById("filterAll").classList.add("active");
+            else if (filterType === "beklemede") document.getElementById("filterPending").classList.add("active");
+            else if (filterType === "onaylandi") document.getElementById("filterApproved").classList.add("active");
+            else if (filterType === "ret") document.getElementById("filterRejected").classList.add("active");
+            
+            renderQuotesListUI(rawQuotesList, null);
+        }
+
+        function renderQuotesListUI(quotes, resData) {
+            // Deduplicate quotes by quote_id
+            const uniqueQuotesMap = new Map();
+            (quotes || []).forEach(q => {
+                if (q && q.quote_id && !uniqueQuotesMap.has(q.quote_id)) {
+                    uniqueQuotesMap.set(q.quote_id, q);
+                }
+            });
+            const dedupedQuotes = Array.from(uniqueQuotesMap.values());
+
+            const totalQuotesCount = (resData && resData.total_quotes !== undefined) ? resData.total_quotes : dedupedQuotes.length;
+            const activePlatesCount = (resData && resData.active_plates !== undefined) ? resData.active_plates : new Set(dedupedQuotes.map(q => q ? q.plaka : "")).size;
+            
+            const statTotalQuotes = document.getElementById("statTotalQuotes");
+            const statActivePlates = document.getElementById("statActivePlates");
+            if (statTotalQuotes) statTotalQuotes.innerText = totalQuotesCount;
+            if (statActivePlates) statActivePlates.innerText = activePlatesCount;
+
+            let totalEarnings = 0;
+            let pendingCount = 0;
+            let approvedCount = 0;
+            let rejectedCount = 0;
+            
+            dedupedQuotes.forEach(q => {
+                if (!q) return;
+                const status = q.status || "beklemede";
+                if (status === "onaylandi") {
+                    totalEarnings += q.discount_price || 0;
+                    approvedCount++;
+                } else if (status === "ret") {
+                    rejectedCount++;
+                } else {
+                    pendingCount++;
+                }
+            });
+
+            const statTotalEarnings = document.getElementById("statTotalEarnings");
+            const statApprovedCount = document.getElementById("statApprovedCount");
+            const statPendingCount = document.getElementById("statPendingCount");
+            const statRejectedCount = document.getElementById("statRejectedCount");
+            
+            if (statTotalEarnings) statTotalEarnings.innerText = totalEarnings.toLocaleString('tr-TR') + " TL";
+            if (statApprovedCount) statApprovedCount.innerText = approvedCount;
+            if (statPendingCount) statPendingCount.innerText = pendingCount;
+            if (statRejectedCount) statRejectedCount.innerText = rejectedCount;
+
+            const listContainer = document.getElementById("quotesList");
+            if (!listContainer) return;
+
+            let filteredQuotes = dedupedQuotes;
+            if (currentFilter !== "all") {
+                filteredQuotes = dedupedQuotes.filter(q => (q.status || "beklemede") === currentFilter);
+            }
+
+            if (filteredQuotes.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-solid fa-folder-open"></i>
+                        <p>Bu filtrede gösterilecek teklif bulunmuyor. Mikrofona konuşarak veya yazarak ilk teklifinizi üretin!</p>
+                    </div>`;
+                return;
+            }
+
+            listContainer.innerHTML = filteredQuotes.map(q => {
+                if (!q) return "";
+                const date = q.created_at ? new Date(q.created_at).toLocaleDateString('tr-TR', {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'}) : 'Tarih Belirtilmedi';
+                const status = q.status || "beklemede";
+                const plaka = q.plaka || "PLAKASIZ";
+                const vehicle = q.vehicle || "Bilinmeyen Araç";
+                const totalPriceStr = (typeof q.total_price === 'number') ? q.total_price.toLocaleString('tr-TR') : (q.total_price || '0');
+                const discountPriceStr = (typeof q.discount_price === 'number') ? q.discount_price.toLocaleString('tr-TR') : (q.discount_price || '0');
+                const pdfFilename = q.pdf_filename || '';
+                const quoteId = q.quote_id || '';
+
+                let statusBadge = "";
+                let actionButtons = "";
+                
+                if (status === "onaylandi") {
+                    statusBadge = `<span class="status-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-left: 6px;"><i class="fa-solid fa-circle-check"></i> Onaylandı</span>`;
+                    actionButtons = `<button class="btn-action-pill reject" onclick="changeQuoteStatus('${quoteId}', 'ret')" title="Reddet"><i class="fa-solid fa-xmark"></i> Reddet</button>`;
+                } else if (status === "ret") {
+                    statusBadge = `<span class="status-badge" style="background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-left: 6px;"><i class="fa-solid fa-circle-xmark"></i> Reddedildi</span>`;
+                    actionButtons = `<button class="btn-action-pill approve" onclick="changeQuoteStatus('${quoteId}', 'onaylandi')" title="Onayla"><i class="fa-solid fa-check"></i> Onayla</button>`;
+                } else {
+                    statusBadge = `<span class="status-badge" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-left: 6px;"><i class="fa-solid fa-clock"></i> Beklemede</span>`;
+                    actionButtons = `
+                        <button class="btn-action-pill approve" onclick="changeQuoteStatus('${quoteId}', 'onaylandi')" title="Onayla"><i class="fa-solid fa-check"></i> Onayla</button>
+                        <button class="btn-action-pill reject" onclick="changeQuoteStatus('${quoteId}', 'ret')" title="Reddet"><i class="fa-solid fa-xmark"></i> Reddet</button>
+                    `;
+                }
+                
+                let itemsListHtml = "";
+                if (q.items && q.items.length > 0) {
+                    itemsListHtml = `<div style="font-size: 11px; color: #94a3b8; margin-top: 4px;">• ${q.items.map(i => i.description + ' (' + (i.price ? i.price.toLocaleString('tr-TR') : 0) + ' TL)').join(', ')}</div>`;
+                }
+
+                return `
+                    <div class="quote-card animate-card" style="display: flex; flex-direction: column; gap: 10px; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; padding: 16px;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 15px; width: 100%; flex-wrap: wrap;">
+                            <div class="card-left">
+                                <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                                    <span style="background: #f97316; color: #fff; padding: 2px 8px; border-radius: 4px; font-weight: 800; font-size: 12px;">${plaka}</span>
+                                    ${statusBadge}
+                                </div>
+                                <div class="vehicle-title" style="margin-top: 6px; font-weight: bold; color: #fff; font-size: 14px;">${vehicle}</div>
+                                ${itemsListHtml}
+                                <div class="quote-date" style="font-size: 11px; color: #64748b; margin-top: 4px;"><i class="fa-solid fa-clock"></i> ${date}</div>
+                            </div>
+                            <div class="card-right" style="text-align: right;">
+                                <span class="price-cc" style="font-size: 17px; font-weight: 800; color: #f97316; display: block;">${totalPriceStr} TL</span>
+                                <span class="price-cash-badge" style="font-size: 11px; color: #10b981;"><i class="fa-solid fa-piggy-bank"></i> ${discountPriceStr} TL (Nakit)</span>
+                            </div>
+                        </div>
+                        
+                        <div style="height: 1px; background: rgba(255, 255, 255, 0.08); width: 100%; margin: 2px 0;"></div>
+                        
+                        <div class="card-actions-bar">
+                            ${actionButtons}
+                            <button class="btn-action-pill preview" onclick="previewPdf('/api/download/${pdfFilename}')" title="Önizle"><i class="fa-solid fa-eye"></i> Önizle</button>
+                            <a class="btn-action-pill download" href="/api/download/${pdfFilename}" download="${pdfFilename}" title="İndir"><i class="fa-solid fa-download"></i> İndir</a>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        async function changeQuoteStatus(quoteId, status) {
+            try {
+                const response = await fetch("/api/quote/status", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ quote_id: quoteId, status: status })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    showToast("Teklif durumu başarıyla güncellendi.", "success");
+                    loadQuotes();
+                }
+            } catch (err) {
+                showToast("Sunucuyla bağlantı hatası oluştu.", "error");
+            }
+        }
+
+        function updateUIForPackage(shopData) {
+            const isSuspended = shopData && shopData.is_active === false;
+            let suspendedOverlay = document.getElementById("suspendedOverlay");
+            
+            if (isSuspended) {
+                if (!suspendedOverlay) {
+                    suspendedOverlay = document.createElement("div");
+                    suspendedOverlay.id = "suspendedOverlay";
+                    suspendedOverlay.style.cssText = "position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(9, 9, 11, 0.95); backdrop-filter: blur(15px); z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 20px; text-align: center;";
+                    suspendedOverlay.innerHTML = `
+                        <div style="background: rgba(15, 23, 42, 0.95); border: 2px solid #ef4444; border-radius: 20px; padding: 35px; max-width: 460px; box-shadow: 0 10px 40px rgba(239, 68, 68, 0.3);">
+                            <i class="fa-solid fa-ban" style="font-size: 54px; color: #ef4444; margin-bottom: 16px;"></i>
+                            <h3 style="color: #fff; font-size: 20px; font-weight: 800; margin: 0 0 10px 0;">HESAP ASKIYA ALINDI</h3>
+                            <p style="color: #cbd5e1; font-size: 14px; line-height: 1.5; margin-bottom: 24px;">Hesabınız askıya alınmıştır, lütfen yönetici ile iletişime geçin.</p>
+                            <button onclick="handleLogoutClick()" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer;">
+                                <i class="fa-solid fa-arrow-left"></i> Giriş Ekranına Dön
+                            </button>
+                        </div>`;
+                    document.body.appendChild(suspendedOverlay);
+                } else {
+                    suspendedOverlay.style.display = "flex";
+                }
+                return;
+            } else {
+                if (suspendedOverlay) suspendedOverlay.style.display = "none";
+            }
+
+            const tier = (typeof shopData === 'object' && shopData && shopData.package) ? shopData.package : 'cirak';
+            const quotesLockOverlay = document.getElementById("quotesLockOverlay");
+            const ciroCard = document.getElementById("ciroCard");
+            const ciroLock = document.getElementById("ciroLock");
+            const quotesContainer = document.getElementById("quotesList");
+
+            ciroCard.classList.remove("locked-card");
+            ciroLock.style.display = "none";
+            if (quotesLockOverlay) quotesLockOverlay.style.display = "none";
+            quotesContainer.classList.remove("blurred-preview");
+
+            if (tier === "usta") {
+                ciroCard.classList.remove("locked-card");
+                ciroLock.style.display = "none";
+                if (quotesLockOverlay) quotesLockOverlay.style.display = "none";
+            } else if (tier === "kalfa") {
+                ciroCard.classList.add("locked-card");
+                ciroLock.style.display = "flex";
+                if (quotesLockOverlay) quotesLockOverlay.style.display = "none";
+            } else if (tier === "cirak") {
+                ciroCard.classList.add("locked-card");
+                ciroLock.style.display = "flex";
+                if (quotesLockOverlay) quotesLockOverlay.style.display = "flex";
+                quotesContainer.classList.add("blurred-preview");
+            }
+        }
+
+        function updateShopIdentityUI(shop) {
+            const headerShopName = document.getElementById("headerShopName");
+            const headerShopSub = document.getElementById("headerShopSub");
+            const headerPackageBadge = document.getElementById("headerPackageBadge");
+            
+            if (shop) {
+                let daysLeft = 7;
+                const expStr = shop.expires_at || shop.created_at;
+                if (expStr) {
+                    const expDate = shop.expires_at ? new Date(shop.expires_at) : new Date(new Date(shop.created_at).getTime() + (7 * 24 * 60 * 60 * 1000));
+                    daysLeft = Math.ceil((expDate - new Date()) / (1000 * 60 * 60 * 24));
+                }
+
+                let pkgLabel = shop.package ? `${shop.package.toUpperCase()} PAKETİ` : "USTA PAKETİ";
+                if (daysLeft > 0 && shop.package === "usta") {
+                    pkgLabel = `DENEME SÜRESİ AKTİF (${daysLeft} GÜN - USTA YETKİLERİ)`;
+                } else if (shop.package) {
+                    pkgLabel = `${shop.package.toUpperCase()} PAKETİ (AKTİF)`;
+                }
+                
+                headerShopName.innerText = shop.name ? shop.name.toUpperCase() : "DİJİTAL USTABAŞI";
+                headerShopSub.innerText = `${shop.phone_number} - v1.0.5 Oto Servis Platformu`;
+                headerPackageBadge.innerText = pkgLabel;
+            }
+        }
+
+        function useDashboardTemplate(text) {
+            const msgInput = document.getElementById("chatMessage");
+            if (msgInput) {
+                msgInput.value = text;
+                sendDirectTextMessage();
+            }
+        }
+
+        async function sendDirectTextMessage() {
+            if (isSubmittingQuote) return;
+            if (!activePhoneNumber) {
+                showToast("Teklif oluşturmak için lütfen giriş yapın veya denemenizi başlatın.", "error");
+                return;
+            }
+
+            const input = document.getElementById("chatMessage");
+            if (!input) return;
+            const text = input.value.trim();
+            if (!text) {
+                showToast("Lütfen teklif metni girin veya mikrofona konuşun.", "error");
+                return;
+            }
+
+            isSubmittingQuote = true;
+            input.value = "";
+            showToast("⏳ Teklif hazırlanıyor ve PDF üretiliyor...", "info");
+
+            try {
+                const response = await fetch("/api/simulate/text", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ phone_number: activePhoneNumber, text: text })
+                });
+
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    showToast("✅ Teklif başarıyla oluşturuldu!", "success");
+                    loadQuotes();
+                    if (data.download_url) {
+                        previewPdf(data.download_url);
+                    }
+                } else {
+                    showToast(data.detail || data.message || "Teklif üretilemedi.", "error");
+                }
+            } catch (err) {
+                showToast("Teklif oluşturulurken sunucu hatası oluştu.", "error");
+                console.error(err);
+            } finally {
+                isSubmittingQuote = false;
+            }
+        }
+
+        let mediaRecorder;
+        let audioChunks = [];
+        let recordInterval;
+        let recordSeconds = 0;
+        let pendingVoiceAction = "transcribe";
+
+        function stopRecordingAndTranscribeOnly() {
+            pendingVoiceAction = "transcribe";
+            if (mediaRecorder && mediaRecorder.state === "recording") {
+                mediaRecorder.stop();
+            }
+        }
+
+        function stopRecordingAndGenerateDirectly() {
+            pendingVoiceAction = "generate";
+            if (mediaRecorder && mediaRecorder.state === "recording") {
+                mediaRecorder.stop();
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const chatMessageInput = document.getElementById("chatMessage");
+            if (chatMessageInput) {
+                chatMessageInput.addEventListener("keypress", (e) => {
+                    if (e.key === "Enter") {
+                        e.preventDefault();
+                        sendDirectTextMessage();
+                    }
+                });
+            }
+        });
+
+        async function toggleVoiceRecord() {
+            if (mediaRecorder && mediaRecorder.state === "recording") {
+                stopRecordingAndTranscribeOnly();
+                return;
+            }
+
+            if (!activePhoneNumber) {
+                showToast("Sesli teklif için lütfen önce giriş yapın veya denemenizi başlatın.", "error");
+                return;
+            }
+
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                showToast("Tarayıcınız ses kaydını desteklemiyor veya mikrofon izni verilmedi.", "error");
+                return;
+            }
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        autoGainControl: true,
+                        channelCount: 1
+                    }
+                });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+                pendingVoiceAction = "transcribe";
+
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = async () => {
+                    clearInterval(recordInterval);
+                    const recordStatus = document.getElementById("recordStatus");
+                    const recordBtn = document.getElementById("recordBtn");
+                    if (recordStatus) recordStatus.style.display = "none";
+                    if (recordBtn) {
+                        recordBtn.style.background = "#f97316";
+                        recordBtn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
+                    }
+
+                    const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
+                    await uploadAndProcessAudio(audioBlob, pendingVoiceAction);
+
+                    stream.getTracks().forEach(track => track.stop());
+                };
+
+                mediaRecorder.start();
+                recordSeconds = 0;
+                const recordStatus = document.getElementById("recordStatus");
+                const recordBtn = document.getElementById("recordBtn");
+                const recordTimer = document.getElementById("recordTimer");
+                if (recordStatus) recordStatus.style.display = "flex";
+                if (recordBtn) {
+                    recordBtn.style.background = "#ef4444";
+                    recordBtn.innerHTML = '<i class="fa-solid fa-square"></i>';
+                }
+
+                recordInterval = setInterval(() => {
+                    recordSeconds++;
+                    const mins = Math.floor(recordSeconds / 60);
+                    const secs = recordSeconds % 60;
+                    if (recordTimer) recordTimer.textContent = `Ses Kaydediliyor (${mins}:${secs < 10 ? '0' : ''}${secs})...`;
+                }, 1000);
+
+            } catch (err) {
+                showToast("Mikrofon izni alındığında konuşabilirsiniz.", "error");
+                console.error(err);
+            }
+        }
+
+        async function uploadAndProcessAudio(blob, action = "transcribe") {
+            showToast("🎤 Ses çözümleniyor...", "info");
+            const formData = new FormData();
+            const file = new File([blob], "voice_record.webm", { type: "audio/webm" });
+            formData.append("phone_number", activePhoneNumber);
+            formData.append("file", file);
+
+            try {
+                const response = await fetch("/api/voice/transcribe", {
+                    method: "POST",
+                    body: formData
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    const transcribedText = data.transcription || "";
+                    const chatInput = document.getElementById("chatMessage");
+                    if (chatInput) {
+                        chatInput.value = transcribedText;
+                        chatInput.focus();
+                    }
+
+                    if (action === "generate") {
+                        showToast("⚡ Ses çözümlendi! Doğrudan teklif üretiliyor...", "info");
+                        sendDirectTextMessage();
+                    } else {
+                        showToast("🎤 Sesiniz metne döküldü! Kontrol edip 'Teklif Üret' butonuna basabilirsiniz.", "success");
+                    }
+                } else {
+                    showToast(data.detail || data.message || "Ses deşifre edilemedi.", "error");
+                }
+            } catch (err) {
+                showToast("Ses gönderimi sırasında hata oluştu.", "error");
+                console.error(err);
+            }
+        }
+
+        function previewPdf(url) {
+            currentPdfUrl = url;
+            const downloadLink = document.getElementById("pdfDownloadLink");
+            if (downloadLink) {
+                downloadLink.href = url;
+                const urlParts = url.split('/');
+                let filename = urlParts[urlParts.length - 1].split('?')[0] || "teklif.pdf";
+                if (!filename.toLowerCase().endsWith(".pdf")) filename += ".pdf";
+                downloadLink.setAttribute("download", filename);
+            }
+            document.getElementById("pdfModal").style.display = "flex";
+        }
+
+        function openPdfInNewTab() {
+            if (currentPdfUrl) {
+                window.open(currentPdfUrl.includes('?') ? `${currentPdfUrl}&inline=true` : `${currentPdfUrl}?inline=true`, '_blank');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById("pdfModal").style.display = "none";
+        }
+
+        function openSettingsModal() {
+            if (!activeShopData) return;
+            document.getElementById("settingsShopName").value = activeShopData.name || "";
+            document.getElementById("settingsShopLogo").value = activeShopData.logo_url || "";
+            document.getElementById("settingsModal").style.display = "flex";
+        }
+
+        function closeSettingsModal() {
+            document.getElementById("settingsModal").style.display = "none";
+        }
+
+        async function saveSettingsShop() {
+            const name = document.getElementById("settingsShopName").value.trim();
+            const logoUrl = document.getElementById("settingsShopLogo").value.trim();
+            
+            if (!name) {
+                showToast("Dükkan ismi boş olamaz.", "error");
+                return;
+            }
+            
+            try {
+                const response = await fetch("/api/shop/identity", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        phone_number: activePhoneNumber,
+                        name: name,
+                        logo_url: logoUrl
+                    })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    showToast("Dükkan profil ayarları güncellendi.", "success");
+                    activeShopData = data.shop;
+                    updateShopIdentityUI(data.shop);
+                    closeSettingsModal();
+                }
+            } catch (err) {
+                showToast("Bağlantı hatası oluştu.", "error");
+            }
+        }
+
+        let selectedModalPackageKey = "kalfa";
+
+        function selectModalPackage(pkgKey) {
+            selectedModalPackageKey = pkgKey;
+            document.querySelectorAll(".modal-pkg-card").forEach(card => {
+                card.style.border = "2px solid rgba(255, 255, 255, 0.1)";
+                card.style.background = "rgba(15, 23, 42, 0.7)";
+            });
+
+            const targetId = "modalPkg" + pkgKey.charAt(0).toUpperCase() + pkgKey.slice(1);
+            const cardEl = document.getElementById(targetId);
+            if (cardEl) {
+                cardEl.style.border = "2px solid #f97316";
+                cardEl.style.background = "rgba(249, 115, 22, 0.15)";
+            }
+
+            const submitText = document.getElementById("modalSubmitText");
+            let name = pkgKey === "cirak" ? "Çırak" : (pkgKey === "kalfa" ? "Kalfa" : "Usta");
+            if (submitText) {
+                submitText.innerText = `'${name}' Paket Talebini Onaya Gönder`;
+            }
+        }
+
+        function openUpgradeModal(recommendedPkg = 'kalfa') {
+            selectModalPackage(recommendedPkg);
+            const modal = document.getElementById("upgradeComparisonModal");
+            if (modal) modal.style.display = "flex";
+        }
+
+        function closeUpgradeModal() {
+            const modal = document.getElementById("upgradeComparisonModal");
+            if (modal) modal.style.display = "none";
+        }
+
+        async function submitUpgradeRequestFromModal() {
+            try {
+                const response = await fetch("/api/shop/request_upgrade", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ phone_number: activePhoneNumber, package: selectedModalPackageKey })
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    let name = selectedModalPackageKey === "cirak" ? "Çırak" : (selectedModalPackageKey === "kalfa" ? "Kalfa" : "Usta");
+                    showToast(`✅ '${name}' paket yükseltme talebiniz Yönetici Masasına iletildi.`, "success");
+                    closeUpgradeModal();
+                } else {
+                    showToast(data.detail || "Talep gönderilemedi.", "error");
+                }
+            } catch (err) {
+                showToast("Talep gönderilirken sunucu hatası oluştu.", "error");
+            }
+        }
+
+        function handleHeaderLogoClick(e) {
+            openAdminSecretModal();
+        }
+
+        window.addEventListener("keydown", (e) => {
+            if (e.shiftKey && (e.key === "A" || e.key === "a")) {
+                openAdminSecretModal();
+            }
+        });
+
+        function openAdminSecretModal() {
+            if (localStorage.getItem("is_admin_active") === "true") {
+                window.location.href = "/admin";
+                return;
+            }
+            const modal = document.getElementById("adminSecretModal");
+            if (modal) {
+                modal.style.display = "flex";
+                const input = document.getElementById("adminSecretPasswordInput");
+                if (input) { input.value = ""; input.focus(); }
+            }
+        }
+
+        function closeAdminSecretModal() {
+            const modal = document.getElementById("adminSecretModal");
+            if (modal) modal.style.display = "none";
+        }
+
+        function submitAdminSecretPassword() {
+            const input = document.getElementById("adminSecretPasswordInput");
+            if (!input) return;
+            const pwd = input.value.trim();
+            if (pwd === "ustabasi2026" || pwd === "admin") {
+                localStorage.setItem("admin_key", "ustabasi2026");
+                localStorage.setItem("is_admin_active", "true");
+                closeAdminSecretModal();
+                showToast("✅ Yönetici girişi onaylandı. Yonetici masasına yönlendiriliyorsunuz...", "success");
+                setTimeout(() => { window.location.href = "/admin"; }, 500);
+            } else {
+                showToast("❌ Hatalı yönetici şifresi!", "error");
+            }
+        }
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById("toastContainer");
+            if (!container) return;
+            const toast = document.createElement("div");
+            toast.className = `toast ${type}`;
+            let icon = "fa-circle-info";
+            if (type === "success") icon = "fa-circle-check";
+            else if (type === "error") icon = "fa-circle-xmark";
+            
+            toast.innerHTML = `<i class="fa-solid ${icon}"></i><span>${message}</span>`;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add("fade-out");
+                setTimeout(() => { toast.remove(); }, 300);
+            }, 4000);
+        }
+    </script>
+</body>
+</html>

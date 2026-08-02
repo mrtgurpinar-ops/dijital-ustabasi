@@ -1,0 +1,21 @@
+{
+  "short_name": "Ustabaşı",
+  "name": "Dijital Ustabaşı - Oto Servis Operasyon ve Sesli Teklif Platformu",
+  "icons": [
+    {
+      "src": "/static/icons/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/static/icons/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#09090b",
+  "theme_color": "#f97316",
+  "display": "standalone",
+  "orientation": "portrait"
+}

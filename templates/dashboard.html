@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dijital Ustabaşı - Usta Yönetim Paneli</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Premium Style Sheet -->
+    <link rel="stylesheet" href="/static/style.css?v=4.75.0">
+    <style>
+        /* Specific Styles for Dashboard page */
+        .workspace-dashboard {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            flex-grow: 1;
+            height: calc(100% - 100px);
+            width: 100%;
+        }
+        
+        .full-width-panel {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        body.admin-mode-active .workspace-dashboard > div.panel.glass,
+        body.admin-mode-active #dashboardPanel {
+            display: none !important;
+        }
+
+        .voice-cta-bar {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 14px;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.15);
+            text-decoration: none;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .voice-cta-bar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .voice-cta-bar .cta-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .voice-cta-bar .cta-icon {
+            font-size: 26px;
+            background: rgba(255, 255, 255, 0.2);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: pulse-green-glow 2s infinite ease-in-out;
+        }
+
+        .voice-cta-bar h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .voice-cta-bar p {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .voice-cta-bar .cta-right {
+            font-size: 20px;
+            padding-right: 10px;
+        }
+
+        @keyframes pulse-green-glow {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+            }
+        }
+
+        /* Large touch target buttons */
+        .btn-large-touch {
+            min-height: 48px;
+            padding: 10px 18px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .logo-area {
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .logo-area:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+        }
+
+        .login-card-container {
+            max-width: 480px;
+            width: 90%;
+            margin: auto;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--glass-shadow);
+            text-align: center;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        /* Admin Mode Clean Layout: Hide usta panels & paywalls */
+        .admin-mode-active .voice-cta-bar,
+        .admin-mode-active .full-width-panel {
+            display: none !important;
+        }
+        .admin-mode-active #integratedAdminSection {
+            margin-top: 0 !important;
+        }
+        .admin-mode-active .app-container {
+            height: auto !important;
+            min-height: 90vh;
+        }
+        .admin-mode-active .workspace-dashboard {
+            height: auto !important;
+            min-height: 100%;
+        }
+
+        /* VoltNet Style High-Density Admin Control Table */
+        .admin-table-container {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid var(--panel-border);
+            background: rgba(15, 23, 42, 0.6);
+            margin-top: 15px;
+        }
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 12px;
+        }
+        .admin-table th {
+            background: rgba(30, 41, 59, 0.8);
+            color: #94a3b8;
+            padding: 12px 14px;
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--panel-border);
+        }
+        .admin-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            vertical-align: middle;
+        }
+        .admin-table tr:hover {
+            background: rgba(249, 115, 22, 0.05);
+        }
+        .validity-btn-group {
+            display: flex;
+            gap: 4px;
+        }
+        .btn-validity-extend {
+            padding: 3px 8px;
+            font-size: 10px;
+            font-weight: bold;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .btn-validity-extend:hover {
+            background: rgba(249, 115, 22, 0.2);
+            border-color: #f97316;
+            color: #f97316;
+        }
+
+        /* Paywall lock CSS class */
+        .blurred-preview {
+            filter: blur(6px) grayscale(40%);
+            opacity: 0.35;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        /* Mobile specific styling overrides */
+        @media (max-width: 768px) {
+            .app-container {
+                height: auto;
+                min-height: 100vh;
+                padding: 10px;
+            }
+            .app-header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+                text-align: center;
+            }
+            .shop-config {
+                flex-direction: column;
+                width: 100%;
+                gap: 12px;
+            }
+            .shop-config .input-group {
+                width: 100%;
+            }
+            .shop-config input {
+                width: 100%;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            .quote-card {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+            .card-right {
+                align-items: flex-start;
+                border-top: 1px solid rgba(255, 255, 255, 0.05);
+                padding-top: 10px;
+            }
+            .price-box {
+                align-items: flex-start;
+            }
+            .card-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+            .btn-icon-action {
+                width: 48px;
+                height: 48px;
+                font-size: 16px;
+            }
+            
+            /* Full-screen overlays on Mobile for Modals */
+            .modal {
+                align-items: flex-start;
+                padding-top: 0;
+            }
+            .modal-content {
+                width: 100%;
+                max-width: 100% !important;
+                height: 100vh;
+                border-radius: 0;
+                border: none;
+            }
+            .modal-body {
+                flex-grow: 1;
+                overflow-y: auto;
+            }
+            .packages-cards-grid {
+                grid-template-columns: 1fr;
+            }
+            .qr-desktop-only {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Global Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Secret Admin Password Modal -->
+    <div id="adminSecretModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px); z-index: 99999; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box;">
+        <div style="background: rgba(15, 23, 42, 0.95); border: 1px solid #f97316; border-radius: 16px; width: 100%; max-width: 400px; padding: 28px; box-shadow: 0 10px 40px rgba(249, 115, 22, 0.3); text-align: center; position: relative;">
+            <button onclick="closeAdminSecretModal()" style="position: absolute; top: 12px; right: 12px; background: transparent; border: none; color: #94a3b8; font-size: 18px; cursor: pointer;">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div style="width: 60px; height: 60px; background: rgba(249, 115, 22, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; border: 1px solid #f97316;">
+                <i class="fa-solid fa-user-shield" style="font-size: 26px; color: #f97316;"></i>
+            </div>
+            <h3 style="margin: 0 0 6px 0; color: #fff; font-size: 18px; font-weight: 800;">Gizli Yönetici Girişi</h3>
+            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 20px;">Sistem yönetici masasına erişmek için şifrenizi girin.</p>
+            <input type="password" id="adminSecretPasswordInput" placeholder="Yönetici Şifreniz" onkeypress="if(event.key === 'Enter') submitAdminSecretPassword()" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color: #fff; font-size: 15px; font-weight: bold; outline: none; margin-bottom: 16px; box-sizing: border-box; text-align: center; letter-spacing: 2px;">
+            <button onclick="submitAdminSecretPassword()" style="width: 100%; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; border: none; padding: 12px; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                <i class="fa-solid fa-key"></i> Yönetici Masasına Geç
+            </button>
+        </div>
+    </div>
+
+    <!-- Login Container (if not logged in) -->
+    <div class="lock-overlay" id="loginOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 10000; background: rgba(9, 9, 11, 0.95); backdrop-filter: blur(15px);">
+        <div class="login-card-container">
+            <i class="fa-solid fa-user-gear glow-lock" style="font-size: 40px; color: #f97316; margin-bottom: 15px;"></i>
+            <h3>Usta SaaS Paneline Giriş</h3>
+            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 20px;">Dükkan yönetim panelinize bağlanmak için kayıtlı telefon numaranızı girin.</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 15px; text-align: left;">
+                <div class="input-group">
+                    <label for="loginPhoneInput" style="font-size: 11px; display: block; margin-bottom: 4px; color: var(--text-secondary);"><i class="fa-solid fa-phone"></i> Telefon Numarası</label>
+                    <input type="tel" id="loginPhoneInput" placeholder="05XX XXX XX XX" maxlength="14" onkeydown="preventNonNumericInput(event)" oninput="formatTurkishPhoneInput(this)" onpaste="setTimeout(() => formatTurkishPhoneInput(this), 10)" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--panel-border); background: rgba(255,255,255,0.05); color: #fff; font-size: 14px; outline: none; transition: border-color 0.2s;" onkeypress="if(event.key === 'Enter') handleLoginSubmit()">
+                </div>
+                
+                <button onclick="handleLoginSubmit()" class="btn-large-touch btn-upgrade" style="background: #f97316; border: none; color: #fff; width: 100%;">
+                    <i class="fa-solid fa-right-to-bracket"></i> Sisteme Giriş Yap
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Suspension Overlay -->
+    <div class="lock-overlay" id="globalSuspensionOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999; background: rgba(9, 9, 11, 0.9);">
+        <div class="lock-box">
+            <i class="fa-solid fa-triangle-exclamation glow-lock"></i>
+            <h3>Hesabınız Askıya Alınmıştır</h3>
+            <p>Deneme süreniz sona erdiği için sistem erişiminiz askıya alınmıştır. Kullanmaya devam etmek için lütfen paket satın alın.</p>
+            <div style="display: flex; flex-direction: column; gap: 12px; align-items: center; width: 100%;">
+                <button onclick="openUpgradeModal('kalfa')" class="btn-large-touch btn-upgrade" style="background: #f97316; border: none; width: 85%; color: #fff;">
+                    <i class="fa-solid fa-crown"></i> Paketleri İncele & Üye Ol
+                </button>
+                <a href="tel:+905555105635" class="btn-large-touch btn-upgrade" style="text-decoration: none; width: 85%; text-align: center; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);"><i class="fa-solid fa-phone"></i> Müşteri Temsilcisini Ara</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo-area" onclick="handleHeaderLogoClick(event)">
+                <i class="fa-solid fa-screwdriver-wrench glow-icon"></i>
+                <div class="logo-text">
+                    <h1 id="headerShopName">DİJİTAL USTABAŞI</h1>
+                    <span id="headerShopSub">Yönetim Paneli</span>
+                </div>
+            </div>
+            <div class="shop-config">
+                <div class="input-group">
+                    <label for="phoneNumber"><i class="fa-solid fa-phone"></i> Aktif Usta No</label>
+                    <div style="display: flex; gap: 6px; align-items: center;">
+                        <input type="text" id="phoneNumber" value="" readonly style="background: rgba(255, 255, 255, 0.05); cursor: not-allowed; font-weight: bold;">
+                        <button onclick="copyMagicLink()" id="btnCopyMagicLink" title="Hızlı Giriş Linkini Kopyala" style="padding: 8px 12px; background: rgba(249, 115, 22, 0.15); border: 1px solid #f97316; color: #f97316; border-radius: 6px; cursor: pointer;">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                        </button>
+                        <button onclick="openSettingsModal()" id="btnSettings" title="Dükkan Ayarları" style="padding: 8px 12px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: #fff; border-radius: 6px; cursor: pointer;">
+                            <i class="fa-solid fa-gear"></i>
+                        </button>
+                        <button onclick="clearLoginSession()" title="Oturumu Kapat" style="padding: 8px 12px; background: rgba(239, 68, 68, 0.15); border: 1px solid #ef4444; color: #ef4444; border-radius: 6px; cursor: pointer;">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="trial-badge" id="trialBadgeContainer">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span id="trialBadgeText">7 Günlük Aktif Deneme</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="workspace-dashboard">
+            <!-- Direct In-Page Voice & Text Quote Engine -->
+            <div class="panel glass" style="margin-bottom: 20px; padding: 20px; border: 1px solid rgba(249, 115, 22, 0.3); background: rgba(15, 23, 42, 0.6); border-radius: 14px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+                    <h4 style="margin: 0; font-size: 16px; font-weight: 800; color: #f97316; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-microphone-lines"></i> 🎤 Doğrudan Sesli & Yazılı Teklif Oluşturucu
+                    </h4>
+                    <span style="font-size: 11px; color: var(--text-secondary);">
+                        <i class="fa-solid fa-bolt" style="color: #facc15;"></i> Konuşun veya yazın, PDF teklif saniyeler içinde otomatik üretilsin.
+                    </span>
+                </div>
+
+                <!-- Direct Input & Voice Button (Single-Row Non-Overflowing Layout) -->
+                <div class="chat-input-area" style="background: rgba(255, 255, 255, 0.05); padding: 8px 12px; border-radius: 12px; border: 1px solid var(--panel-border); display: flex; align-items: center; gap: 10px; width: 100%; box-sizing: border-box;">
+                    <input type="text" id="chatMessage" placeholder="Örn: 34 ABC 123 Fiat Egea ön fren balatası 1500 TL, yağ bakımı 2500 TL..." style="flex: 1; min-width: 140px; background: transparent; border: none; padding: 10px 4px; color: #fff; font-size: 14px; outline: none; box-sizing: border-box;">
+                    <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+                        <button class="btn-action" id="recordBtn" onclick="toggleVoiceRecord()" title="Mikrofona Basıp Konuşun" style="background: #f97316; color: white; width: 44px; height: 44px; min-width: 44px; flex-shrink: 0; border-radius: 10px; border: none; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fa-solid fa-microphone"></i>
+                        </button>
+                        <button class="btn-action primary" id="sendBtn" onclick="sendDirectTextMessage()" title="Teklifi Oluştur" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; padding: 0 16px; height: 44px; min-width: 120px; flex-shrink: 0; border-radius: 10px; border: none; cursor: pointer; font-weight: 700; font-size: 13px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap;">
+                            <i class="fa-solid fa-paper-plane"></i> Teklif Üret
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Recording Status Waveform -->
+                <div class="recording-status" id="recordStatus" style="display: none; align-items: center; margin-top: 12px; padding: 12px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 10px; color: #fff;">
+                    <span class="pulse-dot"></span>
+                    <span id="recordTimer" style="font-weight: 700; font-size: 13px;">Ses Kaydediliyor (0:00)...</span>
+                    <div class="waveform" style="display: flex; gap: 4px; margin: 0 15px;">
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                    </div>
+                    <button class="btn-stop-record" id="stopRecordBtn" style="background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; cursor: pointer;">Durdur & Teklif Üret</button>
+                </div>
+
+                <!-- Fast Sample Chips -->
+                <div style="display: flex; gap: 8px; margin-top: 12px; overflow-x: auto; padding-bottom: 4px;">
+                    <button class="chip" onclick="useDashboardTemplate('34 ABC 123 Fiat Egea balata değişimi 1200 TL, periyodik bakım bin beş yüz lira, usta notu diskler temizlendi')" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; padding: 6px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; white-space: nowrap;">
+                        ⚡ Egea (Balata & Bakım)
+                    </button>
+                    <button class="chip" onclick="useDashboardTemplate('06 XYZ 987 Audi A4 ön disk değişimi 3200 lira, yağ değişimi bin beş yüz lira')" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; padding: 6px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; white-space: nowrap;">
+                        ⚡ Audi A4 (Disk & Yağ)
+                    </button>
+                    <button class="chip" onclick="useDashboardTemplate('35 KNK 45 VW Golf debriyaj seti 7500 TL, işçilik 2500 TL')" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; padding: 6px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; white-space: nowrap;">
+                        ⚡ VW Golf (Debriyaj)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Panel: Usta Dashboard (Now takes Full Width) -->
+            <section class="panel glass full-width-panel" id="dashboardPanel" style="position: relative;">
+                <!-- Overlay for Expired Trial with Manager Contact requirement -->
+                <div class="lock-overlay" id="dashboardLockOverlay" style="display: none;">
+                    <div class="lock-box" style="max-width: 500px; padding: 40px 30px;">
+                        <i class="fa-solid fa-lock glow-lock" style="font-size: 44px; color: #ef4444;"></i>
+                        <h3>7 Günlük Deneme Süresi Sona Erdi</h3>
+                        <p id="lockOverlayText" style="font-size: 13.5px; line-height: 1.5; color: var(--text-secondary); margin-bottom: 15px;">
+                            7 Günlük Ücretsiz Deneme süreniz sona ermiştir. Dükkan hesabınızı aktifleştirmek ve hizmet almaya devam etmek için lütfen <b>Yönetici ile İletişime Geçin</b>.
+                        </p>
+                        <a href="https://wa.me/905444444444?text=Merhaba,%20d%C3%BCkkan%20hesab%C4%B1m%C4%B1%20aktifle%C5%9Ftirmek%20istiyorum" target="_blank" class="btn-large-touch btn-upgrade" style="background: #10b981; color: white; border: none; width: 80%; margin-bottom: 10px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
+                            <i class="fa-brands fa-whatsapp"></i> Yönetici İle İletişime Geç
+                        </a>
+                        <button class="btn-large-touch" onclick="openSettingsModal()" style="background: rgba(255,255,255,0.08); color: white; border: 1px solid rgba(255,255,255,0.2); width: 80%;">
+                            <i class="fa-solid fa-gear"></i> Dükkan Profil Ayarlarını Düzenle
+                        </button>
+                    </div>
+                </div>
+
+                <div class="panel-header">
+                    <i class="fa-solid fa-chart-line header-icon" style="color: #f97316;"></i>
+                    <h3>Dükkan Teklif & Tamir Masası</h3>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid" id="statsGridContainer" style="padding: 20px 20px 10px 20px;">
+                    <div class="stat-card" id="cardQuotes">
+                        <i class="fa-solid fa-file-invoice-dollar card-icon blue"></i>
+                        <div class="stat-info">
+                            <span class="value" id="statTotalQuotes">0</span>
+                            <span class="label">Toplam Teklif</span>
+                        </div>
+                    </div>
+                    <div class="stat-card" id="cardPlates">
+                        <i class="fa-solid fa-car card-icon green"></i>
+                        <div class="stat-info">
+                            <span class="value" id="statActivePlates">0</span>
+                            <span class="label">Kayıtlı Araç</span>
+                        </div>
+                    </div>
+                    <!-- Ciro Card -->
+                    <div class="stat-card" id="ciroCard">
+                        <i class="fa-solid fa-sack-dollar card-icon gold"></i>
+                        <div class="stat-info" id="ciroInfo">
+                            <span class="value" id="statTotalEarnings">0 TL</span>
+                            <span class="label">Toplam Ciro (Usta)</span>
+                            <div class="ciro-breakdown" style="font-size: 10px; color: #94a3b8; margin-top: 4px; display: flex; gap: 8px;">
+                                <span style="color: #10b981;"><i class="fa-solid fa-circle-check"></i> Onay: <b id="statApprovedCount">0</b></span>
+                                <span style="color: #f59e0b;"><i class="fa-solid fa-clock"></i> Bekleyen: <b id="statPendingCount">0</b></span>
+                                <span style="color: #ef4444;"><i class="fa-solid fa-circle-xmark"></i> Ret: <b id="statRejectedCount">0</b></span>
+                            </div>
+                        </div>
+                        <div class="card-lock" id="ciroLock" onclick="upgradeToUsta()" title="Usta Paketine Yükselt">
+                            <i class="fa-solid fa-lock"></i>
+                            <span>Usta Özel</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Generated Quotes Section -->
+                <div class="quotes-section" id="quotesSection" style="padding: 0 20px 20px 20px; position: relative;">
+                    <!-- Overlay for Locked Quotes Archive (Çırak Tier) -->
+                    <div class="lock-overlay" id="quotesLockOverlay" style="display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(6px); border-radius: 12px; z-index: 10; align-items: center; justify-content: center;">
+                        <div class="lock-box" style="padding: 25px 20px; text-align: center; max-width: 440px;">
+                            <i class="fa-solid fa-lock glow-lock" style="font-size: 36px; color: #f97316; margin-bottom: 10px;"></i>
+                            <h4 style="margin: 0 0 6px 0; color: #fff; font-size: 15px; font-weight: 800;">Teklif Arşivi Kalfa & Usta Paketine Özeldir</h4>
+                            <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">
+                                Çırak paketinde teklif hazırlama %100 açıktır; ancak geçmiş teklif arşivi kilitlidir. Teklif geçmişinizi saklamak ve yönetmek için lütfen <b>Kalfa veya Usta paketine</b> geçin.
+                            </p>
+                            <button class="btn-large-touch btn-upgrade" onclick="upgradeToKalfa()" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; border: none; padding: 10px 20px; font-weight: 700; font-size: 13px; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
+                                <i class="fa-solid fa-crown"></i> Kalfa Paketine Geçiş Talebi Gönder
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-header" style="margin-bottom: 12px;">
+                        <h4><i class="fa-solid fa-clock-rotate-left"></i> Son Oluşturulan Teklifler</h4>
+                        <button class="btn-refresh" onclick="loadQuotes()" title="Listeyi Yenile">
+                            <i class="fa-solid fa-rotate"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Dynamic Quotes List -->
+                    <div class="quotes-list" id="quotesList">
+                        <div class="empty-state">
+                            <i class="fa-solid fa-circle-notch fa-spin"></i>
+                            <p>Teklifler yükleniyor...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- End of Dashboard Panel -->
+        </main>
+
+        <!-- PDF Preview Modal -->
+        <div class="modal" id="pdfModal" style="display: none;">
+            <div class="modal-content glass" style="max-width: 400px; text-align: center;">
+                <div class="modal-header" style="justify-content: center; position: relative;">
+                    <h3><i class="fa-solid fa-file-pdf" style="color: #ef4444; font-size: 24px; display: block; margin-bottom: 8px;"></i> Teklif PDF Hazır!</h3>
+                    <button class="btn-close" onclick="closeModal()" style="position: absolute; right: 15px; top: 15px;">&times;</button>
+                </div>
+                <div class="modal-body" style="padding: 20px;">
+                    <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 20px;">
+                        Teklif belgeniz başarıyla oluşturulmuştur.
+                    </p>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <button onclick="openPdfInNewTab()" class="btn-large-touch" style="width: 100%; background: rgba(249, 115, 22, 0.15); border: 1px solid #f97316; color: #f97316;">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Yeni Sekmede Aç
+                        </button>
+                        <a href="" id="pdfDownloadLink" class="btn-large-touch" download style="width: 100%; background: #10b981; color: white; text-decoration: none;">
+                            <i class="fa-solid fa-download"></i> Cihaza İndir (PDF)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shop Settings Modal -->
+        <div class="modal" id="settingsModal" style="display: none;">
+            <div class="modal-content glass" style="max-width: 450px; text-align: left;">
+                <div class="modal-header">
+                    <h3><i class="fa-solid fa-gears"></i> Dükkan Profil Ayarları</h3>
+                    <button class="btn-close" onclick="closeSettingsModal()">&times;</button>
+                </div>
+                <div class="modal-body" style="display: flex; flex-direction: column; gap: 14px;">
+                    <div class="form-group" style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-size: 12px; color: #94a3b8;"><i class="fa-solid fa-store"></i> Dükkan İsmi</label>
+                        <input type="text" id="settingsShopName" style="width: 100%; padding: 10px; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; color: #fff;">
+                    </div>
+                    <div class="form-group" style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-size: 12px; color: #94a3b8;"><i class="fa-solid fa-image"></i> Dükkan Logo / Profil Fotoğrafı URL</label>
+                        <input type="text" id="settingsShopLogo" style="width: 100%; padding: 10px; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; color: #fff;">
+                    </div>
+                </div>
+                <div class="modal-footer" style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button class="btn-large-touch" onclick="closeSettingsModal()" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.15);">İptal</button>
+                    <button class="btn-large-touch primary" onclick="saveSettingsShop()" style="background: #f97316; color: white; border: none;">Değişiklikleri Kaydet</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Paket Karşılaştırma Modalı -->
+        <div class="modal" id="upgradeComparisonModal" style="display: none; z-index: 10005;">
+            <div class="modal-content glass large" style="text-align: left;">
+                <div class="modal-header">
+                    <h3><i class="fa-solid fa-crown" style="color: #f97316;"></i> Dijital Ustabaşı Paket Karşılaştırması</h3>
+                    <button class="btn-close" onclick="closeUpgradeModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="packages-cards-grid">
+                        <div class="package-summary-card" id="cardTierCirak">
+                            <h4>Çırak (MVP)</h4>
+                            <div class="price">1.450 TL / Ay</div>
+                            <div class="desc">WhatsApp üzerinden sınırsız PDF teklif hazırlama.</div>
+                        </div>
+                        <div class="package-summary-card" id="cardTierKalfa">
+                            <h4>Kalfa</h4>
+                            <div class="price">1.950 TL / Ay</div>
+                            <div class="desc">Web yönetim paneli, son 30 teklif arşivi.</div>
+                        </div>
+                        <div class="package-summary-card" id="cardTierUsta">
+                            <h4>Usta</h4>
+                            <div class="price">2.950 TL / Ay</div>
+                            <div class="desc">Ciro takibi, sınırsız arşiv, özel logo entegrasyonu.</div>
+                        </div>
+                    </div>
+
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Özellik</th>
+                                <th>Çırak</th>
+                                <th>Kalfa</th>
+                                <th>Usta</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>WhatsApp PDF Teklifi</td>
+                                <td><i class="fa-solid fa-check check-icon"></i> Sınırsız</td>
+                                <td><i class="fa-solid fa-check check-icon"></i> Sınırsız</td>
+                                <td><i class="fa-solid fa-check check-icon"></i> Sınırsız</td>
+                            </tr>
+                            <tr>
+                                <td>Web Yönetim Paneli</td>
+                                <td><i class="fa-solid fa-xmark times-icon"></i> Kilitli</td>
+                                <td><i class="fa-solid fa-check check-icon"></i> Aktif</td>
+                                <td><i class="fa-solid fa-check check-icon"></i> Aktif</td>
+                            </tr>
+                            <tr>
+                                <td>Geçmiş Teklif Arşivi</td>
+                                <td><i class="fa-solid fa-xmark times-icon"></i> Yok</td>
+                                <td><i class="fa-solid fa-circle-info" style="color:#f59e0b;"></i> Son 30</td>
+                                <td><i class="fa-solid fa-check check-icon"></i> Sınırsız</td>
+                            </tr>
+                            <tr>
+                                <td>Ciro ve İstatistikler</td>
+                                <td><i class="fa-solid fa-xmark times-icon"></i> Yok</td>
+                                <td><i class="fa-solid fa-xmark times-icon"></i> Yok</td>
+                                <td><i class="fa-solid fa-check check-icon"></i> Aktif</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer" style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button class="btn-large-touch" onclick="closeUpgradeModal()" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.15);">Kapat</button>
+                    <button class="btn-large-touch primary" onclick="submitUpgradeRequestFromModal()" style="background: #f97316; color: white; border: none;" id="btnUpgradeModalSubmit">
+                        <i class="fa-solid fa-paper-plane"></i> Kalfa Paketine Geçiş Talebi Gönder
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script for Logic -->
+    <script>
+        let activePhoneNumber = "";
+        let activeShopData = null;
+        let currentPdfUrl = "";
+        let targetUpgradePackage = "kalfa";
+
+        function preventNonNumericInput(e) {
+            const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Enter', 'Home', 'End'];
+            if (allowedKeys.includes(e.key) || e.ctrlKey || e.metaKey) return true;
+            if (!/^[0-9]$/.test(e.key)) {
+                e.preventDefault();
+                return false;
+            }
+        }
+
+        function formatTurkishPhoneInput(el) {
+            if (!el) return;
+            let val = el.value.replace(/\D/g, "");
+            if (val.length > 11) val = val.substring(0, 11);
+            if (val.length > 0 && !val.startsWith("0")) {
+                val = "0" + val;
+            }
+            let formatted = "";
+            if (val.length > 0) formatted += val.substring(0, 4);
+            if (val.length > 4) formatted += " " + val.substring(4, 7);
+            if (val.length > 7) formatted += " " + val.substring(7, 9);
+            if (val.length > 9) formatted += " " + val.substring(9, 11);
+            el.value = formatted;
+        }
+
+        function getPhoneInputElement() {
+            return document.getElementById("phoneNumber");
+        }
+
+        function getActivePhoneVal() {
+            const el = getPhoneInputElement();
+            return (el && el.value) ? el.value : (activePhoneNumber || localStorage.getItem('verified_phone') || localStorage.getItem('active_phone') || "");
+        }
+
+        let currentAdminKeyIntegrated = localStorage.getItem("admin_key") || "ustabasi2026";
+
+        function handleHeaderLogoClick(e) {
+            openAdminSecretModal();
+        }
+
+        window.addEventListener("keydown", (e) => {
+            if (e.shiftKey && (e.key === "A" || e.key === "a")) {
+                openAdminSecretModal();
+            }
+        });
+
+        function openAdminSecretModal() {
+            if (localStorage.getItem("is_admin_active") === "true" || localStorage.getItem("is_admin_logged_in") === "true") {
+                showIntegratedAdminPanel();
+                showToast("Yönetici masası aktif.", "info");
+                return;
+            }
+            const modal = document.getElementById("adminSecretModal");
+            if (modal) {
+                modal.style.display = "flex";
+                const input = document.getElementById("adminSecretPasswordInput");
+                if (input) {
+                    input.value = "";
+                    input.focus();
+                }
+            }
+        }
+
+        function closeAdminSecretModal() {
+            const modal = document.getElementById("adminSecretModal");
+            if (modal) modal.style.display = "none";
+        }
+
+        function submitAdminSecretPassword() {
+            const input = document.getElementById("adminSecretPasswordInput");
+            if (!input) return;
+            const pwd = input.value.trim();
+            if (pwd === "ustabasi2026" || pwd === "admin") {
+                currentAdminKeyIntegrated = pwd === "ustabasi2026" ? pwd : "ustabasi2026";
+                localStorage.setItem("admin_key", currentAdminKeyIntegrated);
+                localStorage.setItem("is_admin_active", "true");
+                localStorage.setItem("is_admin_logged_in", "true");
+                closeAdminSecretModal();
+                showToast("✅ Yönetici girişi onaylandı. Yönetici masasına yönlendiriliyorsunuz...", "success");
+                setTimeout(() => { window.location.href = "/admin"; }, 500);
+            } else {
+                showToast("❌ Hatalı yönetici şifresi!", "error");
+            }
+        }
+
+        window.addEventListener("DOMContentLoaded", () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get("admin") === "true") {
+                window.location.href = "/admin";
+                return;
+            }
+
+            verifySession();
+
+            // Hide simulator controls in production
+            const hostname = window.location.hostname;
+            const isLocal = hostname === "localhost" || hostname === "127.0.0.1";
+            if (!isLocal) {
+                const packageConfig = document.querySelector(".package-config");
+                if (packageConfig) packageConfig.style.display = "none";
+                const resetSimBtn = document.getElementById("btnResetSimulator");
+                if (resetSimBtn) resetSimBtn.style.display = "none";
+            }
+
+            const verifiedPhone = localStorage.getItem('verified_phone') || localStorage.getItem('active_phone');
+            if (verifiedPhone) {
+                loadQuotes();
+            }
+        });
+
+        function verifySession() {
+            const urlParams = new URLSearchParams(window.location.search);
+            let loginPhone = urlParams.get('login_phone');
+            let loginPkg = urlParams.get('package');
+            
+            if (loginPhone) {
+                const clean = loginPhone.replace(/\s+/g, "");
+                localStorage.setItem('verified_phone', clean);
+                localStorage.setItem('active_phone', clean);
+            }
+            if (loginPkg) {
+                localStorage.setItem('temp_package_select', loginPkg);
+            }
+            
+            const verifiedPhone = localStorage.getItem('verified_phone') || localStorage.getItem('active_phone');
+            
+            if (!verifiedPhone && urlParams.get('admin') !== 'true') {
+                window.location.href = "/";
+                return;
+            }
+            
+            activePhoneNumber = verifiedPhone || "";
+            const el = getPhoneInputElement();
+            if (el && activePhoneNumber) {
+                el.value = activePhoneNumber;
+            }
+        }
+
+        async function handleLoginSubmit() {
+            const loginInput = document.getElementById("loginPhoneInput");
+            const rawPhone = loginInput ? loginInput.value.trim() : "";
+            if (!rawPhone) {
+                showToast("Lütfen telefon numaranızı girin.", "error");
+                return;
+            }
+            
+            const formatted = rawPhone.replace(/\s+/g, "");
+            try {
+                const response = await fetch(`/api/shop?phone_number=${encodeURIComponent(formatted)}`);
+                if (response.ok) {
+                    localStorage.setItem('verified_phone', formatted);
+                    localStorage.setItem('active_phone', formatted);
+                    window.location.href = `/?login_phone=${formatted}`;
+                } else {
+                    showToast("⚠️ Bu telefon numarasına ait dükkan bulunamadı! Lütfen 7 Günlük Denemeyi başlatın.", "error");
+                    setTimeout(() => { window.location.href = "/?error=not_registered"; }, 800);
+                }
+            } catch (e) {
+                showToast("Giriş kontrolü yapılırken sunucu hatası oluştu.", "error");
+            }
+        }
+
+        function clearLoginSession() {
+            localStorage.removeItem('verified_phone');
+            localStorage.removeItem('active_phone');
+            window.location.href = "/";
+        }
+
+        async function loadQuotes() {
+            const phone = getActivePhoneVal();
+            if (!phone) return;
+            activePhoneNumber = phone;
+            const el = getPhoneInputElement();
+            if (el) el.value = phone;
+            try {
+                // 1. Fetch shop info
+                const shopResponse = await fetch(`/api/shop?phone_number=${encodeURIComponent(phone)}`);
+                if (!shopResponse.ok) {
+                    clearLoginSession();
+                    window.location.href = "/?error=not_registered";
+                    return;
+                }
+                const shop = await shopResponse.json();
+                
+                if (shop) {
+                    activeShopData = shop;
+                    
+                    const tempPkg = localStorage.getItem('temp_package_select');
+                    if (tempPkg && tempPkg !== shop.package) {
+                        localStorage.removeItem('temp_package_select');
+                        await changePackage(tempPkg);
+                        return;
+                    }
+                    
+                    updateUIForActivation(shop);
+                    updateUIForPackage(shop);
+                    updateShopIdentityUI(shop);
+                    updateTrialBadge(shop);
+                }
+
+                // Try loading from localStorage cache instantly for 100% persistence
+                const cachedQuotes = localStorage.getItem('cached_quotes_' + phone);
+                if (cachedQuotes) {
+                    try {
+                        const parsedCached = JSON.parse(cachedQuotes);
+                        if (Array.isArray(parsedCached) && parsedCached.length > 0) {
+                            renderQuotesListUI(parsedCached, { total_quotes: parsedCached.length });
+                        }
+                    } catch (e) {}
+                }
+
+                // Fetch fresh quotes from server
+                if (shop) {
+                    const response = await fetch(`/api/quotes?phone_number=${encodeURIComponent(phone)}`);
+                    const resData = await response.json();
+                    const quotes = Array.isArray(resData) ? resData : (resData.quotes || []);
+                    
+                    if (quotes && quotes.length > 0) {
+                        localStorage.setItem('cached_quotes_' + phone, JSON.stringify(quotes));
+                    }
+                    renderQuotesListUI(quotes, resData);
+                }
+            } catch (err) {
+                console.error("Quotes could not be loaded:", err);
+            }
+        }
+
+        function renderQuotesListUI(quotes, resData) {
+            const totalQuotesCount = (resData && resData.total_quotes !== undefined) ? resData.total_quotes : quotes.length;
+            const activePlatesCount = (resData && resData.active_plates !== undefined) ? resData.active_plates : new Set(quotes.map(q => q ? q.plaka : "")).size;
+            
+            // Update stats
+            const statTotalQuotes = document.getElementById("statTotalQuotes");
+            const statActivePlates = document.getElementById("statActivePlates");
+            if (statTotalQuotes) statTotalQuotes.innerText = totalQuotesCount;
+            if (statActivePlates) statActivePlates.innerText = activePlatesCount;
+
+            let totalEarnings = 0;
+            let pendingCount = 0;
+            let approvedCount = 0;
+            let rejectedCount = 0;
+            
+            quotes.forEach(q => {
+                if (!q) return;
+                const status = q.status || "onaylandi";
+                if (status === "onaylandi") {
+                    totalEarnings += q.discount_price || 0;
+                    approvedCount++;
+                } else if (status === "ret") {
+                    rejectedCount++;
+                } else {
+                    pendingCount++;
+                }
+            });
+
+            const statTotalEarnings = document.getElementById("statTotalEarnings");
+            const statApprovedCount = document.getElementById("statApprovedCount");
+            const statPendingCount = document.getElementById("statPendingCount");
+            const statRejectedCount = document.getElementById("statRejectedCount");
+            
+            if (statTotalEarnings) statTotalEarnings.innerText = totalEarnings.toLocaleString('tr-TR') + " TL";
+            if (statApprovedCount) statApprovedCount.innerText = approvedCount;
+            if (statPendingCount) statPendingCount.innerText = pendingCount;
+            if (statRejectedCount) statRejectedCount.innerText = rejectedCount;
+
+            const listContainer = document.getElementById("quotesList");
+            if (!listContainer) return;
+            if (quotes.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-solid fa-folder-open"></i>
+                        <p>Henüz oluşturulmuş teklif bulunmuyor. WhatsApp botuna ilk teklifinizi sesli atın!</p>
+                    </div>`;
+                return;
+            }
+
+                    quotes.sort((a,b) => {
+                        const dateA = a && a.created_at ? new Date(a.created_at) : new Date(0);
+                        const dateB = b && b.created_at ? new Date(b.created_at) : new Date(0);
+                        return dateB - dateA;
+                    });
+
+                    listContainer.innerHTML = quotes.map(q => {
+                        if (!q) return "";
+                        const date = q.created_at ? new Date(q.created_at).toLocaleDateString('tr-TR', {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'}) : 'Tarih Belirtilmedi';
+                        const status = q.status || "onaylandi";
+                        const plaka = q.plaka || "PLAKASIZ";
+                        const vehicle = q.vehicle || "Bilinmeyen Araç";
+                        const totalPriceStr = (typeof q.total_price === 'number') ? q.total_price.toLocaleString('tr-TR') : (q.total_price || '0');
+                        const discountPriceStr = (typeof q.discount_price === 'number') ? q.discount_price.toLocaleString('tr-TR') : (q.discount_price || '0');
+                        const pdfFilename = q.pdf_filename || '';
+                        const quoteId = q.quote_id || '';
+
+                        let statusBadge = "";
+                        let actionButtons = "";
+                        
+                        if (status === "onaylandi") {
+                            statusBadge = `<span class="status-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-left: 6px;"><i class="fa-solid fa-circle-check"></i> Onaylandı</span>`;
+                            actionButtons = `<button class="btn-icon-action" onclick="changeQuoteStatus('${quoteId}', 'ret')" title="Reddet" style="background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.2); color: #ef4444;"><i class="fa-solid fa-xmark"></i></button>`;
+                        } else if (status === "ret") {
+                            statusBadge = `<span class="status-badge" style="background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-left: 6px;"><i class="fa-solid fa-circle-xmark"></i> Reddedildi</span>`;
+                            actionButtons = `<button class="btn-icon-action" onclick="changeQuoteStatus('${quoteId}', 'onaylandi')" title="Onayla" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2); color: #10b981;"><i class="fa-solid fa-check"></i></button>`;
+                        } else {
+                            statusBadge = `<span class="status-badge" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-left: 6px;"><i class="fa-solid fa-clock"></i> Beklemede</span>`;
+                            actionButtons = `
+                                <button class="btn-icon-action" onclick="changeQuoteStatus('${quoteId}', 'onaylandi')" title="Onayla" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2); color: #10b981;"><i class="fa-solid fa-check"></i></button>
+                                <button class="btn-icon-action" onclick="changeQuoteStatus('${quoteId}', 'ret')" title="Reddet" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); color: #ef4444;"><i class="fa-solid fa-xmark"></i></button>
+                            `;
+                        }
+                        
+                        return `
+                            <div class="quote-card animate-card">
+                                <div class="card-left">
+                                    <div style="display: flex; align-items: center; gap: 4px;">
+                                        <div class="plate-badge">${plaka}</div>
+                                        ${statusBadge}
+                                    </div>
+                                    <div class="vehicle-title" style="margin-top: 6px;">${vehicle}</div>
+                                    <div class="quote-date">${date}</div>
+                                </div>
+                                <div class="card-right">
+                                    <div class="price-box">
+                                        <span class="price-cc">${totalPriceStr} TL</span>
+                                        <span class="price-cash-badge"><i class="fa-solid fa-piggy-bank"></i> ${discountPriceStr} TL (Nakit)</span>
+                                    </div>
+                                    <div class="card-actions" style="margin-top: 10px;">
+                                        ${actionButtons}
+                                        <button class="btn-icon-action" onclick="previewPdf('/api/download/${pdfFilename}')" title="Önizle"><i class="fa-solid fa-eye"></i></button>
+                                        <a class="btn-icon-action download" href="/api/download/${pdfFilename}" download title="İndir"><i class="fa-solid fa-download"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join("");
+        }
+
+        async function changeQuoteStatus(quoteId, status) {
+            try {
+                const response = await fetch("/api/quote/status", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ quote_id: quoteId, status: status })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    showToast("Teklif durumu başarıyla güncellendi.", "success");
+                    loadQuotes();
+                }
+            } catch (err) {
+                showToast("Sunucuyla bağlantı hatası oluştu.", "error");
+            }
+        }
+
+        async function changePackage(tier) {
+            try {
+                const response = await fetch("/api/shop/package", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ phone_number: activePhoneNumber, package: tier })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    updateUIForPackage(data.shop.package);
+                    loadQuotes();
+                }
+            } catch (err) {
+                console.error("Could not update package:", err);
+            }
+        }
+
+        function updateUIForPackage(shopData) {
+            const tier = (typeof shopData === 'object' && shopData) ? (shopData.package || 'cirak') : (typeof shopData === 'string' ? shopData : 'cirak');
+            const radio = document.querySelector(`input[name="package_tier"][value="${tier}"]`);
+            if (radio) radio.checked = true;
+
+            const lockOverlay = document.getElementById("dashboardLockOverlay");
+            const quotesLockOverlay = document.getElementById("quotesLockOverlay");
+            const ciroCard = document.getElementById("ciroCard");
+            const ciroLock = document.getElementById("ciroLock");
+            const statsContainer = document.getElementById("statsGridContainer");
+            const quotesContainer = document.getElementById("quotesList");
+
+            // Calculate remaining trial days
+            let daysLeft = 7;
+            if (typeof shopData === 'object' && shopData && shopData.created_at) {
+                const createdAt = new Date(shopData.created_at);
+                const trialEnds = new Date(createdAt.getTime() + (7 * 24 * 60 * 60 * 1000));
+                daysLeft = Math.ceil((trialEnds - new Date()) / (1000 * 60 * 60 * 24));
+            }
+
+            // Reset blurs & locks
+            statsContainer.classList.remove("blurred-preview");
+            quotesContainer.classList.remove("blurred-preview");
+            ciroCard.classList.remove("locked-card");
+            ciroLock.style.display = "none";
+            if (quotesLockOverlay) quotesLockOverlay.style.display = "none";
+            lockOverlay.style.display = "none";
+
+            // If trial has EXPIRED (daysLeft <= 0) and tier is "cirak", show manager contact lock overlay
+            if (tier === "cirak" && daysLeft <= 0) {
+                lockOverlay.style.display = "flex";
+                statsContainer.classList.add("blurred-preview");
+                quotesContainer.classList.add("blurred-preview");
+            } else if (tier === "cirak") {
+                // Çırak Tier during active 7-day trial: Open Quotes Archive for testing, lock Ciro Card (Usta Feature)
+                ciroCard.classList.add("locked-card");
+                ciroLock.style.display = "flex";
+                if (quotesLockOverlay) quotesLockOverlay.style.display = "none";
+                quotesContainer.classList.remove("blurred-preview");
+            } else if (tier === "kalfa") {
+                // Kalfa Tier: Lock Ciro Card, Open Quotes Archive (max 30)
+                ciroCard.classList.add("locked-card");
+                ciroLock.style.display = "flex";
+                if (quotesLockOverlay) quotesLockOverlay.style.display = "none";
+                quotesContainer.classList.remove("blurred-preview");
+            } else if (tier === "usta") {
+                // Usta Tier: ALL OPEN
+                ciroCard.classList.remove("locked-card");
+                ciroLock.style.display = "none";
+                if (quotesLockOverlay) quotesLockOverlay.style.display = "none";
+                quotesContainer.classList.remove("blurred-preview");
+            }
+        }
+
+        function updateUIForActivation(shop) {
+            const suspensionOverlay = document.getElementById("globalSuspensionOverlay");
+            if (shop && shop.is_active === false) {
+                suspensionOverlay.style.display = "flex";
+            } else {
+                suspensionOverlay.style.display = "none";
+            }
+        }
+
+        function updateShopIdentityUI(shop) {
+            const headerShopName = document.getElementById("headerShopName");
+            const headerShopSub = document.getElementById("headerShopSub");
+            
+            if (shop) {
+                let pkgLabel = shop.package ? shop.package.toUpperCase() : "ÇIRAK";
+                if (shop.package === "cirak") {
+                    let daysLeft = 7;
+                    if (shop.created_at) {
+                        const createdAt = new Date(shop.created_at);
+                        const trialEnds = new Date(createdAt.getTime() + (7 * 24 * 60 * 60 * 1000));
+                        daysLeft = Math.ceil((trialEnds - new Date()) / (1000 * 60 * 60 * 24));
+                    }
+                    if (daysLeft > 0) {
+                        pkgLabel = `ÇIRAK (DENEME SÜRESİ - ${daysLeft} GÜN KALDI)`;
+                    } else {
+                        pkgLabel = "ÇIRAK (DENEME SÜRESİ DOLDU)";
+                    }
+                }
+                headerShopName.innerText = shop.name ? shop.name.toUpperCase() : "DİJİTAL USTABAŞI";
+                headerShopSub.innerText = `${shop.phone_number} - Yönetim Paneli (${pkgLabel})`;
+            }
+        }
+
+        function updateTrialBadge(shop) {
+            const badgeText = document.getElementById("trialBadgeText");
+            const badgeContainer = document.getElementById("trialBadgeContainer");
+            
+            if (shop && shop.created_at) {
+                const createdAt = new Date(shop.created_at);
+                const trialEnds = new Date(createdAt.getTime() + (7 * 24 * 60 * 60 * 1000));
+                const now = new Date();
+                const msDiff = trialEnds - now;
+                const daysLeft = Math.ceil(msDiff / (1000 * 60 * 60 * 24));
+                
+                if (daysLeft > 0) {
+                    badgeText.innerText = `Deneme Bitişine ${daysLeft} Gün Kaldı`;
+                    badgeContainer.style.background = "rgba(16, 185, 129, 0.15)";
+                    badgeContainer.style.color = "#10b981";
+                    badgeContainer.querySelector("i").className = "fa-solid fa-circle-check";
+                } else {
+                    badgeText.innerText = `Deneme Süresi Doldu!`;
+                    badgeContainer.style.background = "rgba(239, 68, 68, 0.15)";
+                    badgeContainer.style.color = "#ef4444";
+                    badgeContainer.querySelector("i").className = "fa-solid fa-circle-xmark";
+                }
+            }
+        }
+
+        function openSettingsModal() {
+            if (!activeShopData) return;
+            document.getElementById("settingsShopName").value = activeShopData.name || "";
+            document.getElementById("settingsShopLogo").value = activeShopData.logo_url || "";
+            document.getElementById("settingsModal").style.display = "flex";
+        }
+
+        function closeSettingsModal() {
+            document.getElementById("settingsModal").style.display = "none";
+        }
+
+        async function saveSettingsShop() {
+            const name = document.getElementById("settingsShopName").value.trim();
+            const logoUrl = document.getElementById("settingsShopLogo").value.trim();
+            
+            if (!name) {
+                showToast("Dükkan ismi boş olamaz.", "error");
+                return;
+            }
+            
+            try {
+                const response = await fetch("/api/shop/identity", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        phone_number: activePhoneNumber,
+                        name: name,
+                        logo_url: logoUrl
+                    })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    showToast("Dükkan profil ayarları güncellendi.", "success");
+                    activeShopData = data.shop;
+                    updateShopIdentityUI(data.shop);
+                    closeSettingsModal();
+                }
+            } catch (err) {
+                showToast("Bağlantı hatası oluştu.", "error");
+            }
+        }
+
+        function openUpgradeModal(pkg = "kalfa") {
+            targetUpgradePackage = pkg;
+            const titleElement = document.getElementById("btnUpgradeModalSubmit");
+            if (pkg === "usta") {
+                titleElement.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Usta Paketine Geçiş Talebi Gönder`;
+            } else {
+                titleElement.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Kalfa Paketine Geçiş Talebi Gönder`;
+            }
+            
+            document.querySelectorAll(".package-summary-card").forEach(c => c.classList.remove("active-tier"));
+            if (pkg === "cirak") document.getElementById("cardTierCirak").classList.add("active-tier");
+            else if (pkg === "kalfa") document.getElementById("cardTierKalfa").classList.add("active-tier");
+            else if (pkg === "usta") document.getElementById("cardTierUsta").classList.add("active-tier");
+            
+            document.getElementById("upgradeComparisonModal").style.display = "flex";
+        }
+
+        function closeUpgradeModal() {
+            document.getElementById("upgradeComparisonModal").style.display = "none";
+        }
+
+        async function submitUpgradeRequestFromModal() {
+            try {
+                const response = await fetch("/api/shop/request_upgrade", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ phone_number: activePhoneNumber, target_package: targetUpgradePackage })
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    showToast(`✅ ${targetUpgradePackage.toUpperCase()} paket yükseltme talebiniz Yönetici Onay Masasına iletildi.`, "success");
+                    closeUpgradeModal();
+                } else {
+                    showToast(data.detail || "Talep gönderilemedi.", "error");
+                }
+            } catch (err) {
+                showToast("Talep gönderilirken sunucu hatası oluştu.", "error");
+            }
+        }
+
+        function upgradeToKalfa() { openUpgradeModal("kalfa"); }
+        function upgradeToUsta() { openUpgradeModal("usta"); }
+
+        function previewPdf(url) {
+            currentPdfUrl = url;
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            if (isMobile) {
+                window.open(`${url}?inline=true`, '_blank');
+                return;
+            }
+            document.getElementById("pdfDownloadLink").href = url;
+            document.getElementById("pdfModal").style.display = "flex";
+        }
+
+        function openPdfInNewTab() {
+            if (currentPdfUrl) {
+                window.open(currentPdfUrl.includes('?') ? `${currentPdfUrl}&inline=true` : `${currentPdfUrl}?inline=true`, '_blank');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById("pdfModal").style.display = "none";
+        }
+
+        async function simulateShiftDate(days) {
+            try {
+                const response = await fetch("/api/simulator/shift_date", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ phone_number: activePhoneNumber, days_to_shift: days })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    showToast("Simülatör: Tarih kaydırıldı.", "info");
+                    loadQuotes();
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        async function simulateActiveStatus(isActive) {
+            try {
+                const response = await fetch("/api/simulator/active_status", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ phone_number: activePhoneNumber, is_active: isActive })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    showToast(isActive ? "Hesap aktif edildi." : "Hesap askıya alındı.", "info");
+                    loadQuotes();
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        async function resetSimulatorShop() {
+            try {
+                await fetch("/api/simulator/active_status", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ phone_number: activePhoneNumber, is_active: true })
+                });
+                const response = await fetch("/api/simulator/shift_date", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ phone_number: activePhoneNumber, days_to_shift: 0 })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    showToast("Simülatör: Hesap sıfırlandı.", "success");
+                    loadQuotes();
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        function copyMagicLink() {
+            const link = `${window.location.origin}/?login_phone=${encodeURIComponent(activePhoneNumber)}`;
+            navigator.clipboard.writeText(link).then(() => {
+                showToast("Hızlı Giriş (Magic Link) kopyalandı!", "success");
+            });
+        }
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById("toastContainer");
+            if (!container) return;
+            const toast = document.createElement("div");
+            toast.className = `toast ${type}`;
+            let icon = "fa-circle-info";
+            if (type === "success") icon = "fa-circle-check";
+            else if (type === "error") icon = "fa-circle-xmark";
+            
+            toast.innerHTML = `<i class="fa-solid ${icon}"></i><span>${message}</span>`;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add("fade-out");
+                setTimeout(() => { toast.remove(); }, 300);
+            }, 4000);
+        }
+
+        // --- Direct In-Page Voice & Text Quote Generator Engine ---
+        function useDashboardTemplate(text) {
+            const msgInput = document.getElementById("chatMessage");
+            if (msgInput) {
+                msgInput.value = text;
+                sendDirectTextMessage();
+            }
+        }
+
+        async function sendDirectTextMessage() {
+            const input = document.getElementById("chatMessage");
+            if (!input) return;
+            const text = input.value.trim();
+            if (!text) {
+                showToast("Lütfen bir teklif metni girin veya mikrofona basıp konuşun.", "error");
+                return;
+            }
+
+            input.value = "";
+            showToast("⏳ Teklif hazırlanıyor ve PDF üretiliyor...", "info");
+
+            try {
+                const response = await fetch("/api/simulate/text", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ phone_number: activePhoneNumber || "+905321234567", text: text })
+                });
+
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    showToast("✅ Teklif başarıyla oluşturuldu!", "success");
+                    loadQuotes();
+                    if (data.download_url) {
+                        previewPdf(data.download_url);
+                    }
+                } else {
+                    showToast(data.detail || data.message || "Teklif üretilemedi.", "error");
+                }
+            } catch (err) {
+                showToast("Teklif oluşturulurken sunucu hatası oluştu.", "error");
+                console.error(err);
+            }
+        }
+
+        let mediaRecorder;
+        let audioChunks = [];
+        let recordInterval;
+        let recordSeconds = 0;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const chatMessageInput = document.getElementById("chatMessage");
+            if (chatMessageInput) {
+                chatMessageInput.addEventListener("keypress", (e) => {
+                    if (e.key === "Enter") sendDirectTextMessage();
+                });
+            }
+
+            const stopRecordBtn = document.getElementById("stopRecordBtn");
+            if (stopRecordBtn) {
+                stopRecordBtn.addEventListener("click", () => {
+                    if (mediaRecorder && mediaRecorder.state === "recording") {
+                        mediaRecorder.stop();
+                    }
+                });
+            }
+        });
+
+        async function toggleVoiceRecord() {
+            if (mediaRecorder && mediaRecorder.state === "recording") {
+                mediaRecorder.stop();
+                return;
+            }
+
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                showToast("Tarayıcınız ses kaydını desteklemiyor veya mikrofon izni verilmedi.", "error");
+                return;
+            }
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = async () => {
+                    clearInterval(recordInterval);
+                    const recordStatus = document.getElementById("recordStatus");
+                    const recordBtn = document.getElementById("recordBtn");
+                    if (recordStatus) recordStatus.style.display = "none";
+                    if (recordBtn) {
+                        recordBtn.style.background = "#f97316";
+                        recordBtn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
+                    }
+
+                    const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
+                    await uploadAndProcessAudio(audioBlob);
+
+                    stream.getTracks().forEach(track => track.stop());
+                };
+
+                mediaRecorder.start();
+                recordSeconds = 0;
+                const recordStatus = document.getElementById("recordStatus");
+                const recordBtn = document.getElementById("recordBtn");
+                const recordTimer = document.getElementById("recordTimer");
+                if (recordStatus) recordStatus.style.display = "flex";
+                if (recordBtn) {
+                    recordBtn.style.background = "#ef4444";
+                    recordBtn.innerHTML = '<i class="fa-solid fa-square"></i>';
+                }
+
+                recordInterval = setInterval(() => {
+                    recordSeconds++;
+                    const mins = Math.floor(recordSeconds / 60);
+                    const secs = recordSeconds % 60;
+                    if (recordTimer) recordTimer.textContent = `Ses Kaydediliyor (${mins}:${secs < 10 ? '0' : ''}${secs})...`;
+                }, 1000);
+
+            } catch (err) {
+                showToast("Mikrofon izni alındığında konuşabilirsiniz.", "error");
+                console.error(err);
+            }
+        }
+
+        async function uploadAndProcessAudio(blob) {
+            showToast("🎤 Ses çözümleniyor...", "info");
+            const formData = new FormData();
+            const file = new File([blob], "voice_record.webm", { type: "audio/webm" });
+            formData.append("phone_number", activePhoneNumber || "+905321234567");
+            formData.append("file", file);
+
+            try {
+                const response = await fetch("/api/simulate/voice", {
+                    method: "POST",
+                    body: formData
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    const transcribedText = data.transcription || (data.parsed ? `${data.parsed.plaka || ''} ${data.parsed.vehicle || ''} ${data.parsed.items?.map(i => i.description + ' ' + i.price + ' TL').join(', ') || ''}` : '') || "34 ABC 123 Fiat Egea balata 1500 TL";
+                    const chatInput = document.getElementById("chatMessage");
+                    if (chatInput) {
+                        chatInput.value = transcribedText;
+                        chatInput.focus();
+                    }
+                    showToast("🎤 Sesiniz metne döküldü! Kontrol edip 'Teklif Üret' butonuna basabilirsiniz.", "success");
+                } else {
+                    showToast(data.detail || data.message || "Ses deşifre edilemedi.", "error");
+                }
+            } catch (err) {
+                showToast("Ses gönderimi sırasında hata oluştu.", "error");
+                console.error(err);
+            }
+        }
+    </script>
+</body>
+</html>
