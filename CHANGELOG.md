@@ -2,6 +2,14 @@
 
 Projedeki tüm majör revizyonlar, güvenlik güncellemeleri me yeni özellikler bu dosyada SemVer prensiplerine uygun olarak kayıt altına alınmaktadır.
 
+## [v1.4.0] - 2026-08-02 (Oto Lastik & Jant Hizmetleri Entegrasyonu)
+
+### 🛞 Oto Lastik & Jant Dükkan Desteği (`templates/index.html`)
+- **Oto Lastik & Jant Hizmetleri:** Lastik Değişimi, Rot-Balans Ayarı ve Lastik Oteli Saklama Hizmetleri şablon kartları arayüze entegre edildi.
+- **📱 Rol Butonlarında Telefon Numaraları:** Hızlı test giriş butonlarında 5 rolün telefon numaraları (`05555105635`, `05550000000`, `05553330003`, `05552220002`, `05551110001`) açık şekilde görüntülendi.
+
+---
+
 ## [v1.3.0] - 2026-08-02 (Multi-Tenant PostgreSQL Mimarisi & Kod Temizliği)
 
 ### 🧹 Proje Temizliği ve Çok Kiracılı Mimari (`cloud_storage.py`, `models.py`, `railway.json`)
