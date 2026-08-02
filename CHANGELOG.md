@@ -2,6 +2,15 @@
 
 Projedeki tüm majör revizyonlar, güvenlik güncellemeleri me yeni özellikler bu dosyada SemVer prensiplerine uygun olarak kayıt altına alınmaktadır.
 
+## [v1.10.0] - 2026-08-02 (Ekran İçi Kurumsal Dükkan Profil & Logo Yönetim Masası)
+
+### ⚙️ Ekran İçi Profil Mimarisi (`templates/index.html`)
+- **🚫 Pop-up Kutusuna Son:** Dükkan Profil ve Logo Ayarları pop-up (modal) penceresinden tamamen çıkarılıp ekran içi özel modüle (`#settingsSection`) dönüştürüldü.
+- **📸 Canlı Marka Kartı Önizlemesi:** Dükkan adı ve logosu yazıldığı anda canlı PDF marka kartında anında güncellenmektedir.
+- **⚡ Hazır Amblem Şablonları:** Logo linki bulunmayan esnaflar için Oto Tamir, Lastikçi ve Ekspertiz amblemleri tek tıkla atanabilir hale getirildi.
+
+---
+
 ## [v1.9.0] - 2026-08-02 (VoltNet Tarzı Masaüstünde Tam Açık Sol Sidebar & Mobilde Kapanır Çekmece)
 
 ### 💻 VoltNet Tarzı Duyarlı Sol Sidebar Mimarisi (`templates/index.html`, `static/style.css`)
