@@ -116,8 +116,8 @@
             "package": "kalfa",
             "is_active": true,
             "is_admin": false,
-            "created_at": "2026-07-25T22:10:31.232392Z",
-            "expires_at": "2026-09-01T22:10:31.232392Z",
+            "created_at": "2026-07-25T22:24:37.654565Z",
+            "expires_at": "2026-09-01T22:24:37.654565Z",
             "upgrade_request": null
         }
     },
@@ -1215,64 +1215,127 @@
             "status": "beklemede"
         },
         {
-            "quote_id": "Q-20260802221031191",
+            "quote_id": "Q-20260802221035053",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Motor Yağı Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_23ed8539.pdf",
+            "created_at": "2026-08-02T22:10:35.055595",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260802221558966",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ değişimi",
+                    "price": 1500.0
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_efde2564.pdf",
+            "created_at": "2026-08-02T22:15:58.969429",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260802221616239",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ değişimi",
+                    "price": 1500.0
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_4a8aa842.pdf",
+            "created_at": "2026-08-02T22:16:16.240151",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260802222437600",
             "phone_number": "5554443322",
-            "plaka": "34 LIMIT 01",
+            "plaka": "PLAKASIZ",
             "vehicle": "Fiat Egea",
             "items": [
                 {
-                    "description": "Periyodik Bakım",
-                    "price": 2000
+                    "description": "34 limit 01 bakim",
+                    "price": 2000.0
                 }
             ],
             "subtotal": 2000.0,
             "vat": 400.0,
             "total_price": 2400.0,
             "discount_price": 2160.0,
-            "pdf_filename": "teklif_34LIMIT01_5554443322_15b2b830.pdf",
-            "created_at": "2026-08-02T22:10:31.193235",
+            "pdf_filename": "teklif_PLAKASIZ_5554443322_8349f696.pdf",
+            "created_at": "2026-08-02T22:24:37.602011",
             "validity_days": 7,
             "usta_note": "",
             "status": "beklemede"
         },
         {
-            "quote_id": "Q-20260802221035053",
+            "quote_id": "Q-20260802222438643",
             "phone_number": "5551112233",
             "plaka": "34ABC999",
             "vehicle": "Renault Clio",
             "items": [
                 {
-                    "description": "Motor Yağı Değişimi",
-                    "price": 1500
+                    "description": "Yağ değişimi",
+                    "price": 1500.0
                 }
             ],
             "subtotal": 1500.0,
             "vat": 300.0,
             "total_price": 1800.0,
             "discount_price": 1620.0,
-            "pdf_filename": "teklif_34ABC999_5551112233_23ed8539.pdf",
-            "created_at": "2026-08-02T22:10:35.055595",
+            "pdf_filename": "teklif_34ABC999_5551112233_81d9381c.pdf",
+            "created_at": "2026-08-02T22:24:38.645625",
             "validity_days": 7,
             "usta_note": "",
             "status": "beklemede"
         },
         {
-            "quote_id": "Q-20260802221035053",
+            "quote_id": "Q-20260802222438643",
             "phone_number": "5551112233",
             "plaka": "34ABC999",
             "vehicle": "Renault Clio",
             "items": [
                 {
-                    "description": "Motor Yağı Değişimi",
-                    "price": 1500
+                    "description": "Yağ değişimi",
+                    "price": 1500.0
                 }
             ],
             "subtotal": 1500.0,
             "vat": 300.0,
             "total_price": 1800.0,
             "discount_price": 1620.0,
-            "pdf_filename": "teklif_34ABC999_5551112233_23ed8539.pdf",
-            "created_at": "2026-08-02T22:10:35.055595",
+            "pdf_filename": "teklif_34ABC999_5551112233_81d9381c.pdf",
+            "created_at": "2026-08-02T22:24:38.645625",
             "validity_days": 7,
             "usta_note": "",
             "status": "beklemede"
