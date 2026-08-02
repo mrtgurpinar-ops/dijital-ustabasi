@@ -2,6 +2,22 @@
 
 Projedeki tüm majör revizyonlar, güvenlik güncellemeleri me yeni özellikler bu dosyada SemVer prensiplerine uygun olarak kayıt altına alınmaktadır.
 
+## [v1.16.0] - 2026-08-03 (360° Güvenlik Sertleştirmesi, Sır Sızıntısı Koruması & HTTP Security Headers)
+
+### 🔑 Sır & API Anahtarı Koruması (`parser.py`)
+- **Hardcoded Key Temizliği:** Kod içerisinde varsayılan olarak duran base64 kodlanmış API anahtarları temizlendi. Sistem %100 çevre değişkenleri (`GEMINI_API_KEY`, `OPENAI_API_KEY`) ve güvenli secret deposu üzerinden çalıştırılacak şekilde sertleştirildi.
+
+### 🌐 HTTP Güvenlik Başlıkları me CORS (`main.py`)
+- **Security Headers Middleware:** `add_security_and_cache_headers` ara katmanı ile yanıt başlıklarına `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `X-XSS-Protection: 1; mode=block` ve `Referrer-Policy: strict-origin-when-cross-origin` kurumsal güvenlik standartları eklendi.
+
+### 📁 `.gitignore` Hassas Veri Koruması (`.gitignore`)
+- Kurumsal güvenlik kuralları gereği `*.db`, `storage/*.json`, `storage/*.db`, `firebase_config.json` ve `temp/` dizinleri git takibinden çıkarıldı.
+
+### 🧪 Bütünleşik Test Takımı (`test_dijital_ustabasi.py`)
+- `test_security_headers` birim testi eklendi, 19/19 testin tamamı yeşil geçerek doğrulandı.
+
+---
+
 ## [v1.15.0] - 2026-08-03 (Mühendislik & Ürün Ekibi Mimari Sadeleştirmesi, Core Config & DevOps Health Check)
 
 ### 🏛️ Modüler Mimari me Core Konfigürasyon (`core/config.py`, `main.py`)

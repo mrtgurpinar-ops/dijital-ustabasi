@@ -321,5 +321,12 @@ class TestFastAPIIntegration(unittest.TestCase):
         self.assertEqual(data.get("app_name"), "Dijital Ustabaşı")
         self.assertIn("version", data)
 
+    def test_security_headers(self):
+        res = self.client.get("/")
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.headers.get("X-Frame-Options"), "DENY")
+        self.assertEqual(res.headers.get("X-Content-Type-Options"), "nosniff")
+        self.assertEqual(res.headers.get("X-XSS-Protection"), "1; mode=block")
+
 if __name__ == '__main__':
     unittest.main()

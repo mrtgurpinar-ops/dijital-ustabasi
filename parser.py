@@ -16,13 +16,9 @@ load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
 
 import base64
 
-_FALLBACK_O = "c2stcHJvai1aTDR0Y2dRbVVhRWFsSEMzNW8yOTBfeDE2RDAtUVJzaXFNcGpjbnRMMmlzSjc3T1dyb1p4eTJTNldRWE5HSGplX3hPc0NxOGZpVDNCbGtGSkcyaHpteDQ4OU9zVEkwZkhXdW5pWXdGbUs1MElTWG5OR280TVpJc1lKLUtYa1UtejRYSlRtRE5LNFg4MWdQSWpmZG1reUpPRVlB"
-_FALLBACK_G = "QVEuQWI4Uk42TF96ZmZHdGQ2YkU0ZXZETEVDQ200Um93Ny1Rcy1Bc2U0WnhYZjVtYTFUMnc="
-
 def get_openai_api_key() -> str:
     """
-    Retrieves the OpenAI API key.
-    Checks env variables, secrets.json, then fallback key.
+    Retrieves the OpenAI API key securely from environment variables or secrets.json.
     """
     env_key = os.getenv("OPENAI_API_KEY") or os.getenv("OPENAI_KEY")
     if env_key:
@@ -41,16 +37,12 @@ def get_openai_api_key() -> str:
     except Exception:
         pass
         
-    try:
-        return base64.b64decode(_FALLBACK_O).decode("utf-8")
-    except Exception:
-        return ""
+    return ""
 
 
 def get_gemini_api_key() -> str:
     """
-    Retrieves the Gemini API key.
-    First tries env variables, secrets.json, then fallback key.
+    Retrieves the Gemini API key securely from environment variables or secrets.json.
     """
     env_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
     if env_key:
@@ -69,10 +61,7 @@ def get_gemini_api_key() -> str:
     except Exception:
         pass
         
-    try:
-        return base64.b64decode(_FALLBACK_G).decode("utf-8")
-    except Exception:
-        return ""
+    return ""
 
 
 COMMON_BRANDS = [

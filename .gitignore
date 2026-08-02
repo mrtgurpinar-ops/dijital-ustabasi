@@ -1,5 +1,15 @@
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite
 storage/pdfs/
+storage/*.db
+storage/*.json
+firebase_config.json
+temp/
 .env
+.env.local
+.env.*.local
 .DS_Store

@@ -94,11 +94,15 @@ def check_shop_access(shop: dict):
 app = FastAPI(title="Dijital Ustabaşı v1.0.0 Web Platform")
 
 @app.middleware("http")
-async def add_no_cache_headers(request: Request, call_next):
+async def add_security_and_cache_headers(request: Request, call_next):
     response = await call_next(request)
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0"
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
     return response
 
 STATIC_DIR = os.path.join(BASE_DIR, "static")
