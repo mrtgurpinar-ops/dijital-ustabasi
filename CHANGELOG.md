@@ -2,6 +2,15 @@
 
 Projedeki tüm majör revizyonlar, güvenlik güncellemeleri me yeni özellikler bu dosyada SemVer prensiplerine uygun olarak kayıt altına alınmaktadır.
 
+## [v1.0.8] - 2026-08-02 (Railway Sıfırdan Canlıya Alma & Yapılandırma Senkronizasyonu)
+
+### 🚀 Railway Re-deployment & Tam Bağımsız Yapılandırma (`railway.json`, `Procfile`, `mise.toml`)
+- **Sıfırdan Canlıya Alma Hazırlığı:** Railway platformunda sıfırlanan `dijital-ustabasi` projesi için alt dizin ve bağımsız repozitör canlıya alma yapılandırmaları tam uyumlu hale getirildi.
+- **Port ve Başlatma Komutu Senkronizasyonu:** `uvicorn main:app --host 0.0.0.0 --port $PORT` başlatma komutu, `mise.toml` imza koruması (`python.github_attestations = false`) ve Python 3.11.9 sürüm sabitlemesi doğrulandı.
+- **Çift Yönlü Git Senkronizasyonu:** `mrtgurpinar-ops/dijital-ustabasi` bağımsız reposu ve `antigravity_core` ana reposu ile canlıya alma push işlemi sağlandı.
+
+---
+
 ## [v1.0.7] - 2026-07-27 (Railway Monorepo Çakışma Düzeltmesi & Bağımsız Yapılandırma)
 
 ### 🛠️ Railway Deployment & Nixpacks Çakışma Çözümü (`railway.json`, `projects/dijital_ustabasi/railway.json`)
