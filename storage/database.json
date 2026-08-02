@@ -69,7 +69,7 @@
             "is_active": true,
             "is_admin": false,
             "created_at": "2026-08-02T18:59:25.897650Z",
-            "expires_at": "2026-08-09T18:59:26.036830Z",
+            "expires_at": "2026-08-09T19:12:25.273351Z",
             "upgrade_request": null
         },
         "5553330003": {
@@ -116,8 +116,8 @@
             "package": "kalfa",
             "is_active": true,
             "is_admin": false,
-            "created_at": "2026-07-25T18:59:26.972450Z",
-            "expires_at": "2026-09-01T18:59:26.972450Z",
+            "created_at": "2026-07-25T19:12:26.250342Z",
+            "expires_at": "2026-09-01T19:12:26.250342Z",
             "upgrade_request": null
         }
     },
@@ -816,7 +816,49 @@
             "status": "beklemede"
         },
         {
-            "quote_id": "Q-20260802185926938",
+            "quote_id": "Q-20260802185927779",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_16560503.pdf",
+            "created_at": "2026-08-02T18:59:27.780258",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260802190219310",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_986a11b7.pdf",
+            "created_at": "2026-08-02T19:02:19.311831",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260802191226212",
             "phone_number": "5554443322",
             "plaka": "34LIMIT01",
             "vehicle": "Fiat Egea",
@@ -830,14 +872,14 @@
             "vat": 400.0,
             "total_price": 2400.0,
             "discount_price": 2160.0,
-            "pdf_filename": "teklif_34LIMIT01_5554443322_dbfb2830.pdf",
-            "created_at": "2026-08-02T18:59:26.939930",
+            "pdf_filename": "teklif_34LIMIT01_5554443322_4ac93630.pdf",
+            "created_at": "2026-08-02T19:12:26.214967",
             "validity_days": 7,
             "usta_note": "",
             "status": "beklemede"
         },
         {
-            "quote_id": "Q-20260802185927779",
+            "quote_id": "Q-20260802191227010",
             "phone_number": "5551112233",
             "plaka": "34ABC999",
             "vehicle": "Renault Clio",
@@ -851,14 +893,14 @@
             "vat": 300.0,
             "total_price": 1800.0,
             "discount_price": 1620.0,
-            "pdf_filename": "teklif_34ABC999_5551112233_16560503.pdf",
-            "created_at": "2026-08-02T18:59:27.780258",
+            "pdf_filename": "teklif_34ABC999_5551112233_db11c96b.pdf",
+            "created_at": "2026-08-02T19:12:27.011380",
             "validity_days": 7,
             "usta_note": "",
             "status": "beklemede"
         },
         {
-            "quote_id": "Q-20260802185927779",
+            "quote_id": "Q-20260802191227010",
             "phone_number": "5551112233",
             "plaka": "34ABC999",
             "vehicle": "Renault Clio",
@@ -872,8 +914,8 @@
             "vat": 300.0,
             "total_price": 1800.0,
             "discount_price": 1620.0,
-            "pdf_filename": "teklif_34ABC999_5551112233_16560503.pdf",
-            "created_at": "2026-08-02T18:59:27.780258",
+            "pdf_filename": "teklif_34ABC999_5551112233_db11c96b.pdf",
+            "created_at": "2026-08-02T19:12:27.011380",
             "validity_days": 7,
             "usta_note": "",
             "status": "beklemede"

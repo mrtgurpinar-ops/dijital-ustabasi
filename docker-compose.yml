@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: dijital_ustabasi_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ustabasi
+      POSTGRES_PASSWORD: ustabasi_secret_password_2026
+      POSTGRES_DB: dijital_ustabasi_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer:latest
+    container_name: dijital_ustabasi_adminer
+    restart: always
+    ports:
+      - "8081:8080"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:

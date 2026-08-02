@@ -13,7 +13,12 @@ if raw_db_url:
     if raw_db_url.startswith("postgres://"):
         raw_db_url = raw_db_url.replace("postgres://", "postgresql://", 1)
     DATABASE_URL = raw_db_url
-    engine = create_engine(DATABASE_URL, pool_size=10, max_overflow=20, pool_pre_ping=True)
+    try:
+        engine = create_engine(DATABASE_URL, pool_size=10, max_overflow=20, pool_pre_ping=True)
+    except Exception as e:
+        print("[Database Engine Warning] Failed with default driver, attempting pg8000 fallback:", e)
+        pg8000_url = raw_db_url.replace("postgresql://", "postgresql+pg8000://", 1)
+        engine = create_engine(pg8000_url, pool_size=10, max_overflow=20, pool_pre_ping=True)
 else:
     db_path = os.path.join(STORAGE_DIR, "database.db")
     DATABASE_URL = f"sqlite:///{db_path}"

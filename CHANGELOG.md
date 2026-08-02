@@ -2,6 +2,22 @@
 
 Projedeki tüm majör revizyonlar, güvenlik güncellemeleri me yeni özellikler bu dosyada SemVer prensiplerine uygun olarak kayıt altına alınmaktadır.
 
+## [v1.2.2] - 2026-08-02 (PostgreSQL Docker Compose & Temiz Şema Yapılandırması)
+
+### 🐘 Yerel ve Canlı PostgreSQL Şema Altyapısı (`docker-compose.yml`, `requirements.txt`, `database.py`)
+- **Yerel PostgreSQL & Adminer Masası (`docker-compose.yml`):** PostgreSQL 16 veritabanı motoru (`localhost:5432`) ve Adminer Web veritabanı paneli (`http://localhost:8081`) eklendi.
+- **Eski Test Verileri Temizliği:** Eski test verileri taşınmayacak şekilde temiz şema yapılandırıldı. 5 hazır rol hesabı (`👑 Admin`, `⏳ Deneme`, `⭐️ Usta`, `🛠️ Kalfa`, `👶 Çırak`) doğrudan veritabanında başlatıldı.
+
+---
+
+## [v1.2.1] - 2026-08-02 (PostgreSQL psycopg2-binary ve pg8000 Sürücülerinin Eklenmesi)
+
+### 🗄️ PostgreSQL Sürücü Entegrasyonu (`requirements.txt`, `database.py`)
+- **PostgreSQL Sürücüleri (`requirements.txt`):** Python ve SQLAlchemy'nin PostgreSQL sunucularıyla haberleşmesini sağlayan `psycopg2-binary>=2.9.9` ve `pg8000>=1.30.5` bağımlılıkları eklendi.
+- **Otomatik Sürücü Çözümleme (`database.py`):** `DATABASE_URL` okunduğunda varsayılan PostgreSQL sürücüsüne ek olarak `pg8000` yedekli bağlantı katmanı entegre edildi.
+
+---
+
 ## [v1.2.0] - 2026-08-02 (5 Katmanlı Rol Yapısı & Araç Parkı CRM Mimarisi)
 
 ### 👥 5 Katmanlı Rol Mimarisi (`cloud_storage.py`, `main.py`, `templates/index.html`)
