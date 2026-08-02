@@ -203,8 +203,12 @@ class TestFastAPIIntegration(unittest.TestCase):
         self.assertEqual(res_valid.status_code, 200)
 
     def test_simulate_text_endpoint(self):
+        phone_raw = "5551112233"
+        self.storage.delete_shop(phone_raw)
+        self.storage.create_shop(phone_raw, name="Fresh Simulate Shop")
+        
         payload = {
-            "phone_number": "5551112233",
+            "phone_number": phone_raw,
             "text": "34 ABC 999 Renault Clio yağ değişimi 1500 TL"
         }
         res = self.client.post("/api/simulate/text", json=payload)
@@ -297,6 +301,25 @@ class TestFastAPIIntegration(unittest.TestCase):
         data_sim = res_sim.json()
         self.assertTrue(data_sim.get("success"))
         self.assertIn("whatsapp_message", data_sim)
+
+    def test_iso_date_expiration_check_with_trailing_z(self):
+        # Create a shop with an expired date string containing trailing 'Z'
+        past_expired_iso = (datetime.now() - timedelta(days=2)).isoformat() + "Z"
+        self.storage.create_shop("+905553332211", name="Expired Test Shop")
+        self.storage.update_shop_expiration("+905553332211", past_expired_iso)
+        
+        # Verify that check_shop_access correctly parses trailing Z and enforces 403 Forbidden
+        res = self.client.get("/api/quotes?phone_number=5553332211")
+        self.assertEqual(res.status_code, 403)
+        self.assertIn("Paket / deneme süreniz sona ermiştir", res.json().get("detail", ""))
+
+    def test_devops_health_check_endpoint(self):
+        res = self.client.get("/healthz")
+        self.assertEqual(res.status_code, 200)
+        data = res.json()
+        self.assertEqual(data.get("status"), "healthy")
+        self.assertEqual(data.get("app_name"), "Dijital Ustabaşı")
+        self.assertIn("version", data)
 
 if __name__ == '__main__':
     unittest.main()

@@ -58,13 +58,15 @@ def migrate_json_data(storage_dir=None, target_engine=None):
                 created_at = None
                 if shop_data.get("created_at"):
                     try:
-                        created_at = datetime.fromisoformat(shop_data["created_at"])
+                        clean_created = str(shop_data["created_at"]).replace("Z", "").replace("+00:00", "")
+                        created_at = datetime.fromisoformat(clean_created)
                     except Exception:
                         pass
                 expires_at = None
                 if shop_data.get("expires_at"):
                     try:
-                        expires_at = datetime.fromisoformat(shop_data["expires_at"])
+                        clean_expires = str(shop_data["expires_at"]).replace("Z", "").replace("+00:00", "")
+                        expires_at = datetime.fromisoformat(clean_expires)
                     except Exception:
                         pass
 

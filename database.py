@@ -29,6 +29,7 @@ if not raw_db_url and os.getenv("PORT"):
         "postgresql://postgres:EdpOWYqFAQtrctPobiItATrMDlMhkojy@127.0.0.1:5432/railway",
     ]
     for cand in internal_candidates:
+        temp_eng = None
         try:
             temp_eng = create_engine(cand, pool_pre_ping=True)
             with temp_eng.connect() as conn:
@@ -37,6 +38,12 @@ if not raw_db_url and os.getenv("PORT"):
                 break
         except Exception:
             pass
+        finally:
+            if temp_eng:
+                try:
+                    temp_eng.dispose()
+                except Exception:
+                    pass
 
 if raw_db_url:
     if raw_db_url.startswith("postgres://"):

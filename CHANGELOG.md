@@ -2,6 +2,30 @@
 
 Projedeki tüm majör revizyonlar, güvenlik güncellemeleri me yeni özellikler bu dosyada SemVer prensiplerine uygun olarak kayıt altına alınmaktadır.
 
+## [v1.15.0] - 2026-08-03 (Mühendislik & Ürün Ekibi Mimari Sadeleştirmesi, Core Config & DevOps Health Check)
+
+### 🏛️ Modüler Mimari me Core Konfigürasyon (`core/config.py`, `main.py`)
+- **`core/config.py`:** Merkezi dinamik versiyon çözümleme me proje konfigürasyonu entegre edildi.
+- **`GET /healthz`:** DevOps ve Sistem İzleme Sağlık Kontrolü uç noktası eklendi. Veritabanı canlılığı, motor türü, versiyon ve sunucu zamanını raporlayan entegrasyon canlıya alındı.
+
+### 🧪 Bütünleşik Test Takımı (`test_dijital_ustabasi.py`)
+- `test_devops_health_check_endpoint` testi eklendi, 18/18 testin tamamı başarıyla yeşil geçti.
+
+---
+
+## [v1.14.1] - 2026-08-03 (Adli Kod İncelemesi Düzeltmeleri, ISO Tarih Parsing Koruması & Connection Leak Önleme)
+
+### 🐞 Kök Neden Düzeltmesi: ISO Tarih "Z" Eki Koruması (`main.py`, `migrate_json_to_postgres.py`)
+- **Tarih Parsing Koruması:** `ShopModel.to_dict()` çıktısında yer alan sondaki `"Z"` eki me zaman dilimi dizesi temizliği (`clean_expires = expires_at_str.replace("Z", "").replace("+00:00", "")`) eklenerek Python 3.10 me öncesinde `check_shop_access` deneme/paket süresi denetiminin sessizce iptal olması sorunu %100 çözüldü.
+
+### 🔌 Otomatik Keşifte Bağlantı Sızıntısı Koruması (`database.py`)
+- **`temp_eng.dispose()`:** PostgreSQL ağ otomatik keşif sınama bloğunda sınama tamamlandıktan sonra geçici engine nesneleri için `dispose()` çağrısı eklenerek bağlantı sızıntısı riski ortadan kaldırıldı.
+
+### 🧪 Bütünleşik Test Takımı (`test_dijital_ustabasi.py`)
+- `test_iso_date_expiration_check_with_trailing_z` birim testi eklendi, 17/17 testin tamamı başarıyla geçti.
+
+---
+
 ## [v1.14.0] - 2026-08-02 (Proje Yeniden Yapılandırma, Saf ORM Mimarisi & Meta WhatsApp Cloud API Entegrasyonu)
 
 ### 🗄️ Veri Mimarisi & Saf SQLAlchemy ORM Katmanı (`cloud_storage.py`, `database.py`)

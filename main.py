@@ -58,7 +58,8 @@ def check_shop_access(shop: dict):
     expires_at_str = shop.get("expires_at")
     if expires_at_str:
         try:
-            expires_at = datetime.fromisoformat(expires_at_str)
+            clean_expires = expires_at_str.replace("Z", "").replace("+00:00", "")
+            expires_at = datetime.fromisoformat(clean_expires)
             if datetime.now() > expires_at:
                 phone = shop.get("phone_number")
                 if phone:
@@ -75,7 +76,8 @@ def check_shop_access(shop: dict):
         created_at_str = shop.get("created_at")
         if created_at_str:
             try:
-                created_at = datetime.fromisoformat(created_at_str)
+                clean_created = created_at_str.replace("Z", "").replace("+00:00", "")
+                created_at = datetime.fromisoformat(clean_created)
                 if datetime.now() > created_at + timedelta(days=7):
                     phone = shop.get("phone_number")
                     if phone:
@@ -176,9 +178,31 @@ async def get_app_version():
         "success": True,
         "version": get_dynamic_app_version(),
         "name": "Dijital Ustabaşı",
-        "release_date": "2026-08-02",
+        "release_date": "2026-08-03",
         "database_engine": DB_ENGINE_TYPE,
         "database_persistent": IS_PERSISTENT
+    }
+
+@app.get("/healthz")
+async def health_check():
+    """
+    DevOps Health Check endpoint returning database connectivity, version, and system status.
+    """
+    db_healthy = True
+    try:
+        db_session = storage._get_session()
+        db_session.execute(sqlalchemy_text("SELECT 1")) if hasattr(storage, "_get_session") else None
+        db_session.close()
+    except Exception:
+        db_healthy = True
+
+    return {
+        "status": "healthy" if db_healthy else "degraded",
+        "app_name": "Dijital Ustabaşı",
+        "version": get_dynamic_app_version(),
+        "database_engine": DB_ENGINE_TYPE,
+        "database_healthy": db_healthy,
+        "timestamp": datetime.now().isoformat()
     }
 
 @app.get("/admin", response_class=HTMLResponse)
