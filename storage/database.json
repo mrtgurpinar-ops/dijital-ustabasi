@@ -116,8 +116,8 @@
             "package": "kalfa",
             "is_active": true,
             "is_admin": false,
-            "created_at": "2026-07-25T23:13:16.803448Z",
-            "expires_at": "2026-09-01T23:13:16.803448Z",
+            "created_at": "2026-07-25T23:18:58.798625Z",
+            "expires_at": "2026-09-01T23:18:58.798625Z",
             "upgrade_request": null
         }
     },
@@ -1404,7 +1404,28 @@
             "status": "beklemede"
         },
         {
-            "quote_id": "Q-20260802231316772",
+            "quote_id": "Q-20260802231321315",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_d738da8a.pdf",
+            "created_at": "2026-08-02T23:13:21.317338",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260802231858765",
             "phone_number": "5554443322",
             "plaka": "34LIMIT01",
             "vehicle": "Fiat Egea",
@@ -1418,14 +1439,14 @@
             "vat": 400.0,
             "total_price": 2400.0,
             "discount_price": 2160.0,
-            "pdf_filename": "teklif_34LIMIT01_5554443322_442e76aa.pdf",
-            "created_at": "2026-08-02T23:13:16.773303",
+            "pdf_filename": "teklif_34LIMIT01_5554443322_70f0ff92.pdf",
+            "created_at": "2026-08-02T23:18:58.766632",
             "validity_days": 7,
             "usta_note": "",
             "status": "beklemede"
         },
         {
-            "quote_id": "Q-20260802231321315",
+            "quote_id": "Q-20260802231902768",
             "phone_number": "5551112233",
             "plaka": "34ABC999",
             "vehicle": "Renault Clio",
@@ -1439,14 +1460,14 @@
             "vat": 300.0,
             "total_price": 1800.0,
             "discount_price": 1620.0,
-            "pdf_filename": "teklif_34ABC999_5551112233_d738da8a.pdf",
-            "created_at": "2026-08-02T23:13:21.317338",
+            "pdf_filename": "teklif_34ABC999_5551112233_864d702f.pdf",
+            "created_at": "2026-08-02T23:19:02.768994",
             "validity_days": 7,
             "usta_note": "",
             "status": "beklemede"
         },
         {
-            "quote_id": "Q-20260802231321315",
+            "quote_id": "Q-20260802231902768",
             "phone_number": "5551112233",
             "plaka": "34ABC999",
             "vehicle": "Renault Clio",
@@ -1460,8 +1481,8 @@
             "vat": 300.0,
             "total_price": 1800.0,
             "discount_price": 1620.0,
-            "pdf_filename": "teklif_34ABC999_5551112233_d738da8a.pdf",
-            "created_at": "2026-08-02T23:13:21.317338",
+            "pdf_filename": "teklif_34ABC999_5551112233_864d702f.pdf",
+            "created_at": "2026-08-02T23:19:02.768994",
             "validity_days": 7,
             "usta_note": "",
             "status": "beklemede"

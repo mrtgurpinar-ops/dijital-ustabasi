@@ -22,6 +22,23 @@ if not raw_db_url:
     if pghost and pgpass:
         raw_db_url = f"postgresql://{pguser}:{pgpass}@{pghost}:{pgport}/{pgdb}"
 
+if not raw_db_url and os.getenv("PORT"):
+    internal_candidates = [
+        "postgresql://postgres:postgres@postgres.railway.internal:5432/railway",
+        "postgresql://postgres:postgres@Postgres.railway.internal:5432/railway",
+        "postgresql://postgres@postgres.railway.internal:5432/railway",
+        "postgresql://postgres@Postgres.railway.internal:5432/railway",
+    ]
+    for cand in internal_candidates:
+        try:
+            temp_eng = create_engine(cand, pool_pre_ping=True)
+            with temp_eng.connect() as conn:
+                raw_db_url = cand
+                print(f"[Railway Network Auto-Discovery] Connected to PostgreSQL via private DNS: {cand}")
+                break
+        except Exception:
+            pass
+
 if raw_db_url:
     # Railway postgres URL fix (postgres:// -> postgresql://)
     if raw_db_url.startswith("postgres://"):
