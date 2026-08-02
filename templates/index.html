@@ -1207,6 +1207,7 @@
             const discount = (typeof targetQuote.discount_price === 'number') ? targetQuote.discount_price.toLocaleString('tr-TR') : targetQuote.discount_price;
             const pdfFilename = targetQuote.pdf_filename || '';
             const pdfUrl = `${window.location.origin}/api/download/${pdfFilename}`;
+            const approvalUrl = `${window.location.origin}/onay?id=${encodeURIComponent(quoteId)}`;
 
             const shopName = (activeShopData && activeShopData.name) ? activeShopData.name : "DİJİTAL USTABAŞI OTO SERVİS";
 
@@ -1224,6 +1225,7 @@
 
             msg += `💰 *Toplam Tutar:* ${total} TL\n`;
             msg += `🏷️ *Nakit İndirimli Tutar:* ${discount} TL\n\n`;
+            msg += `👉 *Teklifi İncelemek & Onaylamak İçin Tıklayın:*\n${approvalUrl}\n\n`;
             msg += `📄 *Kurumsal PDF Teklifi İndir:* ${pdfUrl}\n\n`;
             msg += `Hayırlı günler dileriz!`;
 
@@ -1541,28 +1543,6 @@
                 mediaRecorder.stop();
             }
         }
-
-        function stopRecordingAndGenerateDirectly() {
-            pendingVoiceAction = "generate";
-            if (mediaRecorder && mediaRecorder.state === "recording") {
-                mediaRecorder.stop();
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            const chatMessageInput = document.getElementById("chatMessage");
-            if (chatMessageInput) {
-                chatMessageInput.addEventListener("keypress", (e) => {
-                    if (e.key === "Enter") {
-                        e.preventDefault();
-                        sendDirectTextMessage();
-                    }
-                });
-                chatMessageInput.addEventListener("input", (e) => {
-                    checkLicensePlateHistory(e.target.value);
-                });
-            }
-        });
 
         async function toggleVoiceRecord() {
             if (mediaRecorder && mediaRecorder.state === "recording") {

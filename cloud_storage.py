@@ -413,6 +413,14 @@ class CloudStorage:
         finally:
             db_session.close()
 
+    def get_quote_by_id(self, quote_id):
+        db_session = self._get_session()
+        try:
+            quote_orm = db_session.query(QuoteModel).filter(QuoteModel.quote_id == quote_id).first()
+            return quote_orm.to_dict() if quote_orm else None
+        finally:
+            db_session.close()
+
     def get_quotes(self, phone_number=None):
         db_session = self._get_session()
         try:

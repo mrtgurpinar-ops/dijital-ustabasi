@@ -143,12 +143,20 @@ def transcribe_audio_gemini(audio_file_path: str, model_name: str, api_key: str)
 # Global flag to track Whisper availability
 IS_WHISPER_AVAILABLE = True
 
+GEMINI_MODEL_CASCADE = [
+    "gemini-3.6-flash",
+    "gemini-3.5-flash",
+    "gemini-3.1-flash-lite",
+    "gemini-2.5-flash",
+    "gemini-2.0-flash",
+    "gemini-1.5-flash"
+]
+
 def transcribe_audio(audio_file_path: str) -> str:
     """
     Transcribes the given audio file using a cascading fallback approach:
     1. OpenAI Whisper (whisper-1) - if OpenAI API key is present and Whisper is active
-    2. Google Gemini 3.5 Flash (gemini-3.5-flash) - if Gemini API key is present
-    3. Google Gemini 3.1 Flash Lite (gemini-3.1-flash-lite) - if Gemini API key is present
+    2. Google Gemini Models Cascade (3.6, 3.5, 3.1, 2.5, 2.0, 1.5) - if Gemini API key is present
     """
     global IS_WHISPER_AVAILABLE
     errors = []
@@ -173,15 +181,14 @@ def transcribe_audio(audio_file_path: str) -> str:
         except Exception as e:
             errors.append(f"Whisper Hatası: {str(e)}")
             err_msg = str(e).lower()
-            # If rate limit or quota exceeded, temporarily disable Whisper to speed up subsequent requests
             if "insufficient_quota" in err_msg or "rate limit" in err_msg or "429" in err_msg or "401" in err_msg:
                 print(f"[Warning] Whisper permanent error caught ({str(e)}). Bypassing Whisper for subsequent requests to speed up transcription.")
                 IS_WHISPER_AVAILABLE = False
             
-    # 2. Try Gemini Models
+    # 2. Try Gemini Models Cascade (3.6, 3.5, 3.1, 2.5, 2.0, 1.5)
     gemini_key = get_gemini_api_key()
     if gemini_key:
-        for model in ["gemini-2.0-flash", "gemini-1.5-flash"]:
+        for model in GEMINI_MODEL_CASCADE:
             try:
                 return transcribe_audio_gemini(audio_file_path, model, gemini_key)
             except Exception as e:
@@ -373,76 +380,79 @@ def rule_based_parser(text: str) -> dict:
 
 def parse_repair_text(text: str) -> dict:
     """
-    Parses Turkish repair text into structured JSON using Google AI Studio (Gemini 3.1 Flash Lite).
-    Falls back to rule_based_parser if Gemini is unavailable or fails.
+    Parses Turkish repair text into structured JSON using Google AI Studio (Gemini 3.6 -> 3.5 -> 3.1 -> 2.5 -> 2.0 -> 1.5).
+    Falls back to rule_based_parser if all Gemini models are unavailable or fail.
     """
     api_key = get_gemini_api_key()
     if not api_key:
         print("Gemini API key is not configured. Falling back to offline rule_based_parser.")
         return rule_based_parser(text)
         
-    try:
-        prompt = f"""
-        Aşağıdaki Türkçe oto tamir ses döküm metninden bilgileri ayıkla ve JSON formatında döndür.
-        Metin: "{text}"
-        
-        JSON Şeması:
-        {{
-            "plaka": "varsa plaka numarası (örn: 34ABC123), yoksa 'PLAKASIZ'",
-            "vehicle": "varsa araç marka ve modeli (örn: Fiat Egea, Audi A4), yoksa 'Bilinmeyen Araç'",
-            "items": [
-                {{
-                    "description": "yapılan iş veya parça adı (Türkçe ve düzgün yazımlı, örn: Ön fren balatası değişimi)",
-                    "price": yapılan işin KDV hariç fiyatı (sayısal değer, örn: 1200)
-                }}
-            ],
-            "usta_note": "varsa ustaya özel not veya açıklama (örn: Parçalar orijinal takıldı), yoksa boş string ''"
-        }}
-        
-        Kurallar:
-        - Türkçe sayı kelimelerini sayıya çevir (örn: 'bin beş yüz' -> 1500, 'iki buçuk' -> 2500, 'yedi buçuk' -> 7500).
-        - Sanayi ağzını düzelt (örn: 'balata değişimi' -> 'Fren Balatası Değişimi').
-        - KDV hesaplama, ham fiyatı yaz.
-        - Yanıt olarak SADECE geçerli bir JSON döndür, açıklama veya markdown bloğu ekleme.
-        """
-        
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key={api_key}"
-        headers = {"Content-Type": "application/json"}
-        request_data = {
-            "contents": [
-                {
-                    "parts": [
-                        {
-                            "text": prompt
-                        }
-                    ]
-                }
-            ],
-            "generationConfig": {
-                "responseMimeType": "application/json"
+    prompt = f"""
+    Aşağıdaki Türkçe oto tamir ses döküm metninden bilgileri ayıkla ve JSON formatında döndür.
+    Metin: "{text}"
+    
+    JSON Şeması:
+    {{
+        "plaka": "varsa plaka numarası (örn: 34ABC123), yoksa 'PLAKASIZ'",
+        "vehicle": "varsa araç marka ve modeli (örn: Fiat Egea, Audi A4), yoksa 'Bilinmeyen Araç'",
+        "items": [
+            {{
+                "description": "yapılan iş veya parça adı (Türkçe ve düzgün yazımlı, örn: Ön fren balatası değişimi)",
+                "price": yapılan işin KDV hariç fiyatı (sayısal değer, örn: 1200)
+            }}
+        ],
+        "usta_note": "varsa ustaya özel not veya açıklama (örn: Parçalar orijinal takıldı), yoksa boş string ''"
+    }}
+    
+    Kurallar:
+    - Türkçe sayı kelimelerini sayıya çevir (örn: 'bin beş yüz' -> 1500, 'iki buçuk' -> 2500, 'yedi buçuk' -> 7500).
+    - Sanayi ağzını düzelt (örn: 'balata değişimi' -> 'Fren Balatası Değişimi').
+    - KDV hesaplama, ham fiyatı yaz.
+    - Yanıt olarak SADECE geçerli bir JSON döndür, açıklama veya markdown bloğu ekleme.
+    """
+
+    headers = {"Content-Type": "application/json"}
+    request_data = {
+        "contents": [
+            {
+                "parts": [
+                    {
+                        "text": prompt
+                    }
+                ]
             }
+        ],
+        "generationConfig": {
+            "responseMimeType": "application/json"
         }
-        
-        req = urllib.request.Request(
-            url, 
-            data=json.dumps(request_data).encode("utf-8"), 
-            headers=headers, 
-            method="POST"
-        )
-        with urllib.request.urlopen(req, timeout=15) as response:
-            res_body = response.read().decode("utf-8")
-            res_json = json.loads(res_body)
-            candidates = res_json.get("candidates", [])
-            if candidates:
-                parts = candidates[0].get("content", {}).get("parts", [])
-                if parts:
-                    result_text = parts[0].get("text", "").strip()
-                    if result_text.startswith("```"):
-                        result_text = re.sub(r"^```(?:json)?\n|```$", "", result_text, flags=re.MULTILINE).strip()
-                    return json.loads(result_text)
-            raise ValueError("Gemini API boş veya geçersiz yanıt döndürdü.")
-            
-    except Exception as e:
-        print(f"Gemini API parse hatası: {str(e)}. Çevrimdışı kurallı ayrıştırıcıya geçiliyor...")
-        return rule_based_parser(text)
+    }
+    
+    for model in GEMINI_MODEL_CASCADE:
+        try:
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
+            req = urllib.request.Request(
+                url, 
+                data=json.dumps(request_data).encode("utf-8"), 
+                headers=headers, 
+                method="POST"
+            )
+            with urllib.request.urlopen(req, timeout=12) as response:
+                res_body = response.read().decode("utf-8")
+                res_json = json.loads(res_body)
+                candidates = res_json.get("candidates", [])
+                if candidates:
+                    parts = candidates[0].get("content", {}).get("parts", [])
+                    if parts:
+                        result_text = parts[0].get("text", "").strip()
+                        if result_text.startswith("```"):
+                            result_text = re.sub(r"^```(?:json)?\n|```$", "", result_text, flags=re.MULTILINE).strip()
+                        parsed = json.loads(result_text)
+                        if parsed and (parsed.get("items") or parsed.get("plaka")):
+                            return parsed
+        except Exception as e:
+            print(f"Gemini model {model} parse error: {str(e)}. Trying next model in cascade...")
+
+    print("All Gemini models failed or returned empty. Falling back to offline rule_based_parser.")
+    return rule_based_parser(text)
 

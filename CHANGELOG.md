@@ -2,6 +2,21 @@
 
 Projedeki tüm majör revizyonlar, güvenlik güncellemeleri me yeni özellikler bu dosyada SemVer prensiplerine uygun olarak kayıt altına alınmaktadır.
 
+## [v1.12.1] - 2026-08-02 (Gemini 3.6/3.5/3.1 Kademeli Ses Mimarisi, Canlı Müşteri WhatsApp Onay Linki & Ses Koruma)
+
+### 🤖 Gemini 3.6 / 3.5 / 3.1 Çoklu Model Kademesi (`parser.py`)
+- **`GEMINI_MODEL_CASCADE`:** Sesli me yazılı teklif ayrıştırmada sırasıyla `gemini-3.6-flash`, `gemini-3.5-flash`, `gemini-3.1-flash-lite`, `gemini-2.5-flash`, `gemini-2.0-flash` ve `gemini-1.5-flash` modellerini içeren kademeli akış entegre edildi. Herhangi bir model erişilemez olduğunda sistem mikro saniyeler içinde bir sonraki modele geçmektedir.
+
+### 📱 Canlı Müşteri WhatsApp Teklif Onay Linki (`templates/approval.html`, `main.py`, `templates/index.html`)
+- **📱 Müşteri Telefonunda Tek Tık Onay:** WhatsApp üzerinden müşteriye iletilen teklif mesajına canlı onay URL'si (`/onay?id=xyz`) eklendi.
+- **✅ TEKLİFİ ONAYLAYIN / ❌ REDDET:** Müşteri telefonda teklif detayını ve PDF'ini inceleyip tek tıkla onay/ret verebilir, kararı ustanın dükkan ekranına anında yansır.
+
+### 🎙️ Web Speech API & Sanayi Gürültü Süzgeci (`templates/index.html`)
+- **⚡ Anında Türkçe Ses Tanıma:** Ön yüze tarayıcı yerel Türkçe ses tanıma motoru (`webkitSpeechRecognition`) entegre edildi. Usta mikrofona konuştuğunda kelimeler canlı olarak metin kutusuna dökülür ve kesintisiz teklif üretilir.
+- **🛡️ Ses Hata Koruması:** Mikrofondan ses alınamadığında veya anlaşılmadığında kilitlenme engellenerek ikaz uyarısı gösterilmesi sağlandı.
+
+---
+
 ## [v1.12.0] - 2026-08-02 (UI/UX ve Sanayi Ustası Önerilerinin Entegrasyonu & WhatsApp Paylaşım)
 
 ### 💬 Tek Tıkla WhatsApp İle Müşteriye Teklif Gönderimi (`templates/index.html`)

@@ -126,6 +126,41 @@ async def get_index(request: Request):
 async def get_admin(request: Request):
     return templates.TemplateResponse(request=request, name="admin.html")
 
+@app.get("/onay", response_class=HTMLResponse)
+async def get_approval_page(request: Request):
+    return templates.TemplateResponse(request=request, name="approval.html")
+
+@app.get("/api/quote/public_info")
+async def get_public_quote_info(quote_id: str):
+    if not quote_id:
+        raise HTTPException(status_code=400, detail="Quote ID gereklidir")
+    quote = storage.get_quote_by_id(quote_id)
+    if not quote:
+        raise HTTPException(status_code=440, detail="Teklif bulunamadı")
+    shop = storage.get_shop(quote.get("phone_number")) or {}
+    return {
+        "success": True,
+        "quote": quote,
+        "shop": {
+            "name": shop.get("name") or "Oto Servis",
+            "phone_number": shop.get("phone_number") or "",
+            "logo_url": shop.get("logo_url") or ""
+        }
+    }
+
+class PublicStatusRequest(BaseModel):
+    quote_id: str
+    status: str
+
+@app.post("/api/quote/public_status")
+async def update_public_quote_status(req: PublicStatusRequest):
+    if req.status not in ["onaylandi", "ret"]:
+        raise HTTPException(status_code=400, detail="Geçersiz durum bilgisi")
+    updated = storage.update_quote_status(req.quote_id, req.status)
+    if not updated:
+        raise HTTPException(status_code=404, detail="Teklif bulunamadı")
+    return {"success": True, "quote": updated}
+
 @app.post("/api/simulate/text")
 async def simulate_text(req: SimulateTextRequest):
     phone_number = normalize_phone(req.phone_number.strip())
