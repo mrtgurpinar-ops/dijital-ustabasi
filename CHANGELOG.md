@@ -4,12 +4,14 @@ Projedeki tüm majör revizyonlar, güvenlik güncellemeleri me yeni özellikler
 
 ## [v1.0.9] - 2026-08-02 (Railway Kök Neden Düzeltmesi & Çift Dockerfile Mimarisi)
 
-### 🚀 Railway 5 Maddelik Kök Neden Çözümü (`Dockerfile`, `nixpacks.toml`, `main.py`)
+### 🚀 Railway 6 Maddelik Kök Neden Çözümü (`Dockerfile`, `nixpacks.toml`, `main.py`, `railway.json`)
+- **`$PORT` String Parse Çakışma Çözümü (GÜNCELLEME):** Railway derleme loglarında tespit edilen `Error: Invalid value for '--port': '$PORT' is not a valid integer` hatası giderildi. Komutlar `python main.py` olarak değiştirilip `main.py` sonuna `if __name__ == '__main__':` bloğu eklendi. `$PORT` doğrudan Python `os.environ.get("PORT")` tarafından tam sayı (`int`) olarak okunması garanti edildi.
 - **`package.json` vs Nixpacks Çakışma Çözümü:** Projedeki Capacitor `package.json` dosyasından ötürü Nixpacks'in projeyi Node.js sanması engellendi; `nixpacks.toml` ile `providers = ["python"]` zorunlu kılındı.
 - **FastAPI Mount Çökme Engeli:** `main.py` içinde `app.mount("/data", StaticFiles(directory=STORAGE_DIR))` öncesine `os.makedirs(STORAGE_DIR, exist_ok=True)` eklenerek taze konteyner çökmesi %100 önlendi.
 - **Monorepo `sys.path` Çözümü:** `MONOREPO_ROOT` `sys.path`'e eklenerek `antigravity_core` dizininden başlatmada `ModuleNotFoundError` çözüldü.
-- **Çift Dockerfile Mimarisi:** Hem monorepo root hem sub-repo root için `Dockerfile` oluşturuldu.
+- **Çift Dockerfile Mimarisi:** Hem monorepo root hem sub-repo root için `Dockerfile` ve `Procfile` `python main.py` ile güncellendi.
 - **Railway API Token Entegrasyonu:** Token (`204d293c-dfb4-4988-8492-aa6a206db8fc`) ve canlı domain (`dijital-ustabasi-production-7fe5.up.railway.app`) `railway_api.py` betiğine bağlandı.
+
 
 ---
 
