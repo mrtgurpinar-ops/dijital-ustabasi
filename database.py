@@ -13,6 +13,8 @@ if raw_db_url:
     if raw_db_url.startswith("postgres://"):
         raw_db_url = raw_db_url.replace("postgres://", "postgresql://", 1)
     DATABASE_URL = raw_db_url
+    DB_ENGINE_TYPE = "PostgreSQL"
+    IS_PERSISTENT = True
     try:
         engine = create_engine(DATABASE_URL, pool_size=10, max_overflow=20, pool_pre_ping=True)
     except Exception as e:
@@ -22,6 +24,8 @@ if raw_db_url:
 else:
     db_path = os.path.join(STORAGE_DIR, "database.db")
     DATABASE_URL = f"sqlite:///{db_path}"
+    DB_ENGINE_TYPE = "SQLite (Uyarı: Railway DATABASE_URL Değişkeni Bağlanmamış)"
+    IS_PERSISTENT = False
     engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

@@ -150,13 +150,20 @@ def get_dynamic_app_version() -> str:
 
     return "1.12.1"
 
+try:
+    from projects.dijital_ustabasi.database import DB_ENGINE_TYPE, IS_PERSISTENT
+except ModuleNotFoundError:
+    from database import DB_ENGINE_TYPE, IS_PERSISTENT
+
 @app.get("/api/version")
 async def get_app_version():
     return {
         "success": True,
         "version": get_dynamic_app_version(),
         "name": "Dijital Ustabaşı",
-        "release_date": "2026-08-02"
+        "release_date": "2026-08-02",
+        "database_engine": DB_ENGINE_TYPE,
+        "database_persistent": IS_PERSISTENT
     }
 
 @app.get("/admin", response_class=HTMLResponse)
