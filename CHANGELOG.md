@@ -2,6 +2,14 @@
 
 Projedeki tüm majör revizyonlar, güvenlik güncellemeleri me yeni özellikler bu dosyada SemVer prensiplerine uygun olarak kayıt altına alınmaktadır.
 
+## [v1.4.1] - 2026-08-02 (Demo Test Butonlarının ve Geçici Hesapların Kaldırılması)
+
+### 🧹 Kurumsal Arayüz Temizliği (`templates/index.html`, `cloud_storage.py`)
+- **Giriş Paneli Temizliği (`templates/index.html`):** Geçici test giriş butonları (`quickFillRole` düğmeleri) kaldırıldı. Platform %100 gerçek esnaf kaydı ve kullanıcı girişine odaklandı.
+- **Süper Admin İzolasyonu (`cloud_storage.py`):** Yalnızca Süper Admin hesabı (`05555105635` / `DijitalAdmin2026!`) varsayılan tutuldu, geçici test hesapları temizlendi.
+
+---
+
 ## [v1.4.0] - 2026-08-02 (Oto Lastik & Jant Hizmetleri Entegrasyonu)
 
 ### 🛞 Oto Lastik & Jant Dükkan Desteği (`templates/index.html`)

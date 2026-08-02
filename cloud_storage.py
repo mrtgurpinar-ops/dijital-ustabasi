@@ -90,34 +90,6 @@ class CloudStorage:
                 "name": "👑 Süper Admin Servis",
                 "package": "usta",
                 "expires_at": None
-            },
-            {
-                "phone": "5550000000",
-                "password": "Deneme1234!",
-                "name": "⏳ Deneme Oto Servis",
-                "package": "usta",
-                "expires_at": now + timedelta(days=7)
-            },
-            {
-                "phone": "5553330003",
-                "password": "Usta1234!",
-                "name": "⭐️ Usta Oto Servis",
-                "package": "usta",
-                "expires_at": None
-            },
-            {
-                "phone": "5552220002",
-                "password": "Kalfa1234!",
-                "name": "🛠️ Kalfa Oto Servis",
-                "package": "kalfa",
-                "expires_at": None
-            },
-            {
-                "phone": "5551110001",
-                "password": "Cirak1234!",
-                "name": "👶 Çırak Oto Servis",
-                "package": "cirak",
-                "expires_at": None
             }
         ]
 
