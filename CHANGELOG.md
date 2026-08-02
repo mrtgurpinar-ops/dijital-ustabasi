@@ -2,6 +2,22 @@
 
 Projedeki tüm majör revizyonlar, güvenlik güncellemeleri me yeni özellikler bu dosyada SemVer prensiplerine uygun olarak kayıt altına alınmaktadır.
 
+## [v1.14.0] - 2026-08-02 (Proje Yeniden Yapılandırma, Saf ORM Mimarisi & Meta WhatsApp Cloud API Entegrasyonu)
+
+### 🗄️ Veri Mimarisi & Saf SQLAlchemy ORM Katmanı (`cloud_storage.py`, `database.py`)
+- **Single Source of Truth:** Eski JSON çift yedekleme bağımlılığı temizlendi. PostgreSQL (Production) ve SQLite (Local Dev) saf SQLAlchemy 2.0 ORM katmanı ile projenin ana veri kaynağı yapıldı.
+- **Otomatik Lisans & Paket Aktivasyonu (`update_shop_package`):** Paket güncellendiğinde dükkan hesabı otomatik aktifleştirilecek (`is_active = True`) ve abonelik süresi (30 gün) otomatik tanımlanacak şekilde yenilendi.
+
+### 📱 Meta WhatsApp Business Cloud Webhook & Simülasyon (`main.py`, `whatsapp_bot.py`)
+- **`GET /api/whatsapp/webhook`:** Meta Webhook doğrulama desteği (`hub.mode`, `hub.verify_token`, `hub.challenge`).
+- **`POST /api/whatsapp/webhook`:** Canlı WhatsApp mesaj ve ses kaydı alıp Gemini AI ile deşifre ederek otomatik PDF teklifi ve WhatsApp yanıtı dönen entegrasyon.
+- **`POST /api/whatsapp/simulate`:** Meta API anahtarından bağımsız canlı WhatsApp teklif simülatör uç noktası.
+
+### 🧪 Bütünleşik Test Takımı (`test_dijital_ustabasi.py`)
+- 16/16 birim ve entegrasyon testinin tamamı başarıyla yeşil geçecek şekilde güncellendi.
+
+---
+
 ## [v1.13.1] - 2026-08-02 (Uçtan Uca Sistem Taraması, Atıl Klasör Temizliği & API Endpoint İyileştirmeleri)
 
 ### 🧹 Atıl Klasör me Dosya Temizliği (`projects/dijital_ustabasi/projects`)

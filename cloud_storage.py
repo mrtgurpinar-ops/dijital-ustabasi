@@ -246,7 +246,7 @@ class CloudStorage:
             shop = self.create_shop(phone_number)
         return shop
 
-    def update_shop_package(self, phone_number, package):
+    def update_shop_package(self, phone_number, package, extension_days: int = 30):
         phone_number = normalize_phone(phone_number)
         if package not in ["cirak", "kalfa", "usta"]:
             package = "cirak"
@@ -256,6 +256,12 @@ class CloudStorage:
             shop_orm = db_session.query(ShopModel).filter(ShopModel.phone_number == phone_number).first()
             if shop_orm:
                 shop_orm.package = package
+                shop_orm.is_active = True
+                base_dt = datetime.now()
+                if shop_orm.expires_at and shop_orm.expires_at > base_dt:
+                    base_dt = shop_orm.expires_at
+                shop_orm.expires_at = base_dt + timedelta(days=extension_days)
+                shop_orm.upgrade_request = None
                 db_session.commit()
                 return shop_orm.to_dict()
             return None

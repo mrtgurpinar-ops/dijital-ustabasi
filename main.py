@@ -25,6 +25,21 @@ from cloud_storage import CloudStorage, normalize_phone
 from parser import transcribe_audio, parse_repair_text, get_gemini_api_key
 from pdf_generator import generate_quote_pdf
 
+try:
+    from projects.dijital_ustabasi.whatsapp_bot import (
+        get_whatsapp_verify_token,
+        process_whatsapp_quote_request,
+        download_whatsapp_media,
+        send_whatsapp_message
+    )
+except ModuleNotFoundError:
+    from whatsapp_bot import (
+        get_whatsapp_verify_token,
+        process_whatsapp_quote_request,
+        download_whatsapp_media,
+        send_whatsapp_message
+    )
+
 from dotenv import load_dotenv
 load_dotenv(os.path.join(BASE_DIR, ".env"), override=False)
 
@@ -204,6 +219,72 @@ async def update_public_quote_status(req: PublicStatusRequest):
     if not updated:
         raise HTTPException(status_code=404, detail="Teklif bulunamadı")
     return {"success": True, "quote": updated}
+
+# Meta WhatsApp Cloud API Webhook Endpoints
+@app.get("/api/whatsapp/webhook")
+async def whatsapp_webhook_verification(request: Request):
+    """
+    Meta WhatsApp Cloud API Webhook Verification.
+    Validates hub.verify_token and returns hub.challenge (HTTP 200 OK).
+    """
+    params = request.query_params
+    mode = params.get("hub.mode")
+    token = params.get("hub.verify_token")
+    challenge = params.get("hub.challenge")
+
+    if mode == "subscribe" and token == get_whatsapp_verify_token():
+        return HTMLResponse(content=challenge or "", status_code=200)
+    
+    raise HTTPException(status_code=403, detail="Webhook verify token eşleşmedi.")
+
+@app.post("/api/whatsapp/webhook")
+async def whatsapp_webhook_incoming(request: Request):
+    """
+    Receives incoming WhatsApp text or voice note messages from Meta Cloud API.
+    """
+    try:
+        body = await request.json()
+        domain_host = request.headers.get("host") or "dijital-ustabasi-production.up.railway.app"
+        
+        entries = body.get("entry", [])
+        for entry in entries:
+            changes = entry.get("changes", [])
+            for change in changes:
+                value = change.get("value", {})
+                messages = value.get("messages", [])
+                for msg in messages:
+                    from_phone = msg.get("from", "")
+                    msg_type = msg.get("type", "")
+                    
+                    if msg_type == "text":
+                        text_body = msg.get("text", {}).get("body", "")
+                        process_whatsapp_quote_request(from_phone, message_text=text_body, domain_host=domain_host)
+                    elif msg_type == "audio" or msg_type == "voice":
+                        media_id = msg.get("audio", {}).get("id") or msg.get("voice", {}).get("id")
+                        audio_bytes = download_whatsapp_media(media_id) if media_id else b""
+                        process_whatsapp_quote_request(from_phone, audio_bytes=audio_bytes, domain_host=domain_host)
+
+        return {"status": "ok"}
+    except Exception as e:
+        print("[WhatsApp Webhook Error]", e)
+        return {"status": "error", "detail": str(e)}
+
+class WhatsAppSimulateRequest(BaseModel):
+    phone_number: str
+    message: str = ""
+
+@app.post("/api/whatsapp/simulate")
+async def whatsapp_simulate(req: WhatsAppSimulateRequest, request: Request):
+    """
+    Simulates receiving a WhatsApp quote request without needing Meta API keys.
+    """
+    domain_host = request.headers.get("host") or "dijital-ustabasi-production.up.railway.app"
+    result = process_whatsapp_quote_request(
+        phone_number=req.phone_number,
+        message_text=req.message,
+        domain_host=domain_host
+    )
+    return result
 
 @app.post("/api/simulate/text")
 async def simulate_text(req: SimulateTextRequest):

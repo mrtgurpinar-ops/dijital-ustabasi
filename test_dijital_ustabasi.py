@@ -281,5 +281,22 @@ class TestFastAPIIntegration(unittest.TestCase):
                             stack.pop()
                     self.assertEqual(len(stack), 0, f"Unclosed opening brace '{{' ({len(stack)} remaining) in {filename} script #{i+1}")
 
+    def test_whatsapp_webhook_and_simulate(self):
+        # 1. Verification GET request
+        res_verify = self.client.get("/api/whatsapp/webhook?hub.mode=subscribe&hub.verify_token=ustabasi_verify_secret_2026&hub.challenge=CHALLENGE123")
+        self.assertEqual(res_verify.status_code, 200)
+        self.assertEqual(res_verify.text, "CHALLENGE123")
+
+        # 2. Invalid Verification Token
+        res_fail = self.client.get("/api/whatsapp/webhook?hub.mode=subscribe&hub.verify_token=wrong_token&hub.challenge=CHALLENGE123")
+        self.assertEqual(res_fail.status_code, 403)
+
+        # 3. Simulate WhatsApp Quote Request
+        res_sim = self.client.post("/api/whatsapp/simulate", json={"phone_number": "5559876543", "message": "34 WAPP 99 Fiat Egea balata degisimi 1800 TL"})
+        self.assertEqual(res_sim.status_code, 200)
+        data_sim = res_sim.json()
+        self.assertTrue(data_sim.get("success"))
+        self.assertIn("whatsapp_message", data_sim)
+
 if __name__ == '__main__':
     unittest.main()
