@@ -1,21 +1,29 @@
 {
+  "name": "Dijital Ustabaşı - Oto Servis Platformu",
   "short_name": "Ustabaşı",
-  "name": "Dijital Ustabaşı - Oto Servis Operasyon ve Sesli Teklif Platformu",
+  "description": "Sesli ve Yazılı Oto Tamir Servis Teklif Oluşturucu ve Müşteri Defteri",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#f97316",
+  "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/static/icons/icon-192.png",
+      "src": "/static/icon-192.png",
+      "sizes": "192x192",
       "type": "image/png",
-      "sizes": "192x192"
+      "purpose": "any maskable"
     },
     {
-      "src": "/static/icons/icon-512.png",
+      "src": "/static/icon-512.png",
+      "sizes": "512x512",
       "type": "image/png",
-      "sizes": "512x512"
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/static/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
     }
-  ],
-  "start_url": "/",
-  "background_color": "#09090b",
-  "theme_color": "#f97316",
-  "display": "standalone",
-  "orientation": "portrait"
+  ]
 }
