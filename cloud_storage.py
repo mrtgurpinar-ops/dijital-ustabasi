@@ -35,21 +35,11 @@ class CloudStorage:
         self.pdf_dir = os.path.join(self.storage_dir, "pdfs")
         self.db_path = os.path.join(self.storage_dir, "database.json")
         
-        try:
-            os.makedirs(self.storage_dir, exist_ok=True)
-            os.makedirs(self.pdf_dir, exist_ok=True)
-        except Exception:
-            self.storage_dir = "/tmp/storage"
-            self.pdf_dir = "/tmp/storage/pdfs"
-            self.db_path = os.path.join(self.storage_dir, "database.json")
-            os.makedirs(self.storage_dir, exist_ok=True)
-            os.makedirs(self.pdf_dir, exist_ok=True)
+        os.makedirs(self.storage_dir, exist_ok=True)
+        os.makedirs(self.pdf_dir, exist_ok=True)
         
-        try:
-            if not os.path.exists(self.db_path):
-                self._save_db({"shops": {}, "quotes": []})
-        except Exception:
-            pass
+        if not os.path.exists(self.db_path):
+            self._save_db({"shops": {}, "quotes": []})
 
     def _read_db(self):
         try:

@@ -1,4 +1,5 @@
 import os
+import sys
 import shutil
 import re
 from datetime import datetime, timedelta
@@ -7,16 +8,6 @@ from fastapi.responses import HTMLResponse, FileResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
-from dotenv import load_dotenv
-
-try:
-    from projects.dijital_ustabasi.cloud_storage import CloudStorage, normalize_phone
-    from projects.dijital_ustabasi.parser import transcribe_audio, parse_repair_text, get_gemini_api_key
-    from projects.dijital_ustabasi.pdf_generator import generate_quote_pdf
-except ModuleNotFoundError:
-    from cloud_storage import CloudStorage, normalize_phone
-    from parser import transcribe_audio, parse_repair_text, get_gemini_api_key
-    from pdf_generator import generate_quote_pdf
 
 # Preserve Railway dynamic PORT before loading local .env file
 RAILWAY_DYNAMIC_PORT = os.environ.get("PORT")
@@ -28,6 +19,15 @@ if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 if PARENT_DIR not in sys.path:
     sys.path.insert(0, PARENT_DIR)
+
+try:
+    from projects.dijital_ustabasi.cloud_storage import CloudStorage, normalize_phone
+    from projects.dijital_ustabasi.parser import transcribe_audio, parse_repair_text, get_gemini_api_key
+    from projects.dijital_ustabasi.pdf_generator import generate_quote_pdf
+except ModuleNotFoundError:
+    from cloud_storage import CloudStorage, normalize_phone
+    from parser import transcribe_audio, parse_repair_text, get_gemini_api_key
+    from pdf_generator import generate_quote_pdf
 
 from dotenv import load_dotenv
 load_dotenv(os.path.join(BASE_DIR, ".env"), override=False)
@@ -85,32 +85,22 @@ async def add_no_cache_headers(request: Request, call_next):
     response.headers["Expires"] = "0"
     return response
 
-STATIC_DIR = os.path.normpath(os.path.join(BASE_DIR, "static"))
-TEMPLATES_DIR = os.path.normpath(os.path.join(BASE_DIR, "templates"))
+STATIC_DIR = os.path.join(BASE_DIR, "static")
+TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
 
 env_storage = os.getenv("STORAGE_DIR")
 if env_storage:
     if not os.path.isabs(env_storage):
-        clean_storage = env_storage.replace("\\", "/").replace("projects/dijital_ustabasi/", "")
-        STORAGE_DIR = os.path.abspath(os.path.join(BASE_DIR, clean_storage))
+        if os.path.basename(os.getcwd()) == "dijital_ustabasi" and env_storage.startswith("projects/dijital_ustabasi/"):
+            env_storage = env_storage.replace("projects/dijital_ustabasi/", "")
+        STORAGE_DIR = os.path.abspath(env_storage)
     else:
-        STORAGE_DIR = os.path.normpath(env_storage)
+        STORAGE_DIR = env_storage
 else:
-    STORAGE_DIR = os.path.normpath(os.path.join(BASE_DIR, "storage"))
+    STORAGE_DIR = os.path.join(BASE_DIR, "storage")
 
-try:
-    os.makedirs(STATIC_DIR, exist_ok=True)
-    os.makedirs(TEMPLATES_DIR, exist_ok=True)
-    os.makedirs(STORAGE_DIR, exist_ok=True)
-except Exception:
-    STORAGE_DIR = "/tmp/storage"
-    os.makedirs(STATIC_DIR, exist_ok=True)
-    os.makedirs(TEMPLATES_DIR, exist_ok=True)
-    os.makedirs(STORAGE_DIR, exist_ok=True)
-
-if not os.path.exists(STORAGE_DIR):
-    STORAGE_DIR = "/tmp/storage"
-    os.makedirs(STORAGE_DIR, exist_ok=True)
+os.makedirs(STATIC_DIR, exist_ok=True)
+os.makedirs(TEMPLATES_DIR, exist_ok=True)
 
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 app.mount("/data", StaticFiles(directory=STORAGE_DIR), name="data")
@@ -491,7 +481,3 @@ async def admin_reset_database(x_admin_key: str = Header(None, alias="X-Admin-Ke
     verify_admin_key(x_admin_key)
     storage._save_db({"shops": {}, "quotes": []})
     return {"success": True, "message": "Veritabanı ve tüm kayıtlar sıfırlandı."}
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=PORT)
