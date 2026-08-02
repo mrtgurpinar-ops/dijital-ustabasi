@@ -2,6 +2,14 @@
 
 Projedeki tüm majör revizyonlar, güvenlik güncellemeleri me yeni özellikler bu dosyada SemVer prensiplerine uygun olarak kayıt altına alınmaktadır.
 
+## [v1.6.0] - 2026-08-02 (VoltNet Tarzı 6 Sekmeli Menü & Gizli Süper Admin Masası)
+
+### 📱 VoltNet Tarzı Menü Mimarisi (`templates/index.html`)
+- **6 Sekmeli Çalışma Alanı Masası (`templates/index.html`):** Ekran kalabalığını önlemek için dükkan çalışma alanı `[🎤 Teklif Üret]`, `[📋 Teklif Arşivi]`, `[📊 Ciro & Finans]`, `[🚗 Araç CRM]`, `[👑 Yönetim Masası]` ve `[⚙️ Profil & Ayarlar]` sekmelerine ayrıldı.
+- **👑 Gizli Süper Admin Sekmesi (`templates/index.html`):** `👑 Yönetim Masası` sekmesi yalnızca `05555105635` Süper Admin numarasıyla giriş yapıldığında görünür kılındı (`display: inline-flex`), normal dükkanlarda tamamen gizlendi (`display: none`).
+
+---
+
 ## [v1.5.0] - 2026-08-02 (Sekmeli Giriş/Kayıt Mimarisi & Dürüst Altyapı Rozeti)
 
 ### 🎨 Kurumsal Giriş Mimarisi (`templates/index.html`)

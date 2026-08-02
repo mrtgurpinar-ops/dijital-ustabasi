@@ -198,8 +198,38 @@
                 </div>
             </header>
 
+            <!-- VoltNet Style 6-Tab Workspace Navigation Bar -->
+            <div class="panel glass" id="workspaceNavBar" style="padding: 10px 14px; border-radius: 14px; margin: 16px 0; background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255, 255, 255, 0.15);">
+                <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-start; align-items: center;">
+                    <button type="button" class="tab-nav-btn active" id="tabNavQuote" onclick="switchWorkspaceTab('quote')" style="padding: 10px 16px; border-radius: 8px; border: 2px solid #f97316; background: rgba(249, 115, 22, 0.15); color: #fff; font-weight: 800; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                        <i class="fa-solid fa-microphone-lines" style="color: #f97316;"></i> Teklif Üret
+                    </button>
+                    
+                    <button type="button" class="tab-nav-btn" id="tabNavArchive" onclick="switchWorkspaceTab('archive')" style="padding: 10px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #cbd5e1; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                        <i class="fa-solid fa-clock-rotate-left" style="color: #3b82f6;"></i> Teklif Arşivi
+                    </button>
+
+                    <button type="button" class="tab-nav-btn" id="tabNavFinance" onclick="switchWorkspaceTab('finance')" style="padding: 10px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #cbd5e1; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                        <i class="fa-solid fa-chart-pie" style="color: #10b981;"></i> Ciro & Finans
+                    </button>
+
+                    <button type="button" class="tab-nav-btn" id="tabNavCrm" onclick="switchWorkspaceTab('crm')" style="padding: 10px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #cbd5e1; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                        <i class="fa-solid fa-car" style="color: #a855f7;"></i> Araç CRM
+                    </button>
+
+                    <!-- SPECIAL SUPER ADMIN TAB (Hidden for normal shops, visible only for 05555105635) -->
+                    <button type="button" class="tab-nav-btn" id="tabNavAdmin" onclick="switchWorkspaceTab('admin')" style="display: none; padding: 10px 16px; border-radius: 8px; border: 2px solid #eab308; background: rgba(234, 179, 8, 0.2); color: #facc15; font-weight: 800; font-size: 13px; cursor: pointer; align-items: center; gap: 6px;">
+                        <i class="fa-solid fa-crown" style="color: #eab308;"></i> Yönetim Masası
+                    </button>
+
+                    <button type="button" class="tab-nav-btn" id="tabNavProfile" onclick="openSettingsModal()" style="padding: 10px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #cbd5e1; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; margin-left: auto;">
+                        <i class="fa-solid fa-gear" style="color: #94a3b8;"></i> Profil & Logo
+                    </button>
+                </div>
+            </div>
+
             <!-- Dashboard Content -->
-            <main class="workspace-dashboard" style="display: flex; flex-direction: column; gap: 20px; padding: 20px 0 30px 0;">
+            <main class="workspace-dashboard" style="display: flex; flex-direction: column; gap: 20px; padding: 0 0 30px 0;">
                 
                 <!-- Section 0: Integrated Super Admin Panel (Visible for 5555105635 Admin) -->
                 <div class="panel glass" id="integratedAdminSection" style="display: none; padding: 20px; border: 2px solid rgba(234, 179, 8, 0.5); background: rgba(15, 23, 42, 0.95); border-radius: 16px;">
@@ -293,7 +323,7 @@
                 </div>
 
                 <!-- Section 2: Live Analytics & Stats Desk -->
-                <div class="panel glass" style="padding: 20px; border-radius: 16px;">
+                <div class="panel glass" id="financeStatsSection" style="display: none; padding: 20px; border-radius: 16px;">
                     <div class="panel-header" style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
                         <i class="fa-solid fa-chart-line header-icon" style="color: #f97316; font-size: 20px;"></i>
                         <h3 style="margin: 0; font-size: 16px; font-weight: 800;">Dükkan Teklif & Tamir İstatistik Masası</h3>
@@ -334,7 +364,7 @@
                 </div>
 
                 <!-- Section 3: Filtered Quotes Archive & Management Desk -->
-                <div class="panel glass" style="padding: 20px; border-radius: 16px; position: relative; min-height: 260px;" id="quotesSection">
+                <div class="panel glass" style="display: none; padding: 20px; border-radius: 16px; position: relative; min-height: 260px;" id="quotesSection">
                     <div class="lock-overlay" id="quotesLockOverlay" style="display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.94); backdrop-filter: blur(8px); border-radius: 16px; z-index: 10; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; overflow-y: auto;">
                         <div class="lock-box" style="padding: 20px; text-align: center; max-width: 440px; margin: auto;">
                             <i class="fa-solid fa-lock glow-lock" style="font-size: 34px; color: #f97316; margin-bottom: 10px;"></i>
@@ -1497,6 +1527,55 @@
             } catch (err) {
                 showToast("Talep gönderilirken sunucu hatası oluştu.", "error");
             }
+        }
+
+        function switchWorkspaceTab(tabId) {
+            const tabButtons = {
+                'quote': document.getElementById('tabNavQuote'),
+                'archive': document.getElementById('tabNavArchive'),
+                'finance': document.getElementById('tabNavFinance'),
+                'crm': document.getElementById('tabNavCrm'),
+                'admin': document.getElementById('tabNavAdmin')
+            };
+
+            Object.keys(tabButtons).forEach(key => {
+                const btn = tabButtons[key];
+                if (btn) {
+                    if (key === tabId) {
+                        btn.style.border = key === 'admin' ? "2px solid #eab308" : "2px solid #f97316";
+                        btn.style.background = key === 'admin' ? "rgba(234, 179, 8, 0.25)" : "rgba(249, 115, 22, 0.15)";
+                        btn.style.color = "#fff";
+                        btn.classList.add("active");
+                    } else {
+                        btn.style.border = key === 'admin' ? "2px solid #eab308" : "1px solid rgba(255,255,255,0.15)";
+                        btn.style.background = key === 'admin' ? "rgba(234, 179, 8, 0.15)" : "rgba(255,255,255,0.05)";
+                        btn.style.color = key === 'admin' ? "#facc15" : "#cbd5e1";
+                        btn.classList.remove("active");
+                    }
+                }
+            });
+
+            const sections = {
+                'quote': document.getElementById('interactiveWorkspaceSection'),
+                'archive': document.getElementById('quotesSection'),
+                'finance': document.getElementById('financeStatsSection'),
+                'crm': document.getElementById('vehicleCrmSection'),
+                'admin': document.getElementById('integratedAdminSection')
+            };
+
+            const isAdmin = activeShopData && (activeShopData.is_admin || activeShopData.phone_number === "5555105635" || activePhoneNumber === "5555105635");
+
+            Object.keys(sections).forEach(key => {
+                const sec = sections[key];
+                if (sec) {
+                    if (key === tabId) {
+                        sec.style.display = "block";
+                        if (key === 'admin' && isAdmin) loadAdminShopsList();
+                    } else {
+                        sec.style.display = "none";
+                    }
+                }
+            });
         }
 
         function switchAuthTab(tabName) {
