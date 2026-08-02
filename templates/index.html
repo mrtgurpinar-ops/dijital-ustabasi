@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dijital Ustabaşı v1.11.0 - Bulut Oto Servis Platformu</title>
+    <title>Dijital Ustabaşı v1.12.0 - Dijital Oto Servis Platformu</title>
     <!-- Google Fonts & FontAwesome -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Premium Style Sheet -->
-    <link rel="stylesheet" href="/static/style.css?v=1.11.0">
+    <link rel="stylesheet" href="/static/style.css?v=1.12.0">
 </head>
 <body>
     <!-- Toast Container -->
@@ -21,7 +21,7 @@
         <div class="drawer-header">
             <div style="display: flex; align-items: center; gap: 8px;">
                 <i class="fa-solid fa-screwdriver-wrench" style="color: #f97316; font-size: 20px;"></i>
-                <span style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 16px; color: #fff;">SaaS Navigasyon</span>
+                <span style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 16px; color: #fff;">Dükkan Menüsü</span>
             </div>
             <button onclick="toggleHamburgerMenu(false)" style="background: transparent; border: none; color: #94a3b8; font-size: 20px; cursor: pointer; padding: 4px;">
                 <i class="fa-solid fa-xmark"></i>
@@ -43,7 +43,7 @@
             </div>
             <div class="drawer-menu-item" id="drawerNavCrm" onclick="selectDrawerTab('crm')">
                 <i class="fa-solid fa-car" style="color: #a855f7;"></i>
-                <span>Araç CRM</span>
+                <span>Müşteri & Araç Defteri</span>
             </div>
             <div class="drawer-menu-item admin-item" id="drawerNavAdmin" onclick="selectDrawerTab('admin')" style="display: none;">
                 <i class="fa-solid fa-crown" style="color: #eab308;"></i>
@@ -51,7 +51,7 @@
             </div>
             <div class="drawer-menu-item" id="drawerNavProfile" onclick="selectDrawerTab('profile')">
                 <i class="fa-solid fa-gear" style="color: #94a3b8;"></i>
-                <span>Profil & Logo</span>
+                <span>Dükkan Kimliği & Logo</span>
             </div>
         </div>
 
@@ -221,7 +221,7 @@
                     <i class="fa-solid fa-screwdriver-wrench glow-icon"></i>
                     <div class="logo-text">
                         <h1 id="headerShopName">DİJİTAL USTABAŞI</h1>
-                        <span id="headerShopSub">v1.11.0 Bulut Oto Servis Platformu</span>
+                        <span id="headerShopSub">v1.12.0 Oto Servis Platformu</span>
                     </div>
                 </div>
 
@@ -243,7 +243,7 @@
                 <!-- Desktop Persistent Left Sidebar -->
                 <aside class="sidebar-panel desktop-sidebar">
                     <div style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 14px; color: #fff; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 8px;">
-                        <i class="fa-solid fa-compass" style="color: #f97316;"></i> Modül Masası
+                        <i class="fa-solid fa-compass" style="color: #f97316;"></i> Dükkan Masası
                     </div>
 
                     <div class="drawer-menu-item active" id="deskNavQuote" onclick="switchWorkspaceTab('quote')">
@@ -260,7 +260,7 @@
                     </div>
                     <div class="drawer-menu-item" id="deskNavCrm" onclick="switchWorkspaceTab('crm')">
                         <i class="fa-solid fa-car" style="color: #a855f7;"></i>
-                        <span>Araç CRM</span>
+                        <span>Müşteri & Araç Defteri</span>
                     </div>
                     <div class="drawer-menu-item admin-item" id="deskNavAdmin" onclick="switchWorkspaceTab('admin')" style="display: none;">
                         <i class="fa-solid fa-crown" style="color: #eab308;"></i>
@@ -268,7 +268,7 @@
                     </div>
                     <div class="drawer-menu-item" id="deskNavProfile" onclick="switchWorkspaceTab('profile')">
                         <i class="fa-solid fa-gear" style="color: #94a3b8;"></i>
-                        <span>Profil & Logo</span>
+                        <span>Dükkan Kimliği & Logo</span>
                     </div>
 
                     <div style="margin-top: 20px; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
@@ -316,7 +316,7 @@
                 <div class="panel glass" id="interactiveWorkspaceSection" style="padding: 22px; border: 1px solid rgba(249, 115, 22, 0.35); background: rgba(15, 23, 42, 0.7); border-radius: 16px;">
                     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
                         <h3 style="margin: 0; font-size: 17px; font-weight: 800; color: #f97316; display: flex; align-items: center; gap: 8px;">
-                            <i class="fa-solid fa-microphone-lines"></i> 🎤 Doğrudan Sesli & Yazılı Teklif Oluşturucu
+                            <i class="fa-solid fa-microphone-lines"></i> 🎤 Hızlı Sesli & Yazılı Teklif Masası
                         </h3>
                         <span style="font-size: 12px; color: #cbd5e1;">
                             <i class="fa-solid fa-bolt" style="color: #facc15;"></i> Konuşun veya yazın, kurumsal PDF teklif 2 saniyede otomatik üretilsin.
@@ -336,20 +336,30 @@
                         </div>
                     </div>
 
-                    <!-- Voice Recording Indicator -->
-                    <div class="recording-status" id="recordStatus" style="display: none; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; padding: 12px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 10px; color: #fff; flex-wrap: wrap;">
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <span class="pulse-dot"></span>
-                            <span id="recordTimer" style="font-weight: 700; font-size: 13px;">Ses Kaydediliyor (0:00)...</span>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                            <button class="btn-stop-record" id="stopTranscribeBtn" onclick="stopRecordingAndTranscribeOnly()" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 14px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 12px;">
-                                <i class="fa-solid fa-stop"></i> 🛑 Durdur (Metne Dönüştür)
+                    <!-- Live Smart License Plate History Hint Box -->
+                    <div id="plateHistoryTip" style="display: none; margin-top: 10px; padding: 10px 14px; background: rgba(59, 130, 246, 0.12); border: 1px dashed rgba(59, 130, 246, 0.4); border-radius: 10px; font-size: 12px; color: #60a5fa; align-items: center; justify-content: space-between;">
+                        <span><i class="fa-solid fa-lightbulb" style="color: #facc15;"></i> <b id="plateHistoryTipText">34 ABC 123</b> plakalı araç için geçmişte teklif kaydı bulundu.</span>
+                        <button type="button" onclick="filterArchiveByCurrentPlate()" style="background: rgba(59, 130, 246, 0.2); border: 1px solid #3b82f6; color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer;">
+                            Geçmişi Gör
+                        </button>
+                    </div>
+
+                    <!-- Voice Recording Indicator (Optimized "Yağlı Parmak" Ergonomics) -->
+                    <div class="recording-status" id="recordStatus" style="display: none; flex-direction: column; gap: 12px; margin-top: 12px; padding: 16px; background: rgba(239, 68, 68, 0.18); border: 2px solid rgba(239, 68, 68, 0.4); border-radius: 14px; color: #fff;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span class="pulse-dot"></span>
+                                <span id="recordTimer" style="font-weight: 800; font-size: 14px; color: #f8fafc;">Ses Kaydediliyor (0:00)...</span>
+                            </div>
+                            <button onclick="stopRecordingAndTranscribeOnly()" style="background: transparent; border: none; color: #cbd5e1; font-size: 11px; text-decoration: underline; cursor: pointer;">
+                                (Sadece Metne Dök)
                             </button>
-                            <button class="btn-stop-record" id="stopAndGenerateBtn" onclick="stopRecordingAndGenerateDirectly()" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 12px; box-shadow: 0 2px 10px rgba(249, 115, 22, 0.4);">
-                                <i class="fa-solid fa-rocket"></i> 🚀 Durdur & Teklif Üret
-                            </button>
                         </div>
+                        
+                        <!-- Dev Mobil Aksiyon Butonu -->
+                        <button class="btn-stop-record" id="stopAndGenerateBtn" onclick="stopRecordingAndGenerateDirectly()" style="width: 100%; min-height: 52px; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; border: none; padding: 14px 20px; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 15px; box-shadow: 0 4px 20px rgba(249, 115, 22, 0.5); display: flex; align-items: center; justify-content: center; gap: 8px;">
+                            <i class="fa-solid fa-rocket" style="font-size: 18px;"></i> 🚀 DURDUR VE TEKLİFİ ÇIKAR
+                        </button>
                     </div>
 
                     <!-- Sample Fast Template Chips (Oto Servis & Lastikçiler) -->
@@ -1157,6 +1167,7 @@
                     
                     <div class="card-actions-bar">
                         ${actionButtons}
+                        <button class="btn-action-pill whatsapp" onclick="shareQuoteOnWhatsApp('${quoteId}')" style="background: rgba(37, 211, 102, 0.18); color: #25d366; border: 1px solid rgba(37, 211, 102, 0.4); font-weight: 700;" title="WhatsApp ile Müşteriye Gönder"><i class="fa-brands fa-whatsapp"></i> WhatsApp Gönder</button>
                         <button class="btn-action-pill preview" onclick="previewPdf('/api/download/${pdfFilename}')" title="Önizle"><i class="fa-solid fa-eye"></i> Önizle</button>
                         <a class="btn-action-pill download" href="/api/download/${pdfFilename}" download="${pdfFilename}" title="İndir"><i class="fa-solid fa-download"></i> İndir</a>
                     </div>
@@ -1179,6 +1190,89 @@
             } catch (err) {
                 showToast("Sunucuyla bağlantı hatası oluştu.", "error");
             }
+        }
+
+        let detectedPlateForTip = "";
+
+        function shareQuoteOnWhatsApp(quoteId) {
+            const targetQuote = rawQuotesList.find(q => q && q.quote_id === quoteId);
+            if (!targetQuote) {
+                showToast("Teklif detayları bulunamadı.", "error");
+                return;
+            }
+
+            const plaka = targetQuote.plaka || "Araç";
+            const vehicle = targetQuote.vehicle || "Oto Servis Bakımı";
+            const total = (typeof targetQuote.total_price === 'number') ? targetQuote.total_price.toLocaleString('tr-TR') : targetQuote.total_price;
+            const discount = (typeof targetQuote.discount_price === 'number') ? targetQuote.discount_price.toLocaleString('tr-TR') : targetQuote.discount_price;
+            const pdfFilename = targetQuote.pdf_filename || '';
+            const pdfUrl = `${window.location.origin}/api/download/${pdfFilename}`;
+
+            const shopName = (activeShopData && activeShopData.name) ? activeShopData.name : "DİJİTAL USTABAŞI OTO SERVİS";
+
+            let msg = `🛠️ *${shopName}*\n\n`;
+            msg += `Sayın Müşterimiz,\n`;
+            msg += `*${plaka}* (${vehicle}) aracınız için hazırlanan servis teklifimiz aşağıdadır:\n\n`;
+            
+            if (targetQuote.items && targetQuote.items.length > 0) {
+                targetQuote.items.forEach(item => {
+                    const priceStr = item.price ? item.price.toLocaleString('tr-TR') + ' TL' : '';
+                    msg += `• ${item.description}: ${priceStr}\n`;
+                });
+                msg += `\n`;
+            }
+
+            msg += `💰 *Toplam Tutar:* ${total} TL\n`;
+            msg += `🏷️ *Nakit İndirimli Tutar:* ${discount} TL\n\n`;
+            msg += `📄 *Kurumsal PDF Teklifi İndir:* ${pdfUrl}\n\n`;
+            msg += `Hayırlı günler dileriz!`;
+
+            const encodedMsg = encodeURIComponent(msg);
+            const waUrl = `https://api.whatsapp.com/send?text=${encodedMsg}`;
+            window.open(waUrl, '_blank');
+        }
+
+        function checkLicensePlateHistory(inputText) {
+            const tipBox = document.getElementById("plateHistoryTip");
+            const tipText = document.getElementById("plateHistoryTipText");
+            if (!tipBox || !tipText) return;
+
+            if (!inputText || inputText.length < 5) {
+                tipBox.style.display = "none";
+                detectedPlateForTip = "";
+                return;
+            }
+
+            const plateRegex = /(?:0[1-9]|[1-7][0-9]|8[01])\s?[a-zA-Z]{1,3}\s?[0-9]{2,4}/gi;
+            const matches = inputText.match(plateRegex);
+            if (matches && matches.length > 0) {
+                const matchedPlate = matches[0].toUpperCase().replace(/\s+/g, " ");
+                const matchClean = matchedPlate.replace(/\s+/g, "");
+                
+                const existing = rawQuotesList.filter(q => {
+                    if (!q || !q.plaka) return false;
+                    return q.plaka.replace(/\s+/g, "").toUpperCase().includes(matchClean);
+                });
+
+                if (existing.length > 0) {
+                    detectedPlateForTip = matchedPlate;
+                    tipText.innerText = `${matchedPlate} (${existing.length} Geçmiş Teklif)`;
+                    tipBox.style.display = "flex";
+                    return;
+                }
+            }
+
+            tipBox.style.display = "none";
+            detectedPlateForTip = "";
+        }
+
+        function filterArchiveByCurrentPlate() {
+            if (!detectedPlateForTip) return;
+            switchWorkspaceTab('archive');
+            const searchPlateClean = detectedPlateForTip.replace(/\s+/g, "").toUpperCase();
+            const filtered = rawQuotesList.filter(q => q && q.plaka && q.plaka.replace(/\s+/g, "").toUpperCase().includes(searchPlateClean));
+            renderQuotesListUI(filtered, null);
+            showToast(`🔍 ${detectedPlateForTip} için geçmiş teklifler listelendi.`, "info");
         }
 
         function updateUIForPackage(shopData) {
@@ -1463,6 +1557,9 @@
                         e.preventDefault();
                         sendDirectTextMessage();
                     }
+                });
+                chatMessageInput.addEventListener("input", (e) => {
+                    checkLicensePlateHistory(e.target.value);
                 });
             }
         });

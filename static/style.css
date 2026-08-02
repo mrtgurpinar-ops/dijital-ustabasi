@@ -1832,6 +1832,28 @@ h1, h2, h3, h4, h5, h6, .brand-title {
     color: #ffffff !important;
 }
 
+.btn-action-pill.whatsapp {
+    background: rgba(37, 211, 102, 0.18) !important;
+    border: 1px solid rgba(37, 211, 102, 0.4) !important;
+    color: #25d366 !important;
+}
+
+.btn-action-pill.whatsapp:hover {
+    background: rgba(37, 211, 102, 0.3) !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 10px rgba(37, 211, 102, 0.3) !important;
+}
+
+/* Touch Ergonomics & Active Press Scale */
+button:active, .btn-action:active, .chip:active, .btn-action-pill:active {
+    transform: scale(0.96) !important;
+}
+
+input:focus, select:focus {
+    border-color: #f97316 !important;
+    box-shadow: 0 0 12px rgba(249, 115, 22, 0.4) !important;
+}
+
 /* ==========================================================================
    RESPONSIVE & VIEWPORT SCROLLING LAYOUT
    ========================================================================== */

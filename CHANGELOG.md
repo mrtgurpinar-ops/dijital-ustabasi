@@ -2,6 +2,23 @@
 
 Projedeki tüm majör revizyonlar, güvenlik güncellemeleri me yeni özellikler bu dosyada SemVer prensiplerine uygun olarak kayıt altına alınmaktadır.
 
+## [v1.12.0] - 2026-08-02 (UI/UX ve Sanayi Ustası Önerilerinin Entegrasyonu & WhatsApp Paylaşım)
+
+### 💬 Tek Tıkla WhatsApp İle Müşteriye Teklif Gönderimi (`templates/index.html`)
+- **💬 WhatsApp Paylaşım Butonu:** Tüm teklif kartlarına canlı `💬 WhatsApp Gönder` butonu eklendi. Butona basıldığında müşteri plakası, araç detayları, hizmet kalemleri, toplam fiyat, indirimli nakit tutar me kurumsal PDF indirme bağlantısını içeren mesaj `api.whatsapp.com` üzerinden tek tıkla müşteriye yönlendirilmektedir.
+
+### 🛠️ "Yağlı Parmak" Ergonomisi & Ses Kayıt Buton Revizyonu (`templates/index.html`, `static/style.css`)
+- **🚀 Dev Mobil Aksiyon Butonu:** Mobil ve sanayi ortamında yağlı/kirli parmakla kolay dokunulabilmesi için ses kaydı durdurma alanındaki `🚀 DURDUR VE TEKLİFİ ÇIKAR` butonu dev ve tek ana aksiyon butonu haline getirildi.
+- **📱 Touch Feedback & Focus Glow:** Tüm butonlara `active:scale(0.96)` dokunma tepkisi ve odaklanma alanlarında turuncu parlama ikazları entegre edildi.
+
+### 💡 Akıllı Plaka Geçmiş Sorgusu (`templates/index.html`)
+- **💡 Canlı Plaka İpucu Kutusu:** Teklif yazma veya sesli girdi alanında plaka algılandığında (Örn: `34 ABC 123`), sistem dükkanın geçmiş tekliflerinde bu plakayı tarayıp `💡 34 ABC 123 (X Geçmiş Teklif)` canlı ipucu kutusu göstererek tek tıkla geçmişi filtreleme imkanı sağladı.
+
+### 🗣️ Jargon Temizliği & Esnaf Dili Entegrasyonu (`templates/index.html`)
+- **Esnaf Diline Tam Uyum:** "SaaS Navigasyon" ➔ **Dükkan Menüsü**, "Araç CRM" ➔ **Müşteri & Araç Defteri**, "Profil & Logo" ➔ **Dükkan Kimliği & Logo**, "Interactive Workspace" ➔ **Hızlı Teklif & Bakım Masası** terimlerine dönüştürüldü.
+
+---
+
 ## [v1.11.0] - 2026-08-02 (Teklif Üret Ekranına Canlı Son 3 Teklif Paneli Entegrasyonu)
 
 ### 📋 Teklif Üret Ekranı Canlı Listeleme (`templates/index.html`)
