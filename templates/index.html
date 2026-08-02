@@ -24,100 +24,134 @@
         <!-- ========================================================================== -->
         <div id="authLandingView" class="panel glass" style="padding: 28px; border: 1px solid rgba(249, 115, 22, 0.35); background: rgba(15, 23, 42, 0.85); border-radius: 20px; max-width: 800px; margin: 20px auto; width: 100%;">
             
-            <div style="text-align: center; margin-bottom: 24px;">
-                <div style="display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; background: rgba(249, 115, 22, 0.15); border-radius: 50%; border: 1px solid #f97316; margin-bottom: 12px;" onclick="handleHeaderLogoClick(event)">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div style="display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; background: rgba(249, 115, 22, 0.15); border-radius: 50%; border: 1px solid #f97316; margin-bottom: 12px;">
                     <i class="fa-solid fa-screwdriver-wrench" style="font-size: 28px; color: #f97316;"></i>
                 </div>
                 <h1 style="font-size: 26px; font-weight: 800; margin: 0 0 6px 0; background: linear-gradient(90deg, #f97316, #facc15); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
                     DİJİTAL USTABAŞI
                 </h1>
-                <p style="font-size: 13px; color: var(--text-secondary); margin: 0;">
+                <p style="font-size: 13px; color: var(--text-secondary); margin: 0 0 16px 0;">
                     Bulut Oto Servis Sesli Teklif & Kurumsal PDF Platformu
                 </p>
-            </div>
 
-            <!-- Step 1: Package Selection Cards -->
-            <div style="margin-bottom: 24px;">
-                <label style="font-size: 13px; font-weight: 700; color: #cbd5e1; display: block; margin-bottom: 10px; text-align: center;">
-                    <i class="fa-solid fa-tags" style="color: #f97316;"></i> Lütfen Uygun Esnaf Paketinizi Seçin:
-                </label>
-                
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px;">
-                    <!-- Çırak -->
-                    <div class="pkg-select-card" id="pkgCirak" onclick="selectPackage('cirak')" style="background: rgba(15, 23, 42, 0.6); border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 14px; padding: 16px; cursor: pointer; text-align: center; transition: all 0.2s ease;">
-                        <h4 style="margin: 0 0 4px 0; color: #fff; font-size: 15px; font-weight: bold;">Çırak (MVP)</h4>
-                        <span style="font-size: 16px; font-weight: 800; color: #f97316;">1.450 TL</span>
-                        <ul style="font-size: 11px; color: #94a3b8; list-style: none; padding: 0; margin: 10px 0 0 0; display: flex; flex-direction: column; gap: 4px; text-align: left;">
-                            <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Sesten & Yazılı Teklif Üretici</li>
-                            <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Logo & Dükkan İsmi Ekleme</li>
-                            <li><i class="fa-solid fa-xmark" style="color: #ef4444;"></i> Geçmiş Arşiv Kilitli (0)</li>
-                        </ul>
-                    </div>
-
-                    <!-- Kalfa (Selected Default) -->
-                    <div class="pkg-select-card selected" id="pkgKalfa" onclick="selectPackage('kalfa')" style="background: rgba(249, 115, 22, 0.1); border: 2px solid #f97316; border-radius: 14px; padding: 16px; cursor: pointer; text-align: center; position: relative; transition: all 0.2s ease;">
-                        <span style="position: absolute; top: -10px; right: 12px; background: #f97316; color: #fff; font-size: 9px; font-weight: 800; padding: 2px 8px; border-radius: 10px;">EN ÇOK TERCİH EDİLEN</span>
-                        <h4 style="margin: 0 0 4px 0; color: #f97316; font-size: 15px; font-weight: bold;">Kalfa Paketi</h4>
-                        <span style="font-size: 16px; font-weight: 800; color: #f97316;">1.950 TL</span>
-                        <ul style="font-size: 11px; color: #cbd5e1; list-style: none; padding: 0; margin: 10px 0 0 0; display: flex; flex-direction: column; gap: 4px; text-align: left;">
-                            <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Sesten & Yazılı Teklif Üretici</li>
-                            <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Logo & Dükkan İsmi Ekleme</li>
-                            <li><i class="fa-solid fa-clock-rotate-left" style="color: #f59e0b;"></i> <b>Son 15 Teklif Arşivi</b></li>
-                        </ul>
-                    </div>
-
-                    <!-- Usta -->
-                    <div class="pkg-select-card" id="pkgUsta" onclick="selectPackage('usta')" style="background: rgba(15, 23, 42, 0.6); border: 2px solid rgba(250, 204, 21, 0.3); border-radius: 14px; padding: 16px; cursor: pointer; text-align: center; transition: all 0.2s ease;">
-                        <h4 style="margin: 0 0 4px 0; color: #facc15; font-size: 15px; font-weight: bold;">Usta (Tam Sürüm)</h4>
-                        <span style="font-size: 16px; font-weight: 800; color: #f97316;">2.950 TL</span>
-                        <ul style="font-size: 11px; color: #94a3b8; list-style: none; padding: 0; margin: 10px 0 0 0; display: flex; flex-direction: column; gap: 4px; text-align: left;">
-                            <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Sınırsız Teklif Arşivi</li>
-                            <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Ciro & İstatistik Masası</li>
-                            <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Logo & Dükkan İsmi Ekleme</li>
-                        </ul>
-                    </div>
+                <!-- Honest Security & Infrastructure Badge -->
+                <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); padding: 6px 14px; border-radius: 20px; font-size: 11px; color: #cbd5e1;">
+                    <i class="fa-solid fa-shield-halved" style="color: #10b981;"></i> Güvenli Bulut Altyapısı | Veri İzolasyonu | 7/24 Kesintisiz Hizmet
                 </div>
             </div>
 
-            <!-- Step 2: Phone & Password Input Box -->
-            <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 16px; padding: 22px; max-width: 540px; margin: 0 auto; text-align: center;">
-                <label style="font-size: 13px; font-weight: 700; color: #fff; display: block; margin-bottom: 6px; text-align: left;">
+            <!-- Tabbed Auth Navigation -->
+            <div style="display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 12px; justify-content: center;">
+                <button type="button" id="tabAuthLoginBtn" onclick="switchAuthTab('login')" style="flex: 1; max-width: 260px; padding: 12px 16px; border-radius: 10px; border: 2px solid #f97316; background: rgba(249, 115, 22, 0.15); color: #fff; font-weight: 800; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <i class="fa-solid fa-right-to-bracket" style="color: #f97316;"></i> Dükkan Girişi Yap
+                </button>
+                <button type="button" id="tabAuthRegisterBtn" onclick="switchAuthTab('register')" style="flex: 1; max-width: 260px; padding: 12px 16px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.15); background: rgba(255, 255, 255, 0.05); color: #94a3b8; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <i class="fa-solid fa-user-plus" style="color: #facc15;"></i> 7 Gün Ücretsiz Deneme
+                </button>
+            </div>
+
+            <!-- TAB 1: Direct Registered Login Area -->
+            <div id="authLoginTabArea" style="background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 16px; padding: 24px; max-width: 480px; margin: 0 auto; text-align: center;">
+                <h3 style="margin: 0 0 16px 0; font-size: 16px; color: #fff; font-weight: 800; text-align: left;">
+                    <i class="fa-solid fa-key" style="color: #f97316;"></i> Kayıtlı Dükkan Hesabı İle Giriş
+                </h3>
+                
+                <label style="font-size: 13px; font-weight: 700; color: #cbd5e1; display: block; margin-bottom: 6px; text-align: left;">
                     <i class="fa-solid fa-mobile-screen-button" style="color: #f97316;"></i> Dükkan Cep Telefonu Numaranız:
                 </label>
-                <input type="tel" id="authPhoneInput" placeholder="05XX XXX XX XX" maxlength="14" onkeydown="preventNonNumericInput(event)" oninput="formatTurkishPhoneInput(this)" style="width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.05); color: #fff; font-size: 16px; font-weight: bold; text-align: center; outline: none; box-sizing: border-box; margin-bottom: 12px;" onkeypress="if(event.key === 'Enter') handleLoginClick()">
+                <input type="tel" id="authPhoneInput" placeholder="05XX XXX XX XX" maxlength="14" onkeydown="preventNonNumericInput(event)" oninput="formatTurkishPhoneInput(this)" style="width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.05); color: #fff; font-size: 16px; font-weight: bold; text-align: center; outline: none; box-sizing: border-box; margin-bottom: 14px;" onkeypress="if(event.key === 'Enter') handleLoginClick()">
 
-                <label style="font-size: 13px; font-weight: 700; color: #fff; display: block; margin-bottom: 6px; text-align: left;">
+                <label style="font-size: 13px; font-weight: 700; color: #cbd5e1; display: block; margin-bottom: 6px; text-align: left;">
                     <i class="fa-solid fa-lock" style="color: #f97316;"></i> Dükkan Şifreniz:
                 </label>
-                <div style="position: relative; margin-bottom: 14px;">
-                    <input type="password" id="authPasswordInput" placeholder="Şifreniz (En az 4 karakter)" style="width: 100%; padding: 12px 40px 12px 14px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.05); color: #fff; font-size: 15px; font-weight: bold; outline: none; box-sizing: border-box;" onkeypress="if(event.key === 'Enter') handleLoginClick()">
+                <div style="position: relative; margin-bottom: 16px;">
+                    <input type="password" id="authPasswordInput" placeholder="Şifreniz" style="width: 100%; padding: 12px 40px 12px 14px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.05); color: #fff; font-size: 15px; font-weight: bold; outline: none; box-sizing: border-box;" onkeypress="if(event.key === 'Enter') handleLoginClick()">
                     <button type="button" onclick="togglePasswordVisibility('authPasswordInput', 'passwordToggleIcon')" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: transparent; border: none; color: #94a3b8; font-size: 16px; cursor: pointer; padding: 4px;">
                         <i class="fa-solid fa-eye" id="passwordToggleIcon"></i>
                     </button>
                 </div>
 
-                <!-- Error Notification Box (Initially Hidden) -->
-                <div id="authErrorBox" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 10px; padding: 12px; font-size: 12px; color: #ef4444; margin-bottom: 12px; text-align: left; line-height: 1.4;">
-                    <i class="fa-solid fa-triangle-exclamation"></i> <span id="authErrorMsg">Girilen numara sistemde kayıtlı değildir! Lütfen seçtiğiniz paket için talep oluşturun veya 7 gün ücretsiz denemeyi başlatın.</span>
+                <!-- Error Notification Box -->
+                <div id="authErrorBox" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 10px; padding: 12px; font-size: 12px; color: #ef4444; margin-bottom: 14px; text-align: left; line-height: 1.4;">
+                    <i class="fa-solid fa-triangle-exclamation"></i> <span id="authErrorMsg">Girilen numara sistemde kayıtlı değildir!</span>
                 </div>
 
-                <!-- Primary Action Buttons Bar -->
-                <div style="display: flex; flex-direction: column; gap: 10px;">
-                    <button onclick="handleLoginClick()" style="width: 100%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.25); color: white; padding: 12px; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                        <i class="fa-solid fa-key" style="color: #facc15;"></i> Telefon + Şifre İle Giriş Yap
-                    </button>
+                <button onclick="handleLoginClick()" style="width: 100%; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); border: none; color: white; padding: 14px; border-radius: 10px; font-weight: 800; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 18px rgba(249, 115, 22, 0.4);">
+                    <i class="fa-solid fa-right-to-bracket"></i> Dükkana Giriş Yap
+                </button>
+            </div>
 
-                    <button id="btnRequestPackage" onclick="handleRequestPackageClick()" style="display: none; width: 100%; background: #3b82f6; border: none; color: white; padding: 12px; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; align-items: center; justify-content: center; gap: 8px;">
-                        <i class="fa-solid fa-paper-plane"></i> <span id="btnRequestPackageText">Seçilen Paketi Talep Et (Yönetici Onayına Gönder)</span>
-                    </button>
+            <!-- TAB 2: New Store Trial & Registration Area (Initially Hidden) -->
+            <div id="authRegisterTabArea" style="display: none;">
+                <!-- Step 1: Package Selection Cards -->
+                <div style="margin-bottom: 20px;">
+                    <label style="font-size: 13px; font-weight: 700; color: #cbd5e1; display: block; margin-bottom: 10px; text-align: center;">
+                        <i class="fa-solid fa-tags" style="color: #f97316;"></i> Lütfen Uygun Esnaf Paketinizi Seçin:
+                    </label>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px;">
+                        <!-- Çırak -->
+                        <div class="pkg-select-card" id="pkgCirak" onclick="selectPackage('cirak')" style="background: rgba(15, 23, 42, 0.6); border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 14px; padding: 16px; cursor: pointer; text-align: center; transition: all 0.2s ease;">
+                            <h4 style="margin: 0 0 4px 0; color: #fff; font-size: 15px; font-weight: bold;">Çırak (MVP)</h4>
+                            <span style="font-size: 16px; font-weight: 800; color: #f97316;">1.450 TL</span>
+                            <ul style="font-size: 11px; color: #94a3b8; list-style: none; padding: 0; margin: 10px 0 0 0; display: flex; flex-direction: column; gap: 4px; text-align: left;">
+                                <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Sesten & Yazılı Teklif Üretici</li>
+                                <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Logo & Dükkan İsmi Ekleme</li>
+                                <li><i class="fa-solid fa-xmark" style="color: #ef4444;"></i> Geçmiş Arşiv Kilitli (0)</li>
+                            </ul>
+                        </div>
 
-                    <div style="display: flex; align-items: center; gap: 10px; margin: 4px 0; color: #64748b; font-size: 11px;">
-                        <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.1);"></div>
-                        <span>VEYA YENİ DÜKKAN İÇİN</span>
-                        <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.1);"></div>
+                        <!-- Kalfa (Selected Default) -->
+                        <div class="pkg-select-card selected" id="pkgKalfa" onclick="selectPackage('kalfa')" style="background: rgba(249, 115, 22, 0.1); border: 2px solid #f97316; border-radius: 14px; padding: 16px; cursor: pointer; text-align: center; position: relative; transition: all 0.2s ease;">
+                            <span style="position: absolute; top: -10px; right: 12px; background: #f97316; color: #fff; font-size: 9px; font-weight: 800; padding: 2px 8px; border-radius: 10px;">EN ÇOK TERCİH EDİLEN</span>
+                            <h4 style="margin: 0 0 4px 0; color: #f97316; font-size: 15px; font-weight: bold;">Kalfa Paketi</h4>
+                            <span style="font-size: 16px; font-weight: 800; color: #f97316;">1.950 TL</span>
+                            <ul style="font-size: 11px; color: #cbd5e1; list-style: none; padding: 0; margin: 10px 0 0 0; display: flex; flex-direction: column; gap: 4px; text-align: left;">
+                                <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Sesten & Yazılı Teklif Üretici</li>
+                                <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Logo & Dükkan İsmi Ekleme</li>
+                                <li><i class="fa-solid fa-clock-rotate-left" style="color: #f59e0b;"></i> <b>Son 15 Teklif Arşivi</b></li>
+                            </ul>
+                        </div>
+
+                        <!-- Usta -->
+                        <div class="pkg-select-card" id="pkgUsta" onclick="selectPackage('usta')" style="background: rgba(15, 23, 42, 0.6); border: 2px solid rgba(250, 204, 21, 0.3); border-radius: 14px; padding: 16px; cursor: pointer; text-align: center; transition: all 0.2s ease;">
+                            <h4 style="margin: 0 0 4px 0; color: #facc15; font-size: 15px; font-weight: bold;">Usta (Tam Sürüm)</h4>
+                            <span style="font-size: 16px; font-weight: 800; color: #f97316;">2.950 TL</span>
+                            <ul style="font-size: 11px; color: #94a3b8; list-style: none; padding: 0; margin: 10px 0 0 0; display: flex; flex-direction: column; gap: 4px; text-align: left;">
+                                <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Sınırsız Teklif Arşivi</li>
+                                <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Ciro & İstatistik Masası</li>
+                                <li><i class="fa-solid fa-check" style="color: #10b981;"></i> Logo & Dükkan İsmi Ekleme</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Registration Form with Store Category Option -->
+                <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 16px; padding: 22px; max-width: 540px; margin: 0 auto; text-align: center;">
+                    <label style="font-size: 13px; font-weight: 700; color: #fff; display: block; margin-bottom: 6px; text-align: left;">
+                        <i class="fa-solid fa-store" style="color: #f97316;"></i> Dükkan Branşınız:
+                    </label>
+                    <select id="regStoreCategory" style="width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.25); background: rgba(15, 23, 42, 0.95); color: #fff; font-size: 14px; font-weight: bold; outline: none; margin-bottom: 12px; cursor: pointer;">
+                        <option value="tamir">🛠️ Oto Tamir & Mekanik Bakım Servisi</option>
+                        <option value="lastik">🛞 Oto Lastik & Jant Servisi</option>
+                        <option value="ekspertiz">🚗 Kaporta, Boya & Ekspertiz Merkezi</option>
+                        <option value="detailing">🧼 Oto Yıkama & Detailing</option>
+                    </select>
+
+                    <label style="font-size: 13px; font-weight: 700; color: #fff; display: block; margin-bottom: 6px; text-align: left;">
+                        <i class="fa-solid fa-mobile-screen-button" style="color: #f97316;"></i> Dükkan Cep Telefonu Numaranız:
+                    </label>
+                    <input type="tel" id="regPhoneInput" placeholder="05XX XXX XX XX" maxlength="14" onkeydown="preventNonNumericInput(event)" oninput="formatTurkishPhoneInput(this)" style="width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.05); color: #fff; font-size: 16px; font-weight: bold; text-align: center; outline: none; box-sizing: border-box; margin-bottom: 12px;">
+
+                    <label style="font-size: 13px; font-weight: 700; color: #fff; display: block; margin-bottom: 6px; text-align: left;">
+                        <i class="fa-solid fa-lock" style="color: #f97316;"></i> Dükkan Şifreniz Belirleyin:
+                    </label>
+                    <div style="position: relative; margin-bottom: 14px;">
+                        <input type="password" id="regPasswordInput" placeholder="Şifreniz (En az 4 karakter)" style="width: 100%; padding: 12px 40px 12px 14px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.05); color: #fff; font-size: 15px; font-weight: bold; outline: none; box-sizing: border-box;">
                     </div>
 
-                    <button onclick="handleStartTrialClick()" style="width: 100%; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); border: none; color: white; padding: 13px; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 18px rgba(249, 115, 22, 0.4);">
+                    <button onclick="handleStartTrialClickFromTab()" style="width: 100%; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); border: none; color: white; padding: 13px; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 18px rgba(249, 115, 22, 0.4);">
                         <i class="fa-solid fa-rocket"></i> Şifre Belirle & 7 Günlük Denemeyi Başlat
                     </button>
                 </div>
@@ -1465,15 +1499,60 @@
             }
         }
 
-        function handleHeaderLogoClick(e) {
-            openAdminSecretModal();
+        function switchAuthTab(tabName) {
+            const loginTabBtn = document.getElementById("tabAuthLoginBtn");
+            const regTabBtn = document.getElementById("tabAuthRegisterBtn");
+            const loginArea = document.getElementById("authLoginTabArea");
+            const regArea = document.getElementById("authRegisterTabArea");
+
+            if (tabName === 'login') {
+                loginTabBtn.style.border = "2px solid #f97316";
+                loginTabBtn.style.background = "rgba(249, 115, 22, 0.15)";
+                loginTabBtn.style.color = "#fff";
+
+                regTabBtn.style.border = "1px solid rgba(255, 255, 255, 0.15)";
+                regTabBtn.style.background = "rgba(255, 255, 255, 0.05)";
+                regTabBtn.style.color = "#94a3b8";
+
+                loginArea.style.display = "block";
+                regArea.style.display = "none";
+            } else {
+                regTabBtn.style.border = "2px solid #f97316";
+                regTabBtn.style.background = "rgba(249, 115, 22, 0.15)";
+                regTabBtn.style.color = "#fff";
+
+                loginTabBtn.style.border = "1px solid rgba(255, 255, 255, 0.15)";
+                loginTabBtn.style.background = "rgba(255, 255, 255, 0.05)";
+                loginTabBtn.style.color = "#94a3b8";
+
+                loginArea.style.display = "none";
+                regArea.style.display = "block";
+            }
         }
 
-        window.addEventListener("keydown", (e) => {
-            if (e.shiftKey && (e.key === "A" || e.key === "a")) {
-                openAdminSecretModal();
+        async function handleStartTrialClickFromTab() {
+            const phoneInput = document.getElementById("regPhoneInput");
+            const passwordInput = document.getElementById("regPasswordInput");
+            const phone = phoneInput ? phoneInput.value.trim() : "";
+            const pwd = passwordInput ? passwordInput.value.trim() : "";
+
+            if (!phone || phone.length < 10) {
+                showToast("Lütfen geçerli bir cep telefonu numarası girin.", "error");
+                return;
             }
-        });
+            if (!pwd || pwd.length < 4) {
+                showToast("Lütfen en az 4 karakterli dükkan şifresi belirleyin.", "error");
+                return;
+            }
+
+            // Sync inputs to auth inputs for handleStartTrialClick
+            const mainPhone = document.getElementById("authPhoneInput");
+            const mainPwd = document.getElementById("authPasswordInput");
+            if (mainPhone) mainPhone.value = phone;
+            if (mainPwd) mainPwd.value = pwd;
+
+            await handleStartTrialClick();
+        }
 
         function openAdminSecretModal() {
             if (localStorage.getItem("is_admin_active") === "true") {

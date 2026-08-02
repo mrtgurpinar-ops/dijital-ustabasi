@@ -2,6 +2,16 @@
 
 Projedeki tüm majör revizyonlar, güvenlik güncellemeleri me yeni özellikler bu dosyada SemVer prensiplerine uygun olarak kayıt altına alınmaktadır.
 
+## [v1.5.0] - 2026-08-02 (Sekmeli Giriş/Kayıt Mimarisi & Dürüst Altyapı Rozeti)
+
+### 🎨 Kurumsal Giriş Mimarisi (`templates/index.html`)
+- **🔑 Sekmeli Giriş & Kayıt:** Üst kısma `[🔑 Dükkan Girişi]` ve `[🚀 7 Gün Ücretsiz Deneme]` sekmeleri yerleştirildi. Kayıtlı esnaf tek tıkla doğrudan dükkanına girebilecek hale getirildi.
+- **🛠️ Dükkan Branş Seçeneği:** Kayıt formuna Oto Tamir, Oto Lastik & Jant, Kaporta & Ekspertiz, Yıkama & Detailing branş seçimi eklendi.
+- **🛡️ Dürüst Altyapı Rozeti:** Abartılı/yapay beyanlar sökülerek `🛡️ Güvenli Bulut Altyapısı | Veri İzolasyonu | 7/24 Kesintisiz Hizmet` dürüst rozeti eklendi.
+- **🧹 Kısayol Temizliği:** `Shift+A` gizli dinleyici ve logo tıklama modalları tamamen kaldırıldı.
+
+---
+
 ## [v1.4.1] - 2026-08-02 (Demo Test Butonlarının ve Geçici Hesapların Kaldırılması)
 
 ### 🧹 Kurumsal Arayüz Temizliği (`templates/index.html`, `cloud_storage.py`)
