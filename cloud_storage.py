@@ -59,16 +59,13 @@ class CloudStorage:
         os.makedirs(self.storage_dir, exist_ok=True)
         os.makedirs(self.pdf_dir, exist_ok=True)
 
-        raw_db_url = os.getenv("DATABASE_URL") or os.getenv("POSTGRES_URL")
-        if raw_db_url:
-            if raw_db_url.startswith("postgres://"):
-                raw_db_url = raw_db_url.replace("postgres://", "postgresql://", 1)
-            self.engine = create_engine(raw_db_url, pool_size=10, max_overflow=20, pool_pre_ping=True)
-        else:
-            sqlite_file = os.path.join(self.storage_dir, "database.db")
-            self.engine = create_engine(f"sqlite:///{sqlite_file}", connect_args={"check_same_thread": False})
+        try:
+            from projects.dijital_ustabasi.database import engine, SessionLocal, Base
+        except ModuleNotFoundError:
+            from database import engine, SessionLocal, Base
 
-        self.SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=self.engine)
+        self.engine = engine
+        self.SessionLocal = SessionLocal
         
         # Initialize Database Tables
         try:
