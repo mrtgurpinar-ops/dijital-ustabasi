@@ -2,6 +2,17 @@
 
 Projedeki tüm majör revizyonlar, güvenlik güncellemeleri me yeni özellikler bu dosyada SemVer prensiplerine uygun olarak kayıt altına alınmaktadır.
 
+## [v1.0.9] - 2026-08-02 (Railway Kök Neden Düzeltmesi & Çift Dockerfile Mimarisi)
+
+### 🚀 Railway 5 Maddelik Kök Neden Çözümü (`Dockerfile`, `nixpacks.toml`, `main.py`)
+- **`package.json` vs Nixpacks Çakışma Çözümü:** Projedeki Capacitor `package.json` dosyasından ötürü Nixpacks'in projeyi Node.js sanması engellendi; `nixpacks.toml` ile `providers = ["python"]` zorunlu kılındı.
+- **FastAPI Mount Çökme Engeli:** `main.py` içinde `app.mount("/data", StaticFiles(directory=STORAGE_DIR))` öncesine `os.makedirs(STORAGE_DIR, exist_ok=True)` eklenerek taze konteyner çökmesi %100 önlendi.
+- **Monorepo `sys.path` Çözümü:** `MONOREPO_ROOT` `sys.path`'e eklenerek `antigravity_core` dizininden başlatmada `ModuleNotFoundError` çözüldü.
+- **Çift Dockerfile Mimarisi:** Hem monorepo root hem sub-repo root için `Dockerfile` oluşturuldu.
+- **Railway API Token Entegrasyonu:** Token (`204d293c-dfb4-4988-8492-aa6a206db8fc`) ve canlı domain (`dijital-ustabasi-production-7fe5.up.railway.app`) `railway_api.py` betiğine bağlandı.
+
+---
+
 ## [v1.0.8] - 2026-08-02 (Railway Sıfırdan Canlıya Alma & Yapılandırma Senkronizasyonu)
 
 ### 🚀 Railway Re-deployment & Tam Bağımsız Yapılandırma (`railway.json`, `Procfile`, `mise.toml`)
