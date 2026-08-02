@@ -14,11 +14,12 @@ RAILWAY_DYNAMIC_PORT = os.environ.get("PORT")
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PARENT_DIR = os.path.dirname(BASE_DIR)
+MONOREPO_ROOT = os.path.dirname(PARENT_DIR)
 
-if BASE_DIR not in sys.path:
-    sys.path.insert(0, BASE_DIR)
-if PARENT_DIR not in sys.path:
-    sys.path.insert(0, PARENT_DIR)
+for p in [MONOREPO_ROOT, PARENT_DIR, BASE_DIR]:
+    if p and p not in sys.path:
+        sys.path.insert(0, p)
+
 
 try:
     from projects.dijital_ustabasi.cloud_storage import CloudStorage, normalize_phone
@@ -101,6 +102,9 @@ else:
 
 os.makedirs(STATIC_DIR, exist_ok=True)
 os.makedirs(TEMPLATES_DIR, exist_ok=True)
+os.makedirs(STORAGE_DIR, exist_ok=True)
+os.makedirs(os.path.join(BASE_DIR, "temp"), exist_ok=True)
+
 
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 app.mount("/data", StaticFiles(directory=STORAGE_DIR), name="data")

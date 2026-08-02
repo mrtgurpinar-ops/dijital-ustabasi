@@ -7,7 +7,7 @@ RAILWAY_GRAPHQL_URL = "https://backboard.railway.com/graphql/v2"
 
 class RailwayAPI:
     def __init__(self, token=None):
-        self.token = token or os.environ.get("RAILWAY_TOKEN")
+        self.token = token or os.environ.get("RAILWAY_TOKEN") or "204d293c-dfb4-4988-8492-aa6a206db8fc"
         self.headers = {
             "Content-Type": "application/json",
             "User-Agent": "DijitalUstabasi-RailwayCLI/1.0"
@@ -56,7 +56,7 @@ class RailwayAPI:
         """
         return self._query(query, {"id": project_id})
 
-    def check_health(self, target_url="https://dijital-ustabasi-production.up.railway.app/"):
+    def check_health(self, target_url="https://dijital-ustabasi-production-7fe5.up.railway.app/"):
         req = urllib.request.Request(target_url, headers={"User-Agent": "HealthCheck/1.0"})
         try:
             with urllib.request.urlopen(req) as resp:
