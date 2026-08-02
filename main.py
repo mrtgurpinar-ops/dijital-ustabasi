@@ -481,3 +481,7 @@ async def admin_reset_database(x_admin_key: str = Header(None, alias="X-Admin-Ke
     verify_admin_key(x_admin_key)
     storage._save_db({"shops": {}, "quotes": []})
     return {"success": True, "message": "Veritabanı ve tüm kayıtlar sıfırlandı."}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=PORT)
