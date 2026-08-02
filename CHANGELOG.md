@@ -2,6 +2,14 @@
 
 Projedeki tüm majör revizyonlar, güvenlik güncellemeleri me yeni özellikler bu dosyada SemVer prensiplerine uygun olarak kayıt altına alınmaktadır.
 
+## [v1.8.0] - 2026-08-02 (Sol Kenar Sandviç Menü & Arayüz Temizliği)
+
+### 🍔 Sol Kenar Navigasyon Mimarisi (`templates/index.html`, `static/style.css`)
+- **🧹 Eski Yatay Sekme Çubuğunun Sökülmesi (`#workspaceNavBar`):** Ekrandaki çift panel karmaşası söküldü. Arayüz üstündeki gereksiz butonlar kaldırıldı.
+- **⬅️ Sol Kenar (Left Drawer) Sandviç Menü:** `☰ Menü` butonu üst barda SOL TARAFA çekildi; menü çekmecesi soldan (`left: 0`) kayan dokunmatik yapıya kavuşturuldu.
+
+---
+
 ## [v1.7.0] - 2026-08-02 (SaaS Kalitesinde Premium Görsel Yenilenme & Sandviç Menü Mimarisi)
 
 ### 🎨 Görsel Tasarım & Sandviç Menü (`templates/index.html`, `static/style.css`)

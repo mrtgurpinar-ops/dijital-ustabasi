@@ -212,7 +212,12 @@
             
             <!-- Application Header -->
             <header class="app-header">
-                <div class="logo-area">
+                <div class="logo-area" style="display: flex; align-items: center; gap: 12px;">
+                    <!-- Sandviç Menü (Left Hamburger Button) -->
+                    <button class="btn-dashboard-nav" onclick="toggleHamburgerMenu(true)" title="Navigasyon Menüsü" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); border: none; color: white; cursor: pointer; padding: 10px 18px; border-radius: 10px; font-weight: 800; font-size: 14px; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);">
+                        <i class="fa-solid fa-bars" style="font-size: 16px;"></i> Menü
+                    </button>
+
                     <i class="fa-solid fa-screwdriver-wrench glow-icon"></i>
                     <div class="logo-text">
                         <h1 id="headerShopName">DİJİTAL USTABAŞI</h1>
@@ -233,43 +238,8 @@
                     <button class="btn-dashboard-nav" onclick="openUpgradeModal()" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); border: none; color: white; cursor: pointer; padding: 8px 14px; border-radius: 6px; font-weight: bold; font-size: 12px; display: flex; align-items: center; gap: 6px;">
                         <i class="fa-solid fa-crown"></i> <span id="headerPackageBadge">Ücretsiz Deneme (USTA)</span>
                     </button>
-
-                    <!-- Sandviç Menü (Hamburger Button) -->
-                    <button class="btn-dashboard-nav" onclick="toggleHamburgerMenu(true)" title="Navigasyon Menüsü" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); border: none; color: white; cursor: pointer; padding: 8px 16px; border-radius: 8px; font-weight: 800; font-size: 13px; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);">
-                        <i class="fa-solid fa-bars" style="font-size: 15px;"></i> Menü
-                    </button>
                 </div>
             </header>
-
-            <!-- VoltNet Style 6-Tab Workspace Navigation Bar -->
-            <div class="panel glass" id="workspaceNavBar" style="padding: 10px 14px; border-radius: 14px; margin: 16px 0; background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255, 255, 255, 0.15);">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-start; align-items: center;">
-                    <button type="button" class="tab-nav-btn active" id="tabNavQuote" onclick="switchWorkspaceTab('quote')" style="padding: 10px 16px; border-radius: 8px; border: 2px solid #f97316; background: rgba(249, 115, 22, 0.15); color: #fff; font-weight: 800; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-                        <i class="fa-solid fa-microphone-lines" style="color: #f97316;"></i> Teklif Üret
-                    </button>
-                    
-                    <button type="button" class="tab-nav-btn" id="tabNavArchive" onclick="switchWorkspaceTab('archive')" style="padding: 10px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #cbd5e1; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-                        <i class="fa-solid fa-clock-rotate-left" style="color: #3b82f6;"></i> Teklif Arşivi
-                    </button>
-
-                    <button type="button" class="tab-nav-btn" id="tabNavFinance" onclick="switchWorkspaceTab('finance')" style="padding: 10px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #cbd5e1; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-                        <i class="fa-solid fa-chart-pie" style="color: #10b981;"></i> Ciro & Finans
-                    </button>
-
-                    <button type="button" class="tab-nav-btn" id="tabNavCrm" onclick="switchWorkspaceTab('crm')" style="padding: 10px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #cbd5e1; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-                        <i class="fa-solid fa-car" style="color: #a855f7;"></i> Araç CRM
-                    </button>
-
-                    <!-- SPECIAL SUPER ADMIN TAB (Hidden for normal shops, visible only for 05555105635) -->
-                    <button type="button" class="tab-nav-btn" id="tabNavAdmin" onclick="switchWorkspaceTab('admin')" style="display: none; padding: 10px 16px; border-radius: 8px; border: 2px solid #eab308; background: rgba(234, 179, 8, 0.2); color: #facc15; font-weight: 800; font-size: 13px; cursor: pointer; align-items: center; gap: 6px;">
-                        <i class="fa-solid fa-crown" style="color: #eab308;"></i> Yönetim Masası
-                    </button>
-
-                    <button type="button" class="tab-nav-btn" id="tabNavProfile" onclick="openSettingsModal()" style="padding: 10px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #cbd5e1; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; margin-left: auto;">
-                        <i class="fa-solid fa-gear" style="color: #94a3b8;"></i> Profil & Logo
-                    </button>
-                </div>
-            </div>
 
             <!-- Dashboard Content -->
             <main class="workspace-dashboard" style="display: flex; flex-direction: column; gap: 20px; padding: 0 0 30px 0;">
