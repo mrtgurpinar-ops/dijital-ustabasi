@@ -1473,8 +1473,9 @@
                     pkgLabel = `${shop.package.toUpperCase()} PAKETİ (AKTİF)`;
                 }
                 
+                const currentVersion = (shop && shop.app_version) || window.DYNAMIC_APP_VERSION || '1.12.1';
                 headerShopName.innerText = shop.name ? shop.name.toUpperCase() : "DİJİTAL USTABAŞI";
-                headerShopSub.innerText = `${shop.phone_number} - v1.11.0 Oto Servis Platformu`;
+                headerShopSub.innerText = `${shop.phone_number} - v${currentVersion} Oto Servis Platformu`;
                 if (headerPackageBadge) headerPackageBadge.innerText = pkgLabel;
             }
         }
