@@ -113,11 +113,11 @@
             "password_hash": "b55c8792d1ce458e279308835f8a97b580263503e76e1998e279703e35ad0c2e",
             "name": "Test Package Limits Shop",
             "logo_url": "",
-            "package": "usta",
+            "package": "kalfa",
             "is_active": true,
             "is_admin": false,
-            "created_at": "2026-08-02T23:04:33.448614Z",
-            "expires_at": "2026-08-09T23:04:33.418613Z",
+            "created_at": "2026-07-25T23:13:16.803448Z",
+            "expires_at": "2026-09-01T23:13:16.803448Z",
             "upgrade_request": null
         }
     },
@@ -1383,30 +1383,30 @@
             "status": "beklemede"
         },
         {
-            "quote_id": "Q-20260802230454436",
-            "phone_number": "5554443322",
-            "plaka": "34 LIMIT 01",
-            "vehicle": "Fiat Egea",
+            "quote_id": "Q-20260802230500966",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
             "items": [
                 {
-                    "description": "Periyodik Bakım",
-                    "price": 2000
+                    "description": "Motor Yağı Değişimi",
+                    "price": 1500
                 }
             ],
-            "subtotal": 2000.0,
-            "vat": 400.0,
-            "total_price": 2400.0,
-            "discount_price": 2160.0,
-            "pdf_filename": "teklif_34LIMIT01_5554443322_6995ba79.pdf",
-            "created_at": "2026-08-02T23:04:54.436497",
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_d9a81e3f.pdf",
+            "created_at": "2026-08-02T23:05:00.967644",
             "validity_days": 7,
             "usta_note": "",
             "status": "beklemede"
         },
         {
-            "quote_id": "Q-20260802230454436",
+            "quote_id": "Q-20260802231316772",
             "phone_number": "5554443322",
-            "plaka": "34 LIMIT 01",
+            "plaka": "34LIMIT01",
             "vehicle": "Fiat Egea",
             "items": [
                 {
@@ -1418,8 +1418,50 @@
             "vat": 400.0,
             "total_price": 2400.0,
             "discount_price": 2160.0,
-            "pdf_filename": "teklif_34LIMIT01_5554443322_6995ba79.pdf",
-            "created_at": "2026-08-02T23:04:54.436497",
+            "pdf_filename": "teklif_34LIMIT01_5554443322_442e76aa.pdf",
+            "created_at": "2026-08-02T23:13:16.773303",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260802231321315",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_d738da8a.pdf",
+            "created_at": "2026-08-02T23:13:21.317338",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260802231321315",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_d738da8a.pdf",
+            "created_at": "2026-08-02T23:13:21.317338",
             "validity_days": 7,
             "usta_note": "",
             "status": "beklemede"
