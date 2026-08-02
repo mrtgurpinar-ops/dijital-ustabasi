@@ -8,12 +8,8 @@ from datetime import datetime, timedelta
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-try:
-    from projects.dijital_ustabasi.database import Base
-    from projects.dijital_ustabasi.models import ShopModel, QuoteModel, CustomerModel, VehicleModel
-except ModuleNotFoundError:
-    from database import Base
-    from models import ShopModel, QuoteModel, CustomerModel, VehicleModel
+from database import Base
+from models import ShopModel, QuoteModel, CustomerModel, VehicleModel
 
 
 def normalize_phone(phone: str) -> str:

@@ -3,10 +3,7 @@ from datetime import datetime
 from sqlalchemy import Column, Integer, String, Boolean, Text, Float, DateTime, ForeignKey, Index
 from sqlalchemy.orm import relationship
 
-try:
-    from projects.dijital_ustabasi.database import Base
-except ModuleNotFoundError:
-    from database import Base
+from database import Base
 
 
 class ShopModel(Base):

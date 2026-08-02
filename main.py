@@ -21,14 +21,9 @@ for p in [MONOREPO_ROOT, PARENT_DIR, BASE_DIR]:
         sys.path.insert(0, p)
 
 
-try:
-    from projects.dijital_ustabasi.cloud_storage import CloudStorage, normalize_phone
-    from projects.dijital_ustabasi.parser import transcribe_audio, parse_repair_text, get_gemini_api_key
-    from projects.dijital_ustabasi.pdf_generator import generate_quote_pdf
-except ModuleNotFoundError:
-    from cloud_storage import CloudStorage, normalize_phone
-    from parser import transcribe_audio, parse_repair_text, get_gemini_api_key
-    from pdf_generator import generate_quote_pdf
+from cloud_storage import CloudStorage, normalize_phone
+from parser import transcribe_audio, parse_repair_text, get_gemini_api_key
+from pdf_generator import generate_quote_pdf
 
 from dotenv import load_dotenv
 load_dotenv(os.path.join(BASE_DIR, ".env"), override=False)

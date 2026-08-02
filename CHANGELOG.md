@@ -2,6 +2,16 @@
 
 Projedeki tüm majör revizyonlar, güvenlik güncellemeleri me yeni özellikler bu dosyada SemVer prensiplerine uygun olarak kayıt altına alınmaktadır.
 
+## [v1.3.0] - 2026-08-02 (Multi-Tenant PostgreSQL Mimarisi & Kod Temizliği)
+
+### 🧹 Proje Temizliği ve Çok Kiracılı Mimari (`cloud_storage.py`, `models.py`, `railway.json`)
+- **🧹 Yuvalanmış Klasör Temizliği:** Hatalı oluşan `projects/dijital_ustabasi/projects` dizin hiyerarşisi tamamen kaldırıldı.
+- **⚡ Import İthalat Sadeleştirmesi (`main.py`, `cloud_storage.py`, `models.py`):** Karmaşık `try...except ModuleNotFoundError` ikili ithalat yapıları sökülerek saf modüler importlara dönüştürüldü.
+- **🌐 Dockerfile Builder Sabitlemesi (`railway.json`):** Railway derleme süreci `"builder": "DOCKERFILE"` olarak sabitlendi.
+- **🗄️ Multi-Tenant B2B2C Veri İzolasyonu:** `shop_id` yabancı anahtarları ile dükkanlar ve onların müşterileri tam veri izolasyonuna kavuşturuldu.
+
+---
+
 ## [v1.2.2] - 2026-08-02 (PostgreSQL Docker Compose & Temiz Şema Yapılandırması)
 
 ### 🐘 Yerel ve Canlı PostgreSQL Şema Altyapısı (`docker-compose.yml`, `requirements.txt`, `database.py`)
