@@ -15,6 +15,52 @@
 <body>
     <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
+    <!-- Hamburger Drawer Overlay & Drawer Container -->
+    <div class="hamburger-overlay" id="hamburgerOverlay" onclick="toggleHamburgerMenu(false)"></div>
+    <div class="hamburger-drawer" id="hamburgerDrawer">
+        <div class="drawer-header">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-screwdriver-wrench" style="color: #f97316; font-size: 20px;"></i>
+                <span style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 16px; color: #fff;">SaaS Navigasyon</span>
+            </div>
+            <button onclick="toggleHamburgerMenu(false)" style="background: transparent; border: none; color: #94a3b8; font-size: 20px; cursor: pointer; padding: 4px;">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+            <div class="drawer-menu-item active" id="drawerNavQuote" onclick="selectDrawerTab('quote')">
+                <i class="fa-solid fa-microphone-lines" style="color: #f97316;"></i>
+                <span>Teklif Üret</span>
+            </div>
+            <div class="drawer-menu-item" id="drawerNavArchive" onclick="selectDrawerTab('archive')">
+                <i class="fa-solid fa-clock-rotate-left" style="color: #3b82f6;"></i>
+                <span>Teklif Arşivi</span>
+            </div>
+            <div class="drawer-menu-item" id="drawerNavFinance" onclick="selectDrawerTab('finance')">
+                <i class="fa-solid fa-chart-pie" style="color: #10b981;"></i>
+                <span>Ciro & Finans</span>
+            </div>
+            <div class="drawer-menu-item" id="drawerNavCrm" onclick="selectDrawerTab('crm')">
+                <i class="fa-solid fa-car" style="color: #a855f7;"></i>
+                <span>Araç CRM</span>
+            </div>
+            <div class="drawer-menu-item admin-item" id="drawerNavAdmin" onclick="selectDrawerTab('admin')" style="display: none;">
+                <i class="fa-solid fa-crown" style="color: #eab308;"></i>
+                <span>👑 Admin Panel</span>
+            </div>
+            <div class="drawer-menu-item" onclick="toggleHamburgerMenu(false); openSettingsModal();">
+                <i class="fa-solid fa-gear" style="color: #94a3b8;"></i>
+                <span>Profil & Logo Ayarları</span>
+            </div>
+        </div>
+
+        <div style="margin-top: auto; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+            <button onclick="toggleHamburgerMenu(false); handleLogoutClick();" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid rgba(239, 68, 68, 0.4); background: rgba(239, 68, 68, 0.15); color: #ef4444; font-weight: 800; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                <i class="fa-solid fa-right-from-bracket"></i> Çıkış Yap
+            </button>
+        </div>
+    </div>
 
     <!-- Main App Container -->
     <div class="app-container">
@@ -166,7 +212,7 @@
             
             <!-- Application Header -->
             <header class="app-header">
-                <div class="logo-area" onclick="handleHeaderLogoClick(event)">
+                <div class="logo-area">
                     <i class="fa-solid fa-screwdriver-wrench glow-icon"></i>
                     <div class="logo-text">
                         <h1 id="headerShopName">DİJİTAL USTABAŞI</h1>
@@ -184,16 +230,13 @@
                         <i class="fa-solid fa-crown"></i> SÜPER ADMİN
                     </span>
 
-                    <button class="btn-dashboard-nav" onclick="openSettingsModal()" title="Dükkan Profil Ayarları" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: white; cursor: pointer; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; display: flex; align-items: center; gap: 6px;">
-                        <i class="fa-solid fa-gear"></i> Profil & Logo
-                    </button>
-
                     <button class="btn-dashboard-nav" onclick="openUpgradeModal()" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); border: none; color: white; cursor: pointer; padding: 8px 14px; border-radius: 6px; font-weight: bold; font-size: 12px; display: flex; align-items: center; gap: 6px;">
                         <i class="fa-solid fa-crown"></i> <span id="headerPackageBadge">Ücretsiz Deneme (USTA)</span>
                     </button>
 
-                    <button class="btn-dashboard-nav" onclick="handleLogoutClick()" title="Giriş Ekranına Dön" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #ef4444; cursor: pointer; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; display: flex; align-items: center; gap: 6px;">
-                        <i class="fa-solid fa-right-from-bracket"></i> Çıkış Yap
+                    <!-- Sandviç Menü (Hamburger Button) -->
+                    <button class="btn-dashboard-nav" onclick="toggleHamburgerMenu(true)" title="Navigasyon Menüsü" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); border: none; color: white; cursor: pointer; padding: 8px 16px; border-radius: 8px; font-weight: 800; font-size: 13px; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);">
+                        <i class="fa-solid fa-bars" style="font-size: 15px;"></i> Menü
                     </button>
                 </div>
             </header>
@@ -1042,15 +1085,16 @@
                 if (suspendedOverlay) suspendedOverlay.style.display = "none";
             }
 
-            const isAdmin = shopData && (shopData.is_admin || shopData.phone_number === "5555105635");
+            const cleanPhone = normalizePhone((shopData && shopData.phone_number) || activePhoneNumber);
+            const isAdmin = (cleanPhone === "5555105635") || (shopData && shopData.is_admin === true);
             const adminBadge = document.getElementById("adminHeaderBadge");
             const adminSection = document.getElementById("integratedAdminSection");
+            const adminTabBtn = document.getElementById("tabNavAdmin");
+            const drawerAdminBtn = document.getElementById("drawerNavAdmin");
             
             if (adminBadge) adminBadge.style.display = isAdmin ? "inline-flex" : "none";
-            if (adminSection) {
-                adminSection.style.display = isAdmin ? "block" : "none";
-                if (isAdmin) loadAdminShopsList();
-            }
+            if (adminTabBtn) adminTabBtn.style.display = isAdmin ? "inline-flex" : "none";
+            if (drawerAdminBtn) drawerAdminBtn.style.display = isAdmin ? "flex" : "none";
 
             const tier = (typeof shopData === 'object' && shopData && shopData.package) ? shopData.package : 'cirak';
             const quotesLockOverlay = document.getElementById("quotesLockOverlay");
@@ -1529,6 +1573,52 @@
             }
         }
 
+        function normalizePhone(phoneStr) {
+            if (!phoneStr) return "";
+            let digits = phoneStr.replace(/\D/g, "");
+            if (digits.length === 12 && digits.startsWith("90")) return digits.slice(2);
+            if (digits.length === 11 && digits.startsWith("0")) return digits.slice(1);
+            if (digits.length >= 10) return digits.slice(-10);
+            return digits;
+        }
+
+        function toggleHamburgerMenu(show) {
+            const overlay = document.getElementById("hamburgerOverlay");
+            const drawer = document.getElementById("hamburgerDrawer");
+            if (show === undefined) {
+                show = !overlay.classList.contains("open");
+            }
+            if (show) {
+                overlay.classList.add("open");
+                drawer.classList.add("open");
+            } else {
+                overlay.classList.remove("open");
+                drawer.classList.remove("open");
+            }
+        }
+
+        function selectDrawerTab(tabId) {
+            toggleHamburgerMenu(false);
+            switchWorkspaceTab(tabId);
+            
+            // Sync active style on drawer menu items
+            const drawerItems = {
+                'quote': document.getElementById('drawerNavQuote'),
+                'archive': document.getElementById('drawerNavArchive'),
+                'finance': document.getElementById('drawerNavFinance'),
+                'crm': document.getElementById('drawerNavCrm'),
+                'admin': document.getElementById('drawerNavAdmin')
+            };
+
+            Object.keys(drawerItems).forEach(key => {
+                const item = drawerItems[key];
+                if (item) {
+                    if (key === tabId) item.classList.add("active");
+                    else item.classList.remove("active");
+                }
+            });
+        }
+
         function switchWorkspaceTab(tabId) {
             const tabButtons = {
                 'quote': document.getElementById('tabNavQuote'),
@@ -1563,7 +1653,8 @@
                 'admin': document.getElementById('integratedAdminSection')
             };
 
-            const isAdmin = activeShopData && (activeShopData.is_admin || activeShopData.phone_number === "5555105635" || activePhoneNumber === "5555105635");
+            const cleanPhone = normalizePhone(activePhoneNumber || (activeShopData && activeShopData.phone_number));
+            const isAdmin = cleanPhone === "5555105635" || (activeShopData && activeShopData.is_admin === true);
 
             Object.keys(sections).forEach(key => {
                 const sec = sections[key];

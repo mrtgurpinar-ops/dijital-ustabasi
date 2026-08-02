@@ -2,6 +2,16 @@
 
 Projedeki tüm majör revizyonlar, güvenlik güncellemeleri me yeni özellikler bu dosyada SemVer prensiplerine uygun olarak kayıt altına alınmaktadır.
 
+## [v1.7.0] - 2026-08-02 (SaaS Kalitesinde Premium Görsel Yenilenme & Sandviç Menü Mimarisi)
+
+### 🎨 Görsel Tasarım & Sandviç Menü (`templates/index.html`, `static/style.css`)
+- **🔤 Google Fonts Tipografisi:** `Outfit` (Başlıklar) ve `Inter` (Gövde Metinleri) tipografisi entegre edildi.
+- **✨ Derin Cam Efekti (Glassmorphism):** Arka plana zengin radyal koyu ışık haresi (`radial-gradient mesh`) ve cam efektli panel tasarımı uygulandı.
+- **🍔 Dokunmatik Sandviç (Hamburger) Menü:** Üst bardaki buton kalabalığı sökülüp sağ üst köşeye şık `☰ Menü` çekmecesi yerleştirildi.
+- **📱 Sistem Geneli Telefon Normalizasyonu (`normalizePhone`):** Tüm cep numaraları (05XX, 5XX, +905XX) 10 haneli standart formata çevrildi. `👑 Admin Panel` sekmesinin `05555105635` / `5555105635` girişlerinde %100 görünür olması garantilendi.
+
+---
+
 ## [v1.6.0] - 2026-08-02 (VoltNet Tarzı 6 Sekmeli Menü & Gizli Süper Admin Masası)
 
 ### 📱 VoltNet Tarzı Menü Mimarisi (`templates/index.html`)
