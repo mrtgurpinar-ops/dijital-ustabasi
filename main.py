@@ -618,6 +618,8 @@ async def admin_extend_trial(req: ExtendTrialRequest, x_admin_key: str = Header(
 async def admin_reset_database(x_admin_key: str = Header(None, alias="X-Admin-Key")):
     verify_admin_key(x_admin_key)
     storage._save_db({"shops": {}, "quotes": []})
+    return {"success": True, "message": "Veritabanı başarıyla sıfırlandı."}
+
 @app.get("/api/vehicle/crm/{plaka}")
 async def get_vehicle_crm(plaka: str):
     clean_plaka = plaka.strip().upper().replace(" ", "")

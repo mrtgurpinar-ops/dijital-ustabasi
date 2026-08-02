@@ -2,6 +2,19 @@
 
 Projedeki tüm majör revizyonlar, güvenlik güncellemeleri me yeni özellikler bu dosyada SemVer prensiplerine uygun olarak kayıt altına alınmaktadır.
 
+## [v1.13.1] - 2026-08-02 (Uçtan Uca Sistem Taraması, Atıl Klasör Temizliği & API Endpoint İyileştirmeleri)
+
+### 🧹 Atıl Klasör me Dosya Temizliği (`projects/dijital_ustabasi/projects`)
+- **Mükerrer Yapı Temizliği:** Depo kökünde atıl ve mükerrer duran `projects/dijital_ustabasi/projects` klasör ağacı projeden tamamen kaldırıldı.
+
+### 🛡️ API Endpoint & Güvenlik Düzeltmeleri (`main.py`)
+- **`POST /api/admin/reset_database`:** Yanıt dönmeyen (missing return) sıfırlama endpoint'ine standart `{"success": True, "message": "..."}` JSON yanıtı eklendi.
+
+### ⚡ Sistem Kararlılığı & Versiyon Güncellemesi
+- **Versiyon Artırımı:** Sürüm `v1.13.1` seviyesine yükseltildi, önbellek kırma (cache busting) parametreleri doğrulandı.
+
+---
+
 ## [v1.13.0] - 2026-08-02 (Akıllı Türkçe Plaka Normalizasyonu, Doğrudan Sesli Teklif & iOS Apple Icon)
 
 ### 🏎️ Akıllı Türkçe Plaka & Şehir/İsim Kodlama Motoru (`parser.py`)
