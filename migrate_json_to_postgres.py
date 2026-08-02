@@ -86,43 +86,48 @@ def migrate_json_data(storage_dir=None, target_engine=None):
 
         # 2. Migrate Quotes
         for q in quotes_list:
-            quote_id = q.get("quote_id")
-            if not quote_id:
-                continue
-            existing_q = db.query(QuoteModel).filter(QuoteModel.quote_id == quote_id).first()
-            if not existing_q:
-                norm_phone = normalize_phone(q.get("phone_number", ""))
-                shop = db.query(ShopModel).filter(ShopModel.phone_number == norm_phone).first()
-                shop_id = shop.id if shop else None
-                
-                q_created = None
-                if q.get("created_at"):
-                    try:
-                        q_created = datetime.fromisoformat(q["created_at"])
-                    except Exception:
-                        pass
+            try:
+                quote_id = q.get("quote_id")
+                if not quote_id:
+                    continue
+                existing_q = db.query(QuoteModel).filter(QuoteModel.quote_id == quote_id).first()
+                if not existing_q:
+                    norm_phone = normalize_phone(q.get("phone_number", ""))
+                    shop = db.query(ShopModel).filter(ShopModel.phone_number == norm_phone).first()
+                    shop_id = shop.id if shop else None
+                    
+                    q_created = None
+                    if q.get("created_at"):
+                        try:
+                            clean_created = str(q["created_at"]).replace("Z", "")
+                            q_created = datetime.fromisoformat(clean_created)
+                        except Exception:
+                            pass
 
-                new_quote = QuoteModel(
-                    quote_id=quote_id,
-                    shop_id=shop_id,
-                    phone_number=norm_phone,
-                    plaka=q.get("plaka", "").upper(),
-                    vehicle=q.get("vehicle", "").title(),
-                    items_json=json.dumps(q.get("items", []), ensure_ascii=False),
-                    subtotal=q.get("subtotal", 0.0),
-                    vat=q.get("vat", 0.0),
-                    total_price=q.get("total_price", 0.0),
-                    discount_price=q.get("discount_price", 0.0),
-                    pdf_filename=q.get("pdf_filename", ""),
-                    validity_days=q.get("validity_days", 7),
-                    usta_note=q.get("usta_note", ""),
-                    status=q.get("status", "beklemede"),
-                    created_at=q_created or datetime.now()
-                )
-                db.add(new_quote)
-                migrated_quotes += 1
+                    new_quote = QuoteModel(
+                        quote_id=quote_id,
+                        shop_id=shop_id,
+                        phone_number=norm_phone,
+                        plaka=q.get("plaka", "").upper(),
+                        vehicle=q.get("vehicle", "").title(),
+                        items_json=json.dumps(q.get("items", []), ensure_ascii=False) if isinstance(q.get("items"), list) else str(q.get("items", "[]")),
+                        subtotal=float(q.get("subtotal") or 0.0),
+                        vat=float(q.get("vat") or 0.0),
+                        total_price=float(q.get("total_price") or 0.0),
+                        discount_price=float(q.get("discount_price") or 0.0),
+                        pdf_filename=q.get("pdf_filename", ""),
+                        validity_days=int(q.get("validity_days") or 7),
+                        usta_note=q.get("usta_note", ""),
+                        status=q.get("status", "beklemede"),
+                        created_at=q_created or datetime.now()
+                    )
+                    db.add(new_quote)
+                    db.commit()
+                    migrated_quotes += 1
+            except Exception as item_err:
+                db.rollback()
+                print(f"[Migration Warning] Skipping problematic quote item {q.get('quote_id')}: {item_err}")
 
-        db.commit()
         print(f"[Migration Complete] Migrated {migrated_shops} shops and {migrated_quotes} quotes into DB.")
     except Exception as e:
         db.rollback()

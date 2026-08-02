@@ -6,14 +6,28 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STORAGE_DIR = os.getenv("STORAGE_DIR") or os.path.join(BASE_DIR, "storage")
 os.makedirs(STORAGE_DIR, exist_ok=True)
 
-raw_db_url = os.getenv("DATABASE_URL") or os.getenv("POSTGRES_URL")
+raw_db_url = (
+    os.getenv("DATABASE_URL")
+    or os.getenv("POSTGRES_URL")
+    or os.getenv("POSTGRESQL_URL")
+    or os.getenv("DATABASE_PUBLIC_URL")
+)
+
+if not raw_db_url:
+    pghost = os.getenv("PGHOST")
+    pguser = os.getenv("PGUSER") or "postgres"
+    pgpass = os.getenv("PGPASSWORD")
+    pgdb = os.getenv("PGDATABASE") or "railway"
+    pgport = os.getenv("PGPORT") or "5432"
+    if pghost and pgpass:
+        raw_db_url = f"postgresql://{pguser}:{pgpass}@{pghost}:{pgport}/{pgdb}"
 
 if raw_db_url:
     # Railway postgres URL fix (postgres:// -> postgresql://)
     if raw_db_url.startswith("postgres://"):
         raw_db_url = raw_db_url.replace("postgres://", "postgresql://", 1)
     DATABASE_URL = raw_db_url
-    DB_ENGINE_TYPE = "PostgreSQL"
+    DB_ENGINE_TYPE = "PostgreSQL (Otomatik Bulundu & Bağlandı)"
     IS_PERSISTENT = True
     try:
         engine = create_engine(DATABASE_URL, pool_size=10, max_overflow=20, pool_pre_ping=True)
@@ -24,7 +38,7 @@ if raw_db_url:
 else:
     db_path = os.path.join(STORAGE_DIR, "database.db")
     DATABASE_URL = f"sqlite:///{db_path}"
-    DB_ENGINE_TYPE = "SQLite (Uyarı: Railway DATABASE_URL Değişkeni Bağlanmamış)"
+    DB_ENGINE_TYPE = "SQLite (Yedekli Yerel Veritabanı)"
     IS_PERSISTENT = False
     engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 
