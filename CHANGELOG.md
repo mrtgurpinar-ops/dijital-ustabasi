@@ -2,6 +2,24 @@
 
 Projedeki tüm majör revizyonlar, güvenlik güncellemeleri me yeni özellikler bu dosyada SemVer prensiplerine uygun olarak kayıt altına alınmaktadır.
 
+## [v1.2.0] - 2026-08-02 (5 Katmanlı Rol Yapısı & Araç Parkı CRM Mimarisi)
+
+### 👥 5 Katmanlı Rol Mimarisi (`cloud_storage.py`, `main.py`, `templates/index.html`)
+- **5 Hazır Test Hesabı (`cloud_storage.py`):** Veritabanı başlatıldığında Admin (`05555105635`), Deneme (`05550000000`), Usta (`05553330003`), Kalfa (`05552220002`) ve Çırak (`05551110001`) varsayılan olarak otomatik tanımlandı.
+- **⚡ Hızlı Rol Giriş Butonları (`templates/index.html`):** Giriş ekranına 5 rol için tek tıkla otomatik doldurup giriş yapmayı sağlayan test düğmeleri eklendi.
+- **🚗 Araç Parkı CRM Uç Noktası (`main.py`):** Plakaya göre tüm servis geçmişi ve toplam harcamayı sunan `GET /api/vehicle/crm/{plaka}` API uç noktası eklendi.
+
+---
+
+## [v1.1.1] - 2026-08-02 (Süper Admin Giriş & Entegre Yönetim Masası)
+
+### 👑 Süper Admin Hesabı & Entegre Yönetim Yetkisi (`cloud_storage.py`, `main.py`, `templates/index.html`)
+- **Özel Admin Hesabı Entegrasyonu (`cloud_storage.py`):** `5555105635` telefon numarası ve `DijitalAdmin2026!` şifresi ile otomatik varsayılan Süper Admin dükkanı tanımlandı.
+- **Sınırsız Yetki & Kilit Kaldırma (`main.py`, `templates/index.html`):** Admin girişi yapıldığında tüm paket kilitleri, deneme süresi sınırlamaları ve arşiv kısıtlamaları kaldırıldı (`is_admin: True`).
+- **Entegre Dükkan Yönetim Masası (`templates/index.html`):** Çalışma alanı başlığında `👑 SÜPER ADMİN` rozeti ve üst kısımda dükkan listeleme, paket yükseltme, +30 gün uzatma, askıya alma ve silme işlevlerini sunan canlı yönetim masası açıldı.
+
+---
+
 ## [v1.1.0] - 2026-08-02 (PostgreSQL İlişkisel Veritabanı & SaaS Mimarisi)
 
 ### 🗄️ Kurumsal PostgreSQL & SQLAlchemy ORM Altyapısı (`database.py`, `models.py`, `migrate_json_to_postgres.py`)

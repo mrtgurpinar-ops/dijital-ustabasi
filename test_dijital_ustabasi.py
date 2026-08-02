@@ -243,6 +243,15 @@ class TestFastAPIIntegration(unittest.TestCase):
         self.assertEqual(data_kalfa.get("package"), "kalfa")
         self.assertLessEqual(len(data_kalfa.get("quotes", [])), 15)
 
+    def test_super_admin_authentication(self):
+        res = self.client.post("/api/shop/login", json={"phone_number": "5555105635", "password": "DijitalAdmin2026!"})
+        self.assertEqual(res.status_code, 200)
+        data = res.json()
+        self.assertTrue(data.get("success"))
+        shop = data.get("shop", {})
+        self.assertTrue(shop.get("is_admin"))
+        self.assertEqual(shop.get("package"), "usta")
+
     def test_html_templates_js_syntax_validation(self):
         import re
         templates_dir = os.path.join(os.path.dirname(__file__), "templates")

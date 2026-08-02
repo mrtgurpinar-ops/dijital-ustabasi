@@ -7,6 +7,7 @@
             "logo_url": "",
             "package": "cirak",
             "is_active": true,
+            "is_admin": false,
             "created_at": "2026-07-26T18:57:47.374547Z",
             "expires_at": null,
             "upgrade_request": null
@@ -18,6 +19,7 @@
             "logo_url": "",
             "package": "usta",
             "is_active": true,
+            "is_admin": false,
             "created_at": "2026-08-02T17:48:23.900602Z",
             "expires_at": "2026-08-09T17:48:23.900602Z",
             "upgrade_request": null
@@ -29,6 +31,7 @@
             "logo_url": "",
             "package": "usta",
             "is_active": true,
+            "is_admin": false,
             "created_at": "2026-08-02T17:48:23.962801Z",
             "expires_at": "2026-08-09T17:48:23.962801Z",
             "upgrade_request": null
@@ -40,8 +43,69 @@
             "logo_url": "http://my.logo/url.png",
             "package": "usta",
             "is_active": true,
+            "is_admin": false,
             "created_at": "2026-07-10T12:00:00Z",
             "expires_at": "2026-08-09T17:48:24.090840Z",
+            "upgrade_request": null
+        },
+        "5555105635": {
+            "phone_number": "5555105635",
+            "password_hash": "6e2a91aafee0c09821734e08b85b9440f94a586f5692a4f0a69fa268b8680c08",
+            "name": "👑 Süper Admin Servis",
+            "logo_url": "",
+            "package": "usta",
+            "is_active": true,
+            "is_admin": true,
+            "created_at": "2026-08-02T18:53:51.452476Z",
+            "expires_at": null,
+            "upgrade_request": null
+        },
+        "5550000000": {
+            "phone_number": "5550000000",
+            "password_hash": "97f2e8b53fdb16621b4a4a4536cd42b47e8fc7edcdbf4f747197fd5301dd7022",
+            "name": "⏳ Deneme Oto Servis",
+            "logo_url": "",
+            "package": "usta",
+            "is_active": true,
+            "is_admin": false,
+            "created_at": "2026-08-02T18:59:25.897650Z",
+            "expires_at": "2026-08-09T18:59:26.036830Z",
+            "upgrade_request": null
+        },
+        "5553330003": {
+            "phone_number": "5553330003",
+            "password_hash": "bc746858ca004e9e3f9eb68c0e3a2ed1ebb249dc795ff7025847dab8ed59b95a",
+            "name": "⭐️ Usta Oto Servis",
+            "logo_url": "",
+            "package": "usta",
+            "is_active": true,
+            "is_admin": false,
+            "created_at": "2026-08-02T18:59:25.897650Z",
+            "expires_at": null,
+            "upgrade_request": null
+        },
+        "5552220002": {
+            "phone_number": "5552220002",
+            "password_hash": "21aceb9d3ccb77f17bac20877ec56fdd32cff9dbee5a0e8454afff96b2d682ca",
+            "name": "🛠️ Kalfa Oto Servis",
+            "logo_url": "",
+            "package": "kalfa",
+            "is_active": true,
+            "is_admin": false,
+            "created_at": "2026-08-02T18:59:25.897650Z",
+            "expires_at": null,
+            "upgrade_request": null
+        },
+        "5551110001": {
+            "phone_number": "5551110001",
+            "password_hash": "e1b843354e8c69bef5b3ee7240bfc9d9423a671e03673349a62b317a26edd900",
+            "name": "👶 Çırak Oto Servis",
+            "logo_url": "",
+            "package": "cirak",
+            "is_active": true,
+            "is_admin": false,
+            "created_at": "2026-08-02T18:59:25.897650Z",
+            "expires_at": null,
             "upgrade_request": null
         },
         "5554443322": {
@@ -51,8 +115,9 @@
             "logo_url": "",
             "package": "kalfa",
             "is_active": true,
-            "created_at": "2026-07-25T18:45:14.157180Z",
-            "expires_at": "2026-09-01T18:45:14.157180Z",
+            "is_admin": false,
+            "created_at": "2026-07-25T18:59:26.972450Z",
+            "expires_at": "2026-09-01T18:59:26.972450Z",
             "upgrade_request": null
         }
     },
@@ -709,7 +774,49 @@
             "status": "beklemede"
         },
         {
-            "quote_id": "Q-20260802184514125",
+            "quote_id": "Q-20260802184514946",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_ae1bd428.pdf",
+            "created_at": "2026-08-02T18:45:14.947976",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260802185353434",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_e5aa738f.pdf",
+            "created_at": "2026-08-02T18:53:53.434945",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260802185926938",
             "phone_number": "5554443322",
             "plaka": "34LIMIT01",
             "vehicle": "Fiat Egea",
@@ -723,14 +830,14 @@
             "vat": 400.0,
             "total_price": 2400.0,
             "discount_price": 2160.0,
-            "pdf_filename": "teklif_34LIMIT01_5554443322_67804a70.pdf",
-            "created_at": "2026-08-02T18:45:14.126115",
+            "pdf_filename": "teklif_34LIMIT01_5554443322_dbfb2830.pdf",
+            "created_at": "2026-08-02T18:59:26.939930",
             "validity_days": 7,
             "usta_note": "",
             "status": "beklemede"
         },
         {
-            "quote_id": "Q-20260802184514946",
+            "quote_id": "Q-20260802185927779",
             "phone_number": "5551112233",
             "plaka": "34ABC999",
             "vehicle": "Renault Clio",
@@ -744,14 +851,14 @@
             "vat": 300.0,
             "total_price": 1800.0,
             "discount_price": 1620.0,
-            "pdf_filename": "teklif_34ABC999_5551112233_ae1bd428.pdf",
-            "created_at": "2026-08-02T18:45:14.947976",
+            "pdf_filename": "teklif_34ABC999_5551112233_16560503.pdf",
+            "created_at": "2026-08-02T18:59:27.780258",
             "validity_days": 7,
             "usta_note": "",
             "status": "beklemede"
         },
         {
-            "quote_id": "Q-20260802184514946",
+            "quote_id": "Q-20260802185927779",
             "phone_number": "5551112233",
             "plaka": "34ABC999",
             "vehicle": "Renault Clio",
@@ -765,8 +872,8 @@
             "vat": 300.0,
             "total_price": 1800.0,
             "discount_price": 1620.0,
-            "pdf_filename": "teklif_34ABC999_5551112233_ae1bd428.pdf",
-            "created_at": "2026-08-02T18:45:14.947976",
+            "pdf_filename": "teklif_34ABC999_5551112233_16560503.pdf",
+            "created_at": "2026-08-02T18:59:27.780258",
             "validity_days": 7,
             "usta_note": "",
             "status": "beklemede"

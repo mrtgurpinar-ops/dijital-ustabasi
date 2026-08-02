@@ -118,8 +118,22 @@
                     </div>
 
                     <button onclick="handleStartTrialClick()" style="width: 100%; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); border: none; color: white; padding: 13px; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 18px rgba(249, 115, 22, 0.4);">
-                        <i class="fa-solid fa-user-plus"></i> Şifre Belirle & 7 Gün Ücretsiz Denemeyi Başlat
+                        <i class="fa-solid fa-rocket"></i> Şifre Belirle & 7 Günlük Denemeyi Başlat
                     </button>
+                </div>
+
+                <!-- Quick 5-Role Demo Logins -->
+                <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1);">
+                    <span style="font-size: 11px; font-weight: 800; color: #94a3b8; display: block; margin-bottom: 8px;">
+                        ⚡ 5 ROL İLE HIZLI TEST GİRİŞLERİ:
+                    </span>
+                    <div style="display: flex; gap: 6px; flex-wrap: wrap; justify-content: center;">
+                        <button onclick="quickFillRole('05555105635', 'DijitalAdmin2026!')" style="background: rgba(234, 179, 8, 0.2); border: 1px solid #eab308; color: #facc15; padding: 5px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer;">👑 Admin</button>
+                        <button onclick="quickFillRole('05550000000', 'Deneme1234!')" style="background: rgba(249, 115, 22, 0.2); border: 1px solid #f97316; color: #f97316; padding: 5px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer;">⏳ Deneme</button>
+                        <button onclick="quickFillRole('05553330003', 'Usta1234!')" style="background: rgba(59, 130, 246, 0.2); border: 1px solid #3b82f6; color: #60a5fa; padding: 5px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer;">⭐️ Usta</button>
+                        <button onclick="quickFillRole('05552220002', 'Kalfa1234!')" style="background: rgba(168, 85, 247, 0.2); border: 1px solid #a855f7; color: #c084fc; padding: 5px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer;">🛠️ Kalfa</button>
+                        <button onclick="quickFillRole('05551110001', 'Cirak1234!')" style="background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: #34d399; padding: 5px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer;">👶 Çırak</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -146,6 +160,10 @@
                         <input type="tel" id="phoneNumber" readonly style="background: rgba(255, 255, 255, 0.05); font-weight: bold; width: 130px; padding: 8px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); color: #fff; outline: none; font-size: 13px;">
                     </div>
                     
+                    <span id="adminHeaderBadge" style="display: none; background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%); color: #000; font-weight: 800; padding: 6px 12px; border-radius: 6px; font-size: 12px; align-items: center; gap: 6px;">
+                        <i class="fa-solid fa-crown"></i> SÜPER ADMİN
+                    </span>
+
                     <button class="btn-dashboard-nav" onclick="openSettingsModal()" title="Dükkan Profil Ayarları" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: white; cursor: pointer; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; display: flex; align-items: center; gap: 6px;">
                         <i class="fa-solid fa-gear"></i> Profil & Logo
                     </button>
@@ -162,6 +180,37 @@
 
             <!-- Dashboard Content -->
             <main class="workspace-dashboard" style="display: flex; flex-direction: column; gap: 20px; padding: 20px 0 30px 0;">
+                
+                <!-- Section 0: Integrated Super Admin Panel (Visible for 5555105635 Admin) -->
+                <div class="panel glass" id="integratedAdminSection" style="display: none; padding: 20px; border: 2px solid rgba(234, 179, 8, 0.5); background: rgba(15, 23, 42, 0.95); border-radius: 16px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+                        <h3 style="margin: 0; font-size: 17px; font-weight: 800; color: #facc15; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-crown" style="color: #eab308;"></i> SÜPER ADMİN DÜKKAN YÖNETİM MASASI
+                        </h3>
+                        <div style="display: flex; gap: 8px;">
+                            <button onclick="loadAdminShopsList()" style="background: rgba(234, 179, 8, 0.2); border: 1px solid #eab308; color: #facc15; padding: 6px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px;">
+                                <i class="fa-solid fa-rotate"></i> Yenile
+                            </button>
+                        </div>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; color: #cbd5e1;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid rgba(255,255,255,0.1); color: #94a3b8; font-size: 11px; text-transform: uppercase;">
+                                    <th style="padding: 8px;">Dükkan / Tel</th>
+                                    <th style="padding: 8px;">Paket</th>
+                                    <th style="padding: 8px;">Talep</th>
+                                    <th style="padding: 8px;">Durum</th>
+                                    <th style="padding: 8px;">Bitiş Tarihi</th>
+                                    <th style="padding: 8px; text-align: right;">İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminShopsTbody">
+                                <tr><td colspan="6" style="padding: 16px; text-align: center;"><i class="fa-solid fa-spinner fa-spin"></i> Dükkanlar yükleniyor...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                 
                 <!-- Section 1: Direct Voice & Text Quote Engine -->
                 <div class="panel glass" id="interactiveWorkspaceSection" style="padding: 22px; border: 1px solid rgba(249, 115, 22, 0.35); background: rgba(15, 23, 42, 0.7); border-radius: 16px;">
@@ -468,6 +517,17 @@
         let currentFilter = "all";
         let rawQuotesList = [];
         let isSubmittingQuote = false;
+
+        function quickFillRole(phone, password) {
+            const phoneInput = document.getElementById("authPhoneInput");
+            const pwdInput = document.getElementById("authPasswordInput");
+            if (phoneInput) {
+                phoneInput.value = phone;
+                formatTurkishPhoneInput(phoneInput);
+            }
+            if (pwdInput) pwdInput.value = password;
+            handleLoginClick();
+        }
 
         function preventNonNumericInput(e) {
             const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Enter', 'Home', 'End'];
@@ -926,6 +986,16 @@
                 if (suspendedOverlay) suspendedOverlay.style.display = "none";
             }
 
+            const isAdmin = shopData && (shopData.is_admin || shopData.phone_number === "5555105635");
+            const adminBadge = document.getElementById("adminHeaderBadge");
+            const adminSection = document.getElementById("integratedAdminSection");
+            
+            if (adminBadge) adminBadge.style.display = isAdmin ? "inline-flex" : "none";
+            if (adminSection) {
+                adminSection.style.display = isAdmin ? "block" : "none";
+                if (isAdmin) loadAdminShopsList();
+            }
+
             const tier = (typeof shopData === 'object' && shopData && shopData.package) ? shopData.package : 'cirak';
             const quotesLockOverlay = document.getElementById("quotesLockOverlay");
             const ciroCard = document.getElementById("ciroCard");
@@ -937,7 +1007,7 @@
             if (quotesLockOverlay) quotesLockOverlay.style.display = "none";
             quotesContainer.classList.remove("blurred-preview");
 
-            if (tier === "usta") {
+            if (isAdmin || tier === "usta") {
                 ciroCard.classList.remove("locked-card");
                 ciroLock.style.display = "none";
                 if (quotesLockOverlay) quotesLockOverlay.style.display = "none";
@@ -951,6 +1021,117 @@
                 if (quotesLockOverlay) quotesLockOverlay.style.display = "flex";
                 quotesContainer.classList.add("blurred-preview");
             }
+        }
+
+        async function loadAdminShopsList() {
+            try {
+                const res = await fetch("/api/admin/shops", {
+                    headers: { "X-Admin-Key": "ustabasi2026" }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    renderAdminShopsTable(data.shops || {});
+                }
+            } catch (e) {
+                console.error("Admin shops list load error:", e);
+            }
+        }
+
+        function renderAdminShopsTable(shopsObj) {
+            const tbody = document.getElementById("adminShopsTbody");
+            if (!tbody) return;
+            const entries = Object.entries(shopsObj);
+            if (entries.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="padding: 16px; text-align: center; color: #94a3b8;">Kayıtlı dükkan bulunamadı.</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = entries.map(([phone, s]) => {
+                const isAct = s.is_active !== false;
+                const pkg = s.package || "cirak";
+                const req = s.upgrade_request ? `<span style="background: rgba(245, 158, 11, 0.2); color: #f59e0b; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 10px;">Talep: ${s.upgrade_request}</span>` : "-";
+                const exp = s.expires_at ? new Date(s.expires_at).toLocaleDateString("tr-TR") : "Süresiz";
+                return `
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                        <td style="padding: 10px; font-weight: bold; color: #fff;">
+                            ${s.name || 'Oto Servis'}<br>
+                            <span style="font-size: 11px; color: #94a3b8;">0${phone}</span>
+                        </td>
+                        <td style="padding: 10px;">
+                            <select onchange="adminUpdatePackage('${phone}', this.value)" style="background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 4px;">
+                                <option value="cirak" ${pkg === 'cirak' ? 'selected' : ''}>Çırak</option>
+                                <option value="kalfa" ${pkg === 'kalfa' ? 'selected' : ''}>Kalfa</option>
+                                <option value="usta" ${pkg === 'usta' ? 'selected' : ''}>Usta</option>
+                            </select>
+                        </td>
+                        <td style="padding: 10px;">${req}</td>
+                        <td style="padding: 10px;">
+                            <span style="color: ${isAct ? '#10b981' : '#ef4444'}; font-weight: bold;">${isAct ? 'Aktif' : 'Askıda'}</span>
+                        </td>
+                        <td style="padding: 10px;">${exp}</td>
+                        <td style="padding: 10px; text-align: right;">
+                            <button onclick="adminExtendDays('${phone}', 30)" title="+30 Gün Uzat" style="background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: #10b981; padding: 4px 8px; border-radius: 4px; font-weight: bold; cursor: pointer; margin-right: 4px;">+30 Gün</button>
+                            <button onclick="adminToggleStatus('${phone}', ${!isAct})" style="background: rgba(245, 158, 11, 0.2); border: 1px solid #f59e0b; color: #f59e0b; padding: 4px 8px; border-radius: 4px; font-weight: bold; cursor: pointer; margin-right: 4px;">${isAct ? 'Askıya Al' : 'Aktif Et'}</button>
+                            <button onclick="adminDeleteShop('${phone}')" style="background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #ef4444; padding: 4px 8px; border-radius: 4px; font-weight: bold; cursor: pointer;">Sil</button>
+                        </td>
+                    </tr>
+                `;
+            }).join("");
+        }
+
+        async function adminUpdatePackage(phone, pkg) {
+            try {
+                const res = await fetch("/api/admin/shop/package", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "X-Admin-Key": "ustabasi2026" },
+                    body: JSON.stringify({ phone_number: phone, package: pkg })
+                });
+                if (res.ok) {
+                    showToast("Dükkan paketi güncellendi.", "success");
+                    loadAdminShopsList();
+                }
+            } catch (e) { showToast("İşlem hatası.", "error"); }
+        }
+
+        async function adminExtendDays(phone, days) {
+            try {
+                const res = await fetch("/api/admin/shop/extend", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "X-Admin-Key": "ustabasi2026" },
+                    body: JSON.stringify({ phone_number: phone, days: days })
+                });
+                if (res.ok) {
+                    showToast(`Süre +${days} gün uzatıldı.`, "success");
+                    loadAdminShopsList();
+                }
+            } catch (e) { showToast("İşlem hatası.", "error"); }
+        }
+
+        async function adminToggleStatus(phone, isAct) {
+            try {
+                const res = await fetch("/api/admin/shop/status", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "X-Admin-Key": "ustabasi2026" },
+                    body: JSON.stringify({ phone_number: phone, is_active: isAct })
+                });
+                if (res.ok) {
+                    showToast("Dükkan durumu güncellendi.", "success");
+                    loadAdminShopsList();
+                }
+            } catch (e) { showToast("İşlem hatası.", "error"); }
+        }
+
+        async function adminDeleteShop(phone) {
+            if (!confirm(`0${phone} numaralı dükkanı silmek istediğinize emin misiniz?`)) return;
+            try {
+                const res = await fetch(`/api/admin/shop/${phone}`, {
+                    method: "DELETE",
+                    headers: { "X-Admin-Key": "ustabasi2026" }
+                });
+                if (res.ok) {
+                    showToast("Dükkan silindi.", "success");
+                    loadAdminShopsList();
+                }
+            } catch (e) { showToast("İşlem hatası.", "error"); }
         }
 
         function updateShopIdentityUI(shop) {

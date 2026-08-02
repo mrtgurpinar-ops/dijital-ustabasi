@@ -78,11 +78,83 @@ class CloudStorage:
             except ModuleNotFoundError:
                 from migrate_json_to_postgres import migrate_json_data
             migrate_json_data(self.storage_dir, target_engine=self.engine)
+            self.init_five_tier_accounts()
         except Exception as e:
             print("[CloudStorage Engine Warning]", e)
 
         if not os.path.exists(self.db_path):
             self._save_db({"shops": {}, "quotes": []})
+
+    def init_five_tier_accounts(self):
+        now = datetime.now()
+        default_accounts = [
+            {
+                "phone": "5555105635",
+                "password": "DijitalAdmin2026!",
+                "name": "👑 Süper Admin Servis",
+                "package": "usta",
+                "expires_at": None
+            },
+            {
+                "phone": "5550000000",
+                "password": "Deneme1234!",
+                "name": "⏳ Deneme Oto Servis",
+                "package": "usta",
+                "expires_at": now + timedelta(days=7)
+            },
+            {
+                "phone": "5553330003",
+                "password": "Usta1234!",
+                "name": "⭐️ Usta Oto Servis",
+                "package": "usta",
+                "expires_at": None
+            },
+            {
+                "phone": "5552220002",
+                "password": "Kalfa1234!",
+                "name": "🛠️ Kalfa Oto Servis",
+                "package": "kalfa",
+                "expires_at": None
+            },
+            {
+                "phone": "5551110001",
+                "password": "Cirak1234!",
+                "name": "👶 Çırak Oto Servis",
+                "package": "cirak",
+                "expires_at": None
+            }
+        ]
+
+        db_session = self._get_session()
+        try:
+            for acc in default_accounts:
+                phone = acc["phone"]
+                shop = db_session.query(ShopModel).filter(ShopModel.phone_number == phone).first()
+                if not shop:
+                    shop = ShopModel(
+                        phone_number=phone,
+                        password_hash=hash_password(acc["password"]),
+                        name=acc["name"],
+                        logo_url="",
+                        package=acc["package"],
+                        is_active=True,
+                        created_at=now,
+                        expires_at=acc["expires_at"],
+                        upgrade_request=None
+                    )
+                    db_session.add(shop)
+                else:
+                    shop.password_hash = hash_password(acc["password"])
+                    shop.package = acc["package"]
+                    shop.is_active = True
+                    if acc["expires_at"] is not None:
+                        shop.expires_at = acc["expires_at"]
+            db_session.commit()
+        except Exception as e:
+            db_session.rollback()
+            print("[Five Tier Setup Error]", e)
+        finally:
+            db_session.close()
 
     def _get_session(self):
         return self.SessionLocal()

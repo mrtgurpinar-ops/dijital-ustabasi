@@ -41,6 +41,7 @@ class ShopModel(Base):
             "logo_url": self.logo_url,
             "package": self.package,
             "is_active": self.is_active,
+            "is_admin": self.phone_number == "5555105635",
             "created_at": c_at,
             "expires_at": e_at,
             "upgrade_request": self.upgrade_request
