@@ -1582,7 +1582,7 @@
                 });
                 mediaRecorder = new MediaRecorder(stream);
                 audioChunks = [];
-                pendingVoiceAction = "transcribe";
+                pendingVoiceAction = "generate";
 
                 mediaRecorder.ondataavailable = (event) => {
                     if (event.data.size > 0) audioChunks.push(event.data);

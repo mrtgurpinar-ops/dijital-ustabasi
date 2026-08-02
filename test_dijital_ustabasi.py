@@ -3,11 +3,11 @@ import unittest
 import tempfile
 from datetime import datetime, timedelta
 try:
-    from projects.dijital_ustabasi.parser import turkish_word_to_number, rule_based_parser
+    from projects.dijital_ustabasi.parser import turkish_word_to_number, rule_based_parser, normalize_turkish_plate_text
     from projects.dijital_ustabasi.pdf_generator import generate_quote_pdf, register_turkish_fonts
     from projects.dijital_ustabasi.cloud_storage import CloudStorage
 except ModuleNotFoundError:
-    from parser import turkish_word_to_number, rule_based_parser
+    from parser import turkish_word_to_number, rule_based_parser, normalize_turkish_plate_text
     from pdf_generator import generate_quote_pdf, register_turkish_fonts
     from cloud_storage import CloudStorage
 
@@ -37,6 +37,12 @@ class TestDijitalUstabasi(unittest.TestCase):
         self.assertEqual(turkish_word_to_number("yedi buçuk"), 7500)
         self.assertEqual(turkish_word_to_number("on iki bin"), 12000)
         self.assertEqual(turkish_word_to_number("kırk beş bin"), 45000)
+
+    def test_normalize_turkish_plate_text(self):
+        res1 = rule_based_parser("otuz dört a b c 123 Egea yağ değişimi 1500 TL")
+        self.assertEqual(res1.get("plaka"), "34ABC123")
+        res2 = rule_based_parser("34 ali veli 555 Clio triger seti 2500 TL")
+        self.assertEqual(res2.get("plaka"), "34AV555")
 
     def test_rule_based_parser_simple(self):
         text = "34 ABC 123 Fiat Egea disk değişimi 2500 lira ve balata değişimi 1200 TL usta notu diskler orijinal"

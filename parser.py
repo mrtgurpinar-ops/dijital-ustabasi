@@ -275,11 +275,96 @@ def turkish_word_to_number(word_str: str) -> float:
             
     return total
 
+TURKISH_CITY_PHONETIC_MAP = {
+    "adana": "A", "ali": "A", "ankara": "A", "ahmet": "A", "aydın": "A", "afyon": "A",
+    "bursa": "B", "bolu": "B", "balıkesir": "B", "bilecik": "B", "bingöl": "B", "bitlis": "B",
+    "ceyhan": "C", "can": "C", "cemal": "C", "çorum": "Ç", "çanakkale": "Ç", "çankırı": "Ç",
+    "denizli": "D", "dilek": "D", "diyarbakır": "D", "düzce": "D",
+    "edirne": "E", "elazığ": "E", "erzincan": "E", "erzurum": "E", "eskişehir": "E",
+    "fatsa": "F", "fatih": "F", "giresun": "G", "gaziantep": "G", "gümüşhane": "G",
+    "hatay": "H", "hakkari": "H", "hakan": "H",
+    "isparta": "I", "izmir": "İ", "istanbul": "İ", "iğdır": "İ",
+    "jandarma": "J", "jale": "J",
+    "kars": "K", "kayseri": "K", "kastamonu": "K", "kocaeli": "K", "konya": "K", "kütahya": "K", "kırklareli": "K",
+    "lüleburgaz": "L", "levent": "L", "limon": "L",
+    "manisa": "M", "malatya": "M", "mardin": "M", "muğla": "M", "muş": "M", "maraş": "M",
+    "niğde": "N", "nevşehir": "N", "nazilli": "N",
+    "ordu": "O", "osmaniye": "O", "orhan": "O",
+    "polatlı": "P", "paşa": "P", "pamukkale": "P",
+    "rize": "R", "recep": "R",
+    "samsun": "S", "sakarya": "S", "sivas": "S", "sinop": "S", "siirt": "S", "şanlıurfa": "Ş", "şırnak": "Ş",
+    "trabzon": "T", "tunceli": "T", "tekirdağ": "T", "tokat": "T",
+    "uşak": "U", "urfa": "U",
+    "van": "V", "veli": "V", "yalova": "Y", "yozgat": "Y", "zonguldak": "Z"
+}
+
+def normalize_turkish_plate_text(text: str) -> str:
+    """
+    Normalizes Turkish phonetic spoken plates into standard digits/letters.
+    Examples:
+    - 'otuz dört a b c yüz yirmi üç' -> '34 ABC 123'
+    - '34 ali veli can 123' -> '34 AVC 123'
+    - 'otuz dört abc 123' -> '34 ABC 123'
+    """
+    if not text:
+        return text
+
+    t_clean = text.lower()
+    
+    # 1. Number words to digits for city code at start
+    tens_map = {"on": "10", "yirmi": "20", "otuz": "30", "kırk": "40", "elli": "50", "altmış": "60", "yetmiş": "70", "seksen": "80", "doksan": "90"}
+    units_map = {"bir": "1", "iki": "2", "üç": "3", "dört": "4", "beş": "5", "altı": "6", "yedi": "7", "sekiz": "8", "dokuz": "9"}
+    
+    for t_word, t_digit in tens_map.items():
+        for u_word, u_digit in units_map.items():
+            t_clean = re.sub(rf"\b{t_word}\s+{u_word}\b", f"{t_digit[0]}{u_digit}", t_clean)
+        t_clean = re.sub(rf"\b{t_word}\b", t_digit, t_clean)
+
+    # 2. Extract phonetic words after city code
+    words = t_clean.split()
+    i = 0
+    while i < len(words):
+        w = words[i]
+        if w.isdigit() and len(w) == 2 and 1 <= int(w) <= 81:
+            city_code = w
+            letters = ""
+            j = i + 1
+            while j < len(words) and j < i + 5:
+                nw = words[j]
+                if len(nw) == 1 and nw.isalpha():
+                    letters += nw.upper()
+                    j += 1
+                elif nw in TURKISH_CITY_PHONETIC_MAP:
+                    letters += TURKISH_CITY_PHONETIC_MAP[nw]
+                    j += 1
+                elif nw.isalpha() and len(nw) <= 3 and nw not in ["ile", "ve", "lira", "tl", "bakım", "yağ", "fren", "fiyat", "notu"]:
+                    letters += nw.upper()
+                    j += 1
+                else:
+                    break
+            
+            digits = ""
+            if j < len(words):
+                dw = words[j]
+                if dw.isdigit() and 2 <= len(dw) <= 4:
+                    digits = dw
+                    j += 1
+
+            if city_code and letters and digits:
+                found_plate = f"{city_code}{letters}{digits}"
+                raw_spoken = " ".join(words[i:j])
+                t_clean = t_clean.replace(raw_spoken, f" {found_plate} ")
+                break
+        i += 1
+
+    return t_clean
+
 def rule_based_parser(text: str) -> dict:
     """
     Rule-based parser using regex and string matching to parse repair jobs, plate, and vehicle.
     """
-    text_lower = text.lower()
+    text_normalized = normalize_turkish_plate_text(text)
+    text_lower = text_normalized.lower()
     
     # 1. Extract Plaka
     # Turkish plate formats: 2 digits + 1-3 letters + 2-4 digits

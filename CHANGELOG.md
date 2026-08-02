@@ -2,6 +2,21 @@
 
 Projedeki tüm majör revizyonlar, güvenlik güncellemeleri me yeni özellikler bu dosyada SemVer prensiplerine uygun olarak kayıt altına alınmaktadır.
 
+## [v1.13.0] - 2026-08-02 (Akıllı Türkçe Plaka Normalizasyonu, Doğrudan Sesli Teklif & iOS Apple Icon)
+
+### 🏎️ Akıllı Türkçe Plaka & Şehir/İsim Kodlama Motoru (`parser.py`)
+- **`normalize_turkish_plate_text(text)`:** Sanayi ortamındaki tüm sözlü plaka anlatımlarını otomatik standart araç plakasına çeviren akıllı normalizasyon motoru eklendi:
+  - Rakam Okunuşları: *"otuz dört a b c yüz yirmi üç"* ➔ `34 ABC 123`
+  - Şehir / İsim Kodlaması: *"34 Ali Veli 555"* ➔ `34 AV 555`, *"34 Ankara Bursa Ceyhan 123"* ➔ `34 ABC 123`
+
+### ⚡ Doğrudan Sesli Teklif Üretimi (Direct Voice-to-Quote Pipeline) (`templates/index.html`)
+- **Doğrudan Üretim:** Mikrofona konuşup kaydı bitirdiğinde metin kutusuna düşüp tıklama bekleme aşaması kaldırıldı. Usta konuştuğu anda ses deşifre edilip anında doğrudan Teklif Kartı ve PDF belgesi üretilerek ekrana basılmaktadır.
+
+### 🍎 iPhone iOS Apple Touch Icon & PWA Manifest (`static/apple-touch-icon.png`, `static/manifest.json`)
+- **Özel iOS İkonu:** iPhone/Safari üzerinde "Ana Ekrana Ekle" yapıldığında çıkan varsayılan renksiz "D" harfi ikonu yerine turuncu neon anahtar me dişli amblemli kurumsal iOS `apple-touch-icon.png` (180x180 px) ve `manifest.json` konfigürasyonu canlıya alındı.
+
+---
+
 ## [v1.12.1] - 2026-08-02 (Gemini 3.6/3.5/3.1 Kademeli Ses Mimarisi, Canlı Müşteri WhatsApp Onay Linki & Ses Koruma)
 
 ### 🤖 Gemini 3.6 / 3.5 / 3.1 Çoklu Model Kademesi (`parser.py`)
