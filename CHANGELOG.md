@@ -2,6 +2,13 @@
 
 Projedeki tüm majör revizyonlar, güvenlik güncellemeleri me yeni özellikler bu dosyada SemVer prensiplerine uygun olarak kayıt altına alınmaktadır.
 
+## [v1.8.1] - 2026-08-02 (Sağ Üst Deneme Butonunun Sökülmesi & Header Sadeleşmesi)
+
+### 🧹 Header Temizliği (`templates/index.html`)
+- **Header Sağ Üst Buton Temizliği:** Sağ üstteki gereksiz "Ücretsiz Deneme (USTA)" paket butonu kaldırıldı. Header çok daha sade ve kurumsal hale getirildi.
+
+---
+
 ## [v1.8.0] - 2026-08-02 (Sol Kenar Sandviç Menü & Arayüz Temizliği)
 
 ### 🍔 Sol Kenar Navigasyon Mimarisi (`templates/index.html`, `static/style.css`)
