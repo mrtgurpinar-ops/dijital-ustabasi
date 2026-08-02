@@ -2,6 +2,14 @@
 
 Projedeki tüm majör revizyonlar, güvenlik güncellemeleri me yeni özellikler bu dosyada SemVer prensiplerine uygun olarak kayıt altına alınmaktadır.
 
+## [v1.9.0] - 2026-08-02 (VoltNet Tarzı Masaüstünde Tam Açık Sol Sidebar & Mobilde Kapanır Çekmece)
+
+### 💻 VoltNet Tarzı Duyarlı Sol Sidebar Mimarisi (`templates/index.html`, `static/style.css`)
+- **💻 Masaüstü Ekranlarda (>768px) FULL AÇIK Sol Sidebar:** Ekranda sol taraf sabit, dokunmatik ve dikey menü paneline (`.sidebar-panel.desktop-sidebar`) dönüştürüldü. Esnaf hiçbir butona basmadan tüm modülleri tek bakışta görebilecek hale getirildi.
+- **📱 Mobil Ekranlarda (<=768px) Esnek Çekmece:** Ekran daraldığında menü otomatik kapanıp sol üstteki `☰ Menü` butonuyla soldan kayan çekmeceye dönüştürüldü.
+
+---
+
 ## [v1.8.1] - 2026-08-02 (Sağ Üst Deneme Butonunun Sökülmesi & Header Sadeleşmesi)
 
 ### 🧹 Header Temizliği (`templates/index.html`)

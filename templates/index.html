@@ -211,10 +211,10 @@
         <div id="mainWorkspace" style="display: none;">
             
             <!-- Application Header -->
-            <header class="app-header">
+            <header class="app-header" style="margin-bottom: 20px;">
                 <div class="logo-area" style="display: flex; align-items: center; gap: 12px;">
-                    <!-- Sandviç Menü (Left Hamburger Button) -->
-                    <button class="btn-dashboard-nav" onclick="toggleHamburgerMenu(true)" title="Navigasyon Menüsü" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); border: none; color: white; cursor: pointer; padding: 10px 18px; border-radius: 10px; font-weight: 800; font-size: 14px; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);">
+                    <!-- Sandviç Menü (Mobile Hamburger Button) -->
+                    <button class="btn-dashboard-nav mobile-menu-btn" onclick="toggleHamburgerMenu(true)" title="Navigasyon Menüsü" style="display: none; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); border: none; color: white; cursor: pointer; padding: 10px 18px; border-radius: 10px; font-weight: 800; font-size: 14px; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);">
                         <i class="fa-solid fa-bars" style="font-size: 16px;"></i> Menü
                     </button>
 
@@ -234,12 +234,52 @@
                     <span id="adminHeaderBadge" style="display: none; background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%); color: #000; font-weight: 800; padding: 6px 12px; border-radius: 6px; font-size: 12px; align-items: center; gap: 6px;">
                         <i class="fa-solid fa-crown"></i> SÜPER ADMİN
                     </span>
-
                 </div>
             </header>
 
-            <!-- Dashboard Content -->
-            <main class="workspace-dashboard" style="display: flex; flex-direction: column; gap: 20px; padding: 0 0 30px 0;">
+            <!-- VoltNet Style Workspace Layout (Desktop Sidebar + Main Content) -->
+            <div class="workspace-layout">
+                
+                <!-- Desktop Persistent Left Sidebar -->
+                <aside class="sidebar-panel desktop-sidebar">
+                    <div style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 14px; color: #fff; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-compass" style="color: #f97316;"></i> Modül Masası
+                    </div>
+
+                    <div class="drawer-menu-item active" id="deskNavQuote" onclick="switchWorkspaceTab('quote')">
+                        <i class="fa-solid fa-microphone-lines" style="color: #f97316;"></i>
+                        <span>Teklif Üret</span>
+                    </div>
+                    <div class="drawer-menu-item" id="deskNavArchive" onclick="switchWorkspaceTab('archive')">
+                        <i class="fa-solid fa-clock-rotate-left" style="color: #3b82f6;"></i>
+                        <span>Teklif Arşivi</span>
+                    </div>
+                    <div class="drawer-menu-item" id="deskNavFinance" onclick="switchWorkspaceTab('finance')">
+                        <i class="fa-solid fa-chart-pie" style="color: #10b981;"></i>
+                        <span>Ciro & Finans</span>
+                    </div>
+                    <div class="drawer-menu-item" id="deskNavCrm" onclick="switchWorkspaceTab('crm')">
+                        <i class="fa-solid fa-car" style="color: #a855f7;"></i>
+                        <span>Araç CRM</span>
+                    </div>
+                    <div class="drawer-menu-item admin-item" id="deskNavAdmin" onclick="switchWorkspaceTab('admin')" style="display: none;">
+                        <i class="fa-solid fa-crown" style="color: #eab308;"></i>
+                        <span>👑 Admin Panel</span>
+                    </div>
+                    <div class="drawer-menu-item" onclick="openSettingsModal()">
+                        <i class="fa-solid fa-gear" style="color: #94a3b8;"></i>
+                        <span>Profil & Logo</span>
+                    </div>
+
+                    <div style="margin-top: 20px; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                        <button onclick="handleLogoutClick()" style="width: 100%; padding: 10px; border-radius: 10px; border: 1px solid rgba(239, 68, 68, 0.4); background: rgba(239, 68, 68, 0.15); color: #ef4444; font-weight: 800; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                            <i class="fa-solid fa-right-from-bracket"></i> Çıkış Yap
+                        </button>
+                    </div>
+                </aside>
+
+                <!-- Workspace Main Content -->
+                <main class="workspace-main-content" style="display: flex; flex-direction: column; gap: 20px;">
                 
                 <!-- Section 0: Integrated Super Admin Panel (Visible for 5555105635 Admin) -->
                 <div class="panel glass" id="integratedAdminSection" style="display: none; padding: 20px; border: 2px solid rgba(234, 179, 8, 0.5); background: rgba(15, 23, 42, 0.95); border-radius: 16px;">
@@ -411,8 +451,8 @@
                             <p>Teklifler yükleniyor...</p>
                         </div>
                     </div>
-                </div>
             </main>
+            </div>
         </div>
     </div>
 
@@ -1056,11 +1096,11 @@
             const isAdmin = (cleanPhone === "5555105635") || (shopData && shopData.is_admin === true);
             const adminBadge = document.getElementById("adminHeaderBadge");
             const adminSection = document.getElementById("integratedAdminSection");
-            const adminTabBtn = document.getElementById("tabNavAdmin");
+            const deskAdminBtn = document.getElementById("deskNavAdmin");
             const drawerAdminBtn = document.getElementById("drawerNavAdmin");
             
             if (adminBadge) adminBadge.style.display = isAdmin ? "inline-flex" : "none";
-            if (adminTabBtn) adminTabBtn.style.display = isAdmin ? "inline-flex" : "none";
+            if (deskAdminBtn) deskAdminBtn.style.display = isAdmin ? "flex" : "none";
             if (drawerAdminBtn) drawerAdminBtn.style.display = isAdmin ? "flex" : "none";
 
             const tier = (typeof shopData === 'object' && shopData && shopData.package) ? shopData.package : 'cirak';
@@ -1587,29 +1627,18 @@
         }
 
         function switchWorkspaceTab(tabId) {
-            const tabButtons = {
-                'quote': document.getElementById('tabNavQuote'),
-                'archive': document.getElementById('tabNavArchive'),
-                'finance': document.getElementById('tabNavFinance'),
-                'crm': document.getElementById('tabNavCrm'),
-                'admin': document.getElementById('tabNavAdmin')
-            };
+            const menuKeys = ['quote', 'archive', 'finance', 'crm', 'admin'];
+            
+            menuKeys.forEach(key => {
+                const deskItem = document.getElementById('deskNav' + key.charAt(0).toUpperCase() + key.slice(1));
+                const drawerItem = document.getElementById('drawerNav' + key.charAt(0).toUpperCase() + key.slice(1));
 
-            Object.keys(tabButtons).forEach(key => {
-                const btn = tabButtons[key];
-                if (btn) {
-                    if (key === tabId) {
-                        btn.style.border = key === 'admin' ? "2px solid #eab308" : "2px solid #f97316";
-                        btn.style.background = key === 'admin' ? "rgba(234, 179, 8, 0.25)" : "rgba(249, 115, 22, 0.15)";
-                        btn.style.color = "#fff";
-                        btn.classList.add("active");
-                    } else {
-                        btn.style.border = key === 'admin' ? "2px solid #eab308" : "1px solid rgba(255,255,255,0.15)";
-                        btn.style.background = key === 'admin' ? "rgba(234, 179, 8, 0.15)" : "rgba(255,255,255,0.05)";
-                        btn.style.color = key === 'admin' ? "#facc15" : "#cbd5e1";
-                        btn.classList.remove("active");
+                [deskItem, drawerItem].forEach(item => {
+                    if (item) {
+                        if (key === tabId) item.classList.add("active");
+                        else item.classList.remove("active");
                     }
-                }
+                });
             });
 
             const sections = {
