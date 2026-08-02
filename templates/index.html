@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Premium Style Sheet -->
-    <link rel="stylesheet" href="/static/style.css?v=1.0.5">
+    <link rel="stylesheet" href="/static/style.css?v=1.0.6">
 </head>
 <body>
     <!-- Toast Container -->
@@ -498,7 +498,7 @@
             }
         }
 
-        window.addEventListener("DOMContentLoaded", () => {
+        window.addEventListener("DOMContentLoaded", async () => {
             const savedPhone = localStorage.getItem('active_phone');
             if (savedPhone) {
                 activePhoneNumber = savedPhone.replace(/\D/g, "");
@@ -508,6 +508,19 @@
                 // User is authenticated -> Show Workspace, Hide Landing Gate
                 document.getElementById("authLandingView").style.display = "none";
                 document.getElementById("mainWorkspace").style.display = "block";
+                
+                try {
+                    const shopRes = await fetch(`/api/shop?phone_number=${encodeURIComponent(activePhoneNumber)}`);
+                    if (shopRes.ok) {
+                        const shop = await shopRes.json();
+                        activeShopData = shop;
+                        updateUIForPackage(shop);
+                        updateShopIdentityUI(shop);
+                    }
+                } catch (e) {
+                    console.warn("Dükkan bilgisi yüklenemedi:", e);
+                }
+
                 loadQuotes();
             } else {
                 // Guest mode -> Strictly show Landing Auth Gate, Hide Workspace

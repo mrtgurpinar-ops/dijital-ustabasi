@@ -14,8 +14,8 @@
             "logo_url": "",
             "package": "kalfa",
             "is_active": true,
-            "created_at": "2026-07-19T23:26:16.373996",
-            "expires_at": "2026-08-26T23:26:16.373996",
+            "created_at": "2026-07-25T15:54:39.909360",
+            "expires_at": "2026-09-01T15:54:39.909360",
             "upgrade_request": null
         }
     },
@@ -1066,6 +1066,48 @@
             "discount_price": 1620.0,
             "pdf_filename": "teklif_34ABC999_5551112233_7f83ed7d.pdf",
             "created_at": "2026-07-27T23:26:17.263906",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260802155439879",
+            "phone_number": "5554443322",
+            "plaka": "34LIMIT01",
+            "vehicle": "Fiat Egea",
+            "items": [
+                {
+                    "description": "Periyodik Bakım",
+                    "price": 2000
+                }
+            ],
+            "subtotal": 2000.0,
+            "vat": 400.0,
+            "total_price": 2400.0,
+            "discount_price": 2160.0,
+            "pdf_filename": "teklif_34LIMIT01_5554443322_f1468464.pdf",
+            "created_at": "2026-08-02T15:54:39.879781",
+            "validity_days": 7,
+            "usta_note": "",
+            "status": "beklemede"
+        },
+        {
+            "quote_id": "Q-20260802155440681",
+            "phone_number": "5551112233",
+            "plaka": "34ABC999",
+            "vehicle": "Renault Clio",
+            "items": [
+                {
+                    "description": "Yağ Değişimi",
+                    "price": 1500
+                }
+            ],
+            "subtotal": 1500.0,
+            "vat": 300.0,
+            "total_price": 1800.0,
+            "discount_price": 1620.0,
+            "pdf_filename": "teklif_34ABC999_5551112233_fae8620b.pdf",
+            "created_at": "2026-08-02T15:54:40.681718",
             "validity_days": 7,
             "usta_note": "",
             "status": "beklemede"

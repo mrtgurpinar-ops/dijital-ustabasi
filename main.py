@@ -132,7 +132,7 @@ async def get_admin(request: Request):
 async def simulate_text(req: SimulateTextRequest):
     phone_number = normalize_phone(req.phone_number.strip())
     if not phone_number:
-        phone_number = "5321234567"
+        raise HTTPException(status_code=400, detail="Telefon numarası zorunludur. Lütfen dükkan telefonunuzu girin.")
         
     text = req.text.strip()
     if not text:
@@ -203,6 +203,8 @@ async def simulate_text(req: SimulateTextRequest):
 @app.post("/api/voice/transcribe")
 async def voice_transcribe(phone_number: str = Form(...), file: UploadFile = File(...)):
     phone_number = normalize_phone(phone_number.strip())
+    if not phone_number:
+        raise HTTPException(status_code=400, detail="Telefon numarası zorunludur.")
     shop = storage.get_or_create_shop(phone_number)
     check_shop_access(shop)
     
@@ -226,7 +228,7 @@ async def voice_transcribe(phone_number: str = Form(...), file: UploadFile = Fil
 async def simulate_voice(phone_number: str = Form(...), file: UploadFile = File(...)):
     phone_number = normalize_phone(phone_number.strip())
     if not phone_number:
-        phone_number = "5321234567"
+        raise HTTPException(status_code=400, detail="Telefon numarası zorunludur.")
 
     temp_dir = os.path.join(BASE_DIR, "temp")
     os.makedirs(temp_dir, exist_ok=True)
@@ -381,7 +383,16 @@ async def get_quotes(phone_number: str = None):
             "package": pkg,
             "is_in_trial": is_in_trial
         }
-    return storage.get_quotes(phone_number)
+    all_quotes = storage.get_quotes(None)
+    all_quotes.sort(key=lambda q: q.get("created_at", ""), reverse=True)
+    return {
+        "success": True,
+        "total_quotes": len(all_quotes),
+        "active_plates": len(set(q.get("plaka", "") for q in all_quotes if q.get("plaka"))),
+        "quotes": all_quotes,
+        "package": "all",
+        "is_in_trial": False
+    }
 
 @app.get("/api/download/{filename}")
 async def download_pdf(filename: str, inline: bool = False):

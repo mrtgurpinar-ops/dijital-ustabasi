@@ -2,6 +2,18 @@
 
 Projedeki tüm majör revizyonlar, güvenlik güncellemeleri me yeni özellikler bu dosyada SemVer prensiplerine uygun olarak kayıt altına alınmaktadır.
 
+## [v1.0.10] - 2026-08-02 (Backend Refactoring & UI/UX Atıl Kod Temizliği)
+
+### 🧹 Backend & UI/UX Kapsamlı Temizlik (`cloud_storage.py`, `main.py`, `parser.py`, `index.html`)
+- **İplik Güvenliği (Thread Safety - `cloud_storage.py`):** `CloudStorage` veritabanı okuma ve yazma işlemlerine `threading.Lock()` eklenerek eşzamanlı isteklerde `database.json` veri kaybı riski engellendi.
+- **Dükkan Telefon Zorunluluğu (`main.py`):** Metin ve ses simülasyonlarında telefon girilmediğinde sahte `5321234567` kaydı oluşturma mantık hatası giderildi; telefon girişi zorunlu kılındı.
+- **Standart API Yanıt Yapısı (`main.py`):** `/api/quotes` uç noktası parametresiz çağrılarda da tutarlı `{success: True, total_quotes: ..., active_plates: ..., quotes: [...]}` dict yapısı dönecek şekilde güncellendi.
+- **Gemini Model Güncellemesi & Ölü Kod Temizliği (`parser.py`):** Standart dışı `gemini-3.5-flash` model tanımları güncel `gemini-2.0-flash` ve `gemini-1.5-flash` modelleri ile değiştirildi. Monorepo dışı `core.hr.ik_merkezi` ölü import blokları temizlendi.
+- **Atıl Şablon Silme (`templates/dashboard.html`):** Rotaların tamamı `index.html` Single Page App yapısına bağlı olduğu için 79 KB'lık atıl `dashboard.html` şablonu projeden kaldırıldı.
+- **Dinamik Rozet & Şablon Önbellek Yenileme (`index.html`, `admin.html`):** Sayfa açılışında dükkan paketi ve kimliğinin güncellenmesi sağlandı; CSS sürüm parametresi `?v=1.0.6` olarak güncellendi.
+
+---
+
 ## [v1.0.9] - 2026-08-02 (Railway Kök Neden Düzeltmesi & Çift Dockerfile Mimarisi)
 
 ### 🚀 Railway 6 Maddelik Kök Neden Çözümü (`Dockerfile`, `nixpacks.toml`, `main.py`, `railway.json`)

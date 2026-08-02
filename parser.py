@@ -16,18 +16,9 @@ load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
 
 def get_openai_api_key() -> str:
     """
-    Retrieves the OpenAI API key (for backward compatibility).
+    Retrieves the OpenAI API key.
+    Checks secrets.json in repo storage then env variables.
     """
-    try:
-        from core.hr import ik_merkezi
-        vault = ik_merkezi.get_worker("VaultService")
-        if vault:
-            key = vault.get_secret("openai_api_key") or vault.get_secret("OPENAI_API_KEY")
-            if key:
-                return key
-    except Exception:
-        pass
-        
     try:
         base_dir = os.path.dirname(os.path.abspath(__file__))
         repo_root = os.path.abspath(os.path.join(base_dir, "..", ".."))
@@ -47,18 +38,8 @@ def get_openai_api_key() -> str:
 def get_gemini_api_key() -> str:
     """
     Retrieves the Gemini API key.
-    First tries VaultService, then falls back to secrets.json, then env variables.
+    First tries secrets.json, then env variables.
     """
-    try:
-        from core.hr import ik_merkezi
-        vault = ik_merkezi.get_worker("VaultService")
-        if vault:
-            key = vault.get_secret("gemini_api_key") or vault.get_secret("google_api_key") or vault.get_secret("GEMINI_API_KEY")
-            if key:
-                return key
-    except Exception:
-        pass
-        
     try:
         base_dir = os.path.dirname(os.path.abspath(__file__))
         repo_root = os.path.abspath(os.path.join(base_dir, "..", ".."))
@@ -200,7 +181,7 @@ def transcribe_audio(audio_file_path: str) -> str:
     # 2. Try Gemini Models
     gemini_key = get_gemini_api_key()
     if gemini_key:
-        for model in ["gemini-3.5-flash", "gemini-3.1-flash-lite"]:
+        for model in ["gemini-2.0-flash", "gemini-1.5-flash"]:
             try:
                 return transcribe_audio_gemini(audio_file_path, model, gemini_key)
             except Exception as e:

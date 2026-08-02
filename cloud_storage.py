@@ -1,6 +1,7 @@
 import os
 import json
 import re
+import threading
 from datetime import datetime, timedelta
 
 def normalize_phone(phone: str) -> str:
@@ -20,6 +21,7 @@ def normalize_phone(phone: str) -> str:
 
 class CloudStorage:
     def __init__(self, storage_dir=None):
+        self._lock = threading.Lock()
         if storage_dir is None:
             env_dir = os.environ.get("STORAGE_DIR")
             if env_dir:
@@ -42,23 +44,25 @@ class CloudStorage:
             self._save_db({"shops": {}, "quotes": []})
 
     def _read_db(self):
-        try:
-            with open(self.db_path, "r", encoding="utf-8") as f:
-                data = json.load(f)
-                self._cached_db = data
-                return data
-        except Exception:
-            if hasattr(self, "_cached_db") and self._cached_db:
-                return self._cached_db
-            return {"shops": {}, "quotes": []}
+        with self._lock:
+            try:
+                with open(self.db_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    self._cached_db = data
+                    return data
+            except Exception:
+                if hasattr(self, "_cached_db") and self._cached_db:
+                    return self._cached_db
+                return {"shops": {}, "quotes": []}
 
     def _save_db(self, data):
-        self._cached_db = data
-        try:
-            with open(self.db_path, "w", encoding="utf-8") as f:
-                json.dump(data, f, ensure_ascii=False, indent=4)
-        except Exception as e:
-            print("DB save error:", e)
+        with self._lock:
+            self._cached_db = data
+            try:
+                with open(self.db_path, "w", encoding="utf-8") as f:
+                    json.dump(data, f, ensure_ascii=False, indent=4)
+            except Exception as e:
+                print("DB save error:", e)
 
     def get_shop(self, phone_number):
         phone_number = normalize_phone(phone_number)
