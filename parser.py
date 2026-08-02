@@ -17,7 +17,7 @@ load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
 import base64
 
 _FALLBACK_O = "c2stcHJvai1aTDR0Y2dRbVVhRWFsSEMzNW8yOTBfeDE2RDAtUVJzaXFNcGpjbnRMMmlzSjc3T1dyb1p4eTJTNldRWE5HSGplX3hPc0NxOGZpVDNCbGtGSkcyaHpteDQ4OU9zVEkwZkhXdW5pWXdGbUs1MElTWG5OR280TVpJc1lKLUtYa1UtejRYSlRtRE5LNFg4MWdQSWpmZG1reUpPRVlB"
-_FALLBACK_G = "QVEuQWI4Uk42Sl9ySVZmb0NTNFh3cFBIcnJYMWJpeVJBVG5Ub01udnFmSnBaeEFMZGZOanc="
+_FALLBACK_G = "QVEuQWI4Uk42TF96ZmZHdGQ2YkU0ZXZETEVDQ200Um93Ny1Rcy1Bc2U0WnhYZjVtYTFUMnc="
 
 def get_openai_api_key() -> str:
     """
@@ -162,10 +162,12 @@ def transcribe_audio_gemini(audio_file_path: str, model_name: str, api_key: str)
 IS_WHISPER_AVAILABLE = True
 
 GEMINI_MODEL_CASCADE = [
-    "gemini-2.0-flash",
-    "gemini-1.5-flash",
-    "gemini-1.5-pro-latest",
-    "gemini-2.5-flash"
+    "gemini-3.6-flash",
+    "gemini-3.5-flash",
+    "gemini-flash-latest",
+    "gemini-3.1-flash-lite",
+    "gemini-2.0-flash-lite",
+    "gemini-2.0-flash"
 ]
 
 def transcribe_audio(audio_file_path: str) -> str:
