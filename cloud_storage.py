@@ -5,6 +5,17 @@ import threading
 import hashlib
 from datetime import datetime, timedelta
 
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+try:
+    from projects.dijital_ustabasi.database import Base
+    from projects.dijital_ustabasi.models import ShopModel, QuoteModel, CustomerModel, VehicleModel
+except ModuleNotFoundError:
+    from database import Base
+    from models import ShopModel, QuoteModel, CustomerModel, VehicleModel
+
+
 def normalize_phone(phone: str) -> str:
     """
     Normalizes Turkish phone numbers to a standard 10-digit format (e.g. 5321234567).
@@ -20,10 +31,12 @@ def normalize_phone(phone: str) -> str:
         return digits[-10:]
     return digits
 
+
 def hash_password(password: str) -> str:
     if not password:
         return ""
     return hashlib.sha256(password.encode("utf-8")).hexdigest()
+
 
 class CloudStorage:
     def __init__(self, storage_dir=None):
@@ -45,84 +58,138 @@ class CloudStorage:
         
         os.makedirs(self.storage_dir, exist_ok=True)
         os.makedirs(self.pdf_dir, exist_ok=True)
+
+        raw_db_url = os.getenv("DATABASE_URL") or os.getenv("POSTGRES_URL")
+        if raw_db_url:
+            if raw_db_url.startswith("postgres://"):
+                raw_db_url = raw_db_url.replace("postgres://", "postgresql://", 1)
+            self.engine = create_engine(raw_db_url, pool_size=10, max_overflow=20, pool_pre_ping=True)
+        else:
+            sqlite_file = os.path.join(self.storage_dir, "database.db")
+            self.engine = create_engine(f"sqlite:///{sqlite_file}", connect_args={"check_same_thread": False})
+
+        self.SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=self.engine)
         
+        # Initialize Database Tables
+        try:
+            Base.metadata.create_all(bind=self.engine)
+            try:
+                from projects.dijital_ustabasi.migrate_json_to_postgres import migrate_json_data
+            except ModuleNotFoundError:
+                from migrate_json_to_postgres import migrate_json_data
+            migrate_json_data(self.storage_dir, target_engine=self.engine)
+        except Exception as e:
+            print("[CloudStorage Engine Warning]", e)
+
         if not os.path.exists(self.db_path):
             self._save_db({"shops": {}, "quotes": []})
 
+    def _get_session(self):
+        return self.SessionLocal()
+
     def _read_db(self):
         with self._lock:
+            db_session = self._get_session()
             try:
-                with open(self.db_path, "r", encoding="utf-8") as f:
-                    data = json.load(f)
-                    self._cached_db = data
-                    return data
-            except Exception:
-                if hasattr(self, "_cached_db") and self._cached_db:
-                    return self._cached_db
-                return {"shops": {}, "quotes": []}
+                shops_orm = db_session.query(ShopModel).all()
+                quotes_orm = db_session.query(QuoteModel).all()
+                
+                shops_dict = {s.phone_number: s.to_dict() for s in shops_orm}
+                quotes_list = [q.to_dict() for q in quotes_orm]
+                return {"shops": shops_dict, "quotes": quotes_list}
+            except Exception as e:
+                try:
+                    with open(self.db_path, "r", encoding="utf-8") as f:
+                        return json.load(f)
+                except Exception:
+                    return {"shops": {}, "quotes": []}
+            finally:
+                db_session.close()
 
     def _save_db(self, data):
         with self._lock:
-            self._cached_db = data
             try:
                 with open(self.db_path, "w", encoding="utf-8") as f:
                     json.dump(data, f, ensure_ascii=False, indent=4)
             except Exception as e:
-                print("DB save error:", e)
+                print("JSON file backup write error:", e)
 
     def get_shop(self, phone_number):
         phone_number = normalize_phone(phone_number)
-        db = self._read_db()
-        return db["shops"].get(phone_number)
+        db_session = self._get_session()
+        try:
+            shop_orm = db_session.query(ShopModel).filter(ShopModel.phone_number == phone_number).first()
+            return shop_orm.to_dict() if shop_orm else None
+        finally:
+            db_session.close()
 
     def create_shop(self, phone_number, password="", name="Oto Servis", logo_url=""):
         phone_number = normalize_phone(phone_number)
-        db = self._read_db()
         now = datetime.now()
         expires = now + timedelta(days=7)
-        shop = {
-            "phone_number": phone_number,
-            "password_hash": hash_password(password),
-            "name": name,
-            "logo_url": logo_url,
-            "package": "usta",  # Deneme süresi usta olarak başlar
-            "is_active": True,
-            "created_at": now.isoformat(),
-            "expires_at": expires.isoformat(),
-            "upgrade_request": None
-        }
-        db["shops"][phone_number] = shop
-        self._save_db(db)
-        return shop
+
+        db_session = self._get_session()
+        try:
+            shop_orm = db_session.query(ShopModel).filter(ShopModel.phone_number == phone_number).first()
+            if not shop_orm:
+                shop_orm = ShopModel(
+                    phone_number=phone_number,
+                    password_hash=hash_password(password),
+                    name=name,
+                    logo_url=logo_url,
+                    package="usta",
+                    is_active=True,
+                    created_at=now,
+                    expires_at=expires,
+                    upgrade_request=None
+                )
+                db_session.add(shop_orm)
+                db_session.commit()
+                db_session.refresh(shop_orm)
+            res = shop_orm.to_dict()
+        finally:
+            db_session.close()
+
+        # Dual backup to JSON
+        full_data = self._read_db()
+        full_data["shops"][phone_number] = res
+        self._save_db(full_data)
+        return res
 
     def verify_shop_login(self, phone_number, password=""):
         phone_number = normalize_phone(phone_number)
-        db = self._read_db()
-        shop = db["shops"].get(phone_number)
-        if not shop:
-            return False, "Dükkan kaydı bulunamadı. Lütfen kayıt olun veya ücretsiz deneme başlatın.", None
-        
-        stored_hash = shop.get("password_hash")
-        # Legacy shop migration: If no password set yet, set on first login
-        if not stored_hash:
-            if password:
-                shop["password_hash"] = hash_password(password)
-                self._save_db(db)
-            return True, "Giriş başarılı (İlk şifre tanımlandı).", shop
+        db_session = self._get_session()
+        try:
+            shop_orm = db_session.query(ShopModel).filter(ShopModel.phone_number == phone_number).first()
+            if not shop_orm:
+                return False, "Dükkan kaydı bulunamadı. Lütfen kayıt olun veya ücretsiz deneme başlatın.", None
+            
+            stored_hash = shop_orm.password_hash
+            if not stored_hash:
+                if password:
+                    shop_orm.password_hash = hash_password(password)
+                    db_session.commit()
+                return True, "Giriş başarılı (İlk şifre tanımlandı).", shop_orm.to_dict()
 
-        if stored_hash == hash_password(password):
-            return True, "Giriş başarılı.", shop
-        
-        return False, "Hatalı şifre! Lütfen şifrenizi kontrol ediniz.", None
+            if stored_hash == hash_password(password):
+                return True, "Giriş başarılı.", shop_orm.to_dict()
+            
+            return False, "Hatalı şifre! Lütfen şifrenizi kontrol ediniz.", None
+        finally:
+            db_session.close()
 
     def update_shop_password(self, phone_number, new_password):
         phone_number = normalize_phone(phone_number)
-        db = self._read_db()
-        if phone_number in db["shops"]:
-            db["shops"][phone_number]["password_hash"] = hash_password(new_password)
-            self._save_db(db)
-            return db["shops"][phone_number]
-        return None
+        db_session = self._get_session()
+        try:
+            shop_orm = db_session.query(ShopModel).filter(ShopModel.phone_number == phone_number).first()
+            if shop_orm:
+                shop_orm.password_hash = hash_password(new_password)
+                db_session.commit()
+                return shop_orm.to_dict()
+            return None
+        finally:
+            db_session.close()
 
     def get_or_create_shop(self, phone_number):
         phone_number = normalize_phone(phone_number)
@@ -137,151 +204,202 @@ class CloudStorage:
         phone_number = normalize_phone(phone_number)
         if package not in ["cirak", "kalfa", "usta"]:
             package = "cirak"
-        db = self._read_db()
-        if phone_number in db["shops"]:
-            db["shops"][phone_number]["package"] = package
-            self._save_db(db)
-            return db["shops"][phone_number]
-        return None
+
+        db_session = self._get_session()
+        try:
+            shop_orm = db_session.query(ShopModel).filter(ShopModel.phone_number == phone_number).first()
+            if shop_orm:
+                shop_orm.package = package
+                db_session.commit()
+                return shop_orm.to_dict()
+            return None
+        finally:
+            db_session.close()
 
     def update_shop_expiration(self, phone_number, expires_at_iso: str):
         phone_number = normalize_phone(phone_number)
-        db = self._read_db()
-        if phone_number in db["shops"]:
-            db["shops"][phone_number]["expires_at"] = expires_at_iso
-            db["shops"][phone_number]["is_active"] = True
-            self._save_db(db)
-            return db["shops"][phone_number]
-        return None
+        db_session = self._get_session()
+        try:
+            shop_orm = db_session.query(ShopModel).filter(ShopModel.phone_number == phone_number).first()
+            if shop_orm:
+                shop_orm.expires_at = datetime.fromisoformat(expires_at_iso)
+                shop_orm.is_active = True
+                db_session.commit()
+                return shop_orm.to_dict()
+            return None
+        finally:
+            db_session.close()
 
     def extend_shop_expiration(self, phone_number, days: int):
         phone_number = normalize_phone(phone_number)
-        db = self._read_db()
-        if phone_number in db["shops"]:
-            shop = db["shops"][phone_number]
-            current_exp = shop.get("expires_at")
-            base_dt = datetime.now()
-            if current_exp:
-                try:
-                    exp_dt = datetime.fromisoformat(current_exp)
-                    if exp_dt > base_dt:
-                        base_dt = exp_dt
-                except Exception:
-                    pass
-            new_exp = base_dt + timedelta(days=days)
-            shop["expires_at"] = new_exp.isoformat()
-            shop["is_active"] = True
-            self._save_db(db)
-            return shop
-        return None
+        db_session = self._get_session()
+        try:
+            shop_orm = db_session.query(ShopModel).filter(ShopModel.phone_number == phone_number).first()
+            if shop_orm:
+                base_dt = datetime.now()
+                if shop_orm.expires_at and shop_orm.expires_at > base_dt:
+                    base_dt = shop_orm.expires_at
+                shop_orm.expires_at = base_dt + timedelta(days=days)
+                shop_orm.is_active = True
+                db_session.commit()
+                return shop_orm.to_dict()
+            return None
+        finally:
+            db_session.close()
 
     def update_shop_active_status(self, phone_number, is_active: bool):
         phone_number = normalize_phone(phone_number)
-        db = self._read_db()
-        if phone_number in db["shops"]:
-            db["shops"][phone_number]["is_active"] = is_active
-            self._save_db(db)
-            return db["shops"][phone_number]
-        return None
+        db_session = self._get_session()
+        try:
+            shop_orm = db_session.query(ShopModel).filter(ShopModel.phone_number == phone_number).first()
+            if shop_orm:
+                shop_orm.is_active = is_active
+                db_session.commit()
+                return shop_orm.to_dict()
+            return None
+        finally:
+            db_session.close()
 
     def delete_shop(self, phone_number):
         phone_number = normalize_phone(phone_number)
-        db = self._read_db()
-        deleted = False
-        if phone_number in db["shops"]:
-            del db["shops"][phone_number]
-            deleted = True
-        
-        # Also remove quotes belonging to this phone number
-        db["quotes"] = [q for q in db.get("quotes", []) if q.get("phone_number") != phone_number]
-        if deleted:
-            self._save_db(db)
-            return True
-        return False
+        db_session = self._get_session()
+        try:
+            shop_orm = db_session.query(ShopModel).filter(ShopModel.phone_number == phone_number).first()
+            if shop_orm:
+                db_session.delete(shop_orm)
+                db_session.commit()
+                return True
+            return False
+        finally:
+            db_session.close()
 
     def update_shop_identity(self, phone_number, name, logo_url, created_at=None):
         phone_number = normalize_phone(phone_number)
-        db = self._read_db()
-        if phone_number in db["shops"]:
-            db["shops"][phone_number]["name"] = name
-            db["shops"][phone_number]["logo_url"] = logo_url
-            if created_at:
-                db["shops"][phone_number]["created_at"] = created_at
-            self._save_db(db)
-            return db["shops"][phone_number]
-        return None
+        db_session = self._get_session()
+        try:
+            shop_orm = db_session.query(ShopModel).filter(ShopModel.phone_number == phone_number).first()
+            if shop_orm:
+                shop_orm.name = name
+                shop_orm.logo_url = logo_url
+                if created_at:
+                    try:
+                        clean_created = created_at.replace("Z", "")
+                        shop_orm.created_at = datetime.fromisoformat(clean_created)
+                    except Exception:
+                        pass
+                db_session.commit()
+                return shop_orm.to_dict()
+            return None
+        finally:
+            db_session.close()
 
     def save_shop_upgrade_request(self, phone_number, requested_package):
         phone_number = normalize_phone(phone_number)
-        db = self._read_db()
-        if phone_number in db["shops"]:
-            db["shops"][phone_number]["upgrade_request"] = requested_package
-            self._save_db(db)
-            return db["shops"][phone_number]
-        return None
+        db_session = self._get_session()
+        try:
+            shop_orm = db_session.query(ShopModel).filter(ShopModel.phone_number == phone_number).first()
+            if shop_orm:
+                shop_orm.upgrade_request = requested_package
+                db_session.commit()
+                return shop_orm.to_dict()
+            return None
+        finally:
+            db_session.close()
 
     def save_quote(self, phone_number, plaka, vehicle, items, subtotal, vat, total_price, discount_price, pdf_filename, validity_days=7, usta_note=""):
         phone_number = normalize_phone(phone_number)
-        db = self._read_db()
-        created_at = datetime.now().isoformat()
-        
-        quote = {
-            "quote_id": f"Q-{datetime.now().strftime('%Y%m%d%H%M%S%f')[:17]}",
-            "phone_number": phone_number,
-            "plaka": plaka.upper(),
-            "vehicle": vehicle.strip().title(),
-            "items": items,
-            "subtotal": subtotal,
-            "vat": vat,
-            "total_price": total_price,
-            "discount_price": discount_price,
-            "pdf_filename": pdf_filename,
-            "created_at": created_at,
-            "validity_days": validity_days,
-            "usta_note": usta_note,
-            "status": "beklemede"
-        }
-        
-        db["quotes"].append(quote)
-        self._save_db(db)
-        return quote
+        quote_id = f"Q-{datetime.now().strftime('%Y%m%d%H%M%S%f')[:17]}"
+
+        db_session = self._get_session()
+        try:
+            shop = db_session.query(ShopModel).filter(ShopModel.phone_number == phone_number).first()
+            shop_id = shop.id if shop else None
+
+            quote_orm = QuoteModel(
+                quote_id=quote_id,
+                shop_id=shop_id,
+                phone_number=phone_number,
+                plaka=plaka.upper(),
+                vehicle=vehicle.strip().title(),
+                subtotal=subtotal,
+                vat=vat,
+                total_price=total_price,
+                discount_price=discount_price,
+                pdf_filename=pdf_filename,
+                validity_days=validity_days,
+                usta_note=usta_note,
+                status="beklemede",
+                created_at=datetime.now()
+            )
+            quote_orm.set_items(items)
+            db_session.add(quote_orm)
+            db_session.commit()
+            db_session.refresh(quote_orm)
+            res = quote_orm.to_dict()
+        finally:
+            db_session.close()
+
+        # Dual backup to JSON
+        full_data = self._read_db()
+        full_data["quotes"].append(res)
+        self._save_db(full_data)
+        return res
 
     def assign_quote_to_shop(self, quote_id, phone_number):
         phone_number = normalize_phone(phone_number)
-        db = self._read_db()
-        for q in db["quotes"]:
-            if q.get("quote_id") == quote_id:
-                q["phone_number"] = phone_number
-                self._save_db(db)
-                return q
-        return None
+        db_session = self._get_session()
+        try:
+            quote_orm = db_session.query(QuoteModel).filter(QuoteModel.quote_id == quote_id).first()
+            if quote_orm:
+                quote_orm.phone_number = phone_number
+                shop = db_session.query(ShopModel).filter(ShopModel.phone_number == phone_number).first()
+                if shop:
+                    quote_orm.shop_id = shop.id
+                db_session.commit()
+                return quote_orm.to_dict()
+            return None
+        finally:
+            db_session.close()
 
     def update_quote_status(self, quote_id, status):
-        db = self._read_db()
-        for quote in db["quotes"]:
-            if quote.get("quote_id") == quote_id:
-                quote["status"] = status
-                self._save_db(db)
-                return quote
-        return None
+        db_session = self._get_session()
+        try:
+            quote_orm = db_session.query(QuoteModel).filter(QuoteModel.quote_id == quote_id).first()
+            if quote_orm:
+                quote_orm.status = status
+                db_session.commit()
+                return quote_orm.to_dict()
+            return None
+        finally:
+            db_session.close()
 
     def get_quotes(self, phone_number=None):
-        db = self._read_db()
-        if phone_number:
-            norm_target = normalize_phone(phone_number)
-            return [q for q in db["quotes"] if normalize_phone(q.get("phone_number", "")) == norm_target]
-        return db["quotes"]
+        db_session = self._get_session()
+        try:
+            if phone_number:
+                norm_target = normalize_phone(phone_number)
+                quotes_orm = db_session.query(QuoteModel).filter(QuoteModel.phone_number == norm_target).all()
+            else:
+                quotes_orm = db_session.query(QuoteModel).all()
+            return [q.to_dict() for q in quotes_orm]
+        finally:
+            db_session.close()
 
     def get_phone_number_by_pdf(self, pdf_filename):
-        db = self._read_db()
-        for q in db["quotes"]:
-            if q.get("pdf_filename") == pdf_filename:
-                return q.get("phone_number")
-        return None
+        db_session = self._get_session()
+        try:
+            quote_orm = db_session.query(QuoteModel).filter(QuoteModel.pdf_filename == pdf_filename).first()
+            return quote_orm.phone_number if quote_orm else None
+        finally:
+            db_session.close()
 
     def get_pdf_path(self, filename):
         return os.path.join(self.pdf_dir, filename)
 
     def get_all_shops(self):
-        db = self._read_db()
-        return db.get("shops", {})
+        db_session = self._get_session()
+        try:
+            shops_orm = db_session.query(ShopModel).all()
+            return {s.phone_number: s.to_dict() for s in shops_orm}
+        finally:
+            db_session.close()

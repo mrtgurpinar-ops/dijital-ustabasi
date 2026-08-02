@@ -2,6 +2,16 @@
 
 Projedeki tüm majör revizyonlar, güvenlik güncellemeleri me yeni özellikler bu dosyada SemVer prensiplerine uygun olarak kayıt altına alınmaktadır.
 
+## [v1.1.0] - 2026-08-02 (PostgreSQL İlişkisel Veritabanı & SaaS Mimarisi)
+
+### 🗄️ Kurumsal PostgreSQL & SQLAlchemy ORM Altyapısı (`database.py`, `models.py`, `migrate_json_to_postgres.py`)
+- **SQLAlchemy 2.0 ORM Entegrasyonu (`database.py`, `models.py`):** Yerel JSON dosyası yerine ilişkisel `ShopModel`, `CustomerModel`, `VehicleModel` ve `QuoteModel` veritabanı tabloları kuruldu.
+- **Railway PostgreSQL Uyumluğu:** Railway platformu `DATABASE_URL` (`postgres://` -> `postgresql://`) otomatik algılama ve canlı veritabanı bağlantı motoru eklendi; yerelde SQLite fallback sağlandı.
+- **Sıfır Veri Kaybı Aktarım Betiği (`migrate_json_to_postgres.py`):** Mevcut `database.json` dosyasındaki 2 dükkan ve 58 teklif kaydı otomatik olarak veritabanı tablolarına aktarıldı (Migrated 2 shops and 58 quotes).
+- **Servis Katmanı Güncellemesi (`cloud_storage.py`):** `CloudStorage` arka planda SQLAlchemy ORM sorguları çalıştıracak ve JSON dosyasını yedekli tutacak şekilde yenilendi.
+
+---
+
 ## [v1.0.11] - 2026-08-02 (Telefon + Şifre ile Güvenli Kimlik Doğrulama Sistemi)
 
 ### 🔑 Telefon + Şifre (Password) Auth Mimarisi (`cloud_storage.py`, `main.py`, `index.html`)

@@ -19,7 +19,15 @@ class TestDijitalUstabasi(unittest.TestCase):
         self.storage = CloudStorage(storage_dir=self.test_dir.name)
 
     def tearDown(self):
-        self.test_dir.cleanup()
+        if hasattr(self, "storage") and hasattr(self.storage, "engine"):
+            try:
+                self.storage.engine.dispose()
+            except Exception:
+                pass
+        try:
+            self.test_dir.cleanup()
+        except Exception:
+            pass
 
     def test_turkish_word_to_number(self):
         self.assertEqual(turkish_word_to_number("bin"), 1000)
@@ -207,12 +215,10 @@ class TestFastAPIIntegration(unittest.TestCase):
     def test_package_archive_limits_policy(self):
         phone_raw = "05554443322"
         # Ensure clean state for test shop
-        db = self.storage._read_db()
-        if "5554443322" in db.get("shops", {}):
-            del db["shops"]["5554443322"]
-            self.storage._save_db(db)
+        self.storage.delete_shop("5554443322")
 
-        self.client.post("/api/shop/register", json={"phone_number": phone_raw, "shop_name": "Test Package Limits Shop"})
+        self.client.post("/api/shop/register", json={"phone_number": phone_raw, "password": "testpassword123", "shop_name": "Test Package Limits Shop"})
+        self.storage.update_shop_identity("5554443322", "Test Package Limits Shop", "", created_at=datetime.now().isoformat())
         
         # Create a quote
         self.client.post("/api/simulate/text", json={"phone_number": phone_raw, "text": "34 LIMIT 01 Fiat Egea bakim 2000 TL"})
@@ -225,12 +231,11 @@ class TestFastAPIIntegration(unittest.TestCase):
         self.assertGreaterEqual(len(data_trial.get("quotes", [])), 1)
 
         # 2. Kalfa package shop gets up to 15 quotes archive (when trial expires)
-        db = self.storage._read_db()
-        if "5554443322" in db.get("shops", {}):
-            db["shops"]["5554443322"]["created_at"] = (datetime.now() - timedelta(days=8)).isoformat()
-            db["shops"]["5554443322"]["expires_at"] = (datetime.now() + timedelta(days=30)).isoformat()
-            db["shops"]["5554443322"]["package"] = "kalfa"
-            self.storage._save_db(db)
+        past_created = (datetime.now() - timedelta(days=8)).isoformat()
+        future_expires = (datetime.now() + timedelta(days=30)).isoformat()
+        self.storage.update_shop_identity("5554443322", "Test Package Limits Shop", "", created_at=past_created)
+        self.storage.update_shop_expiration("5554443322", future_expires)
+        self.storage.update_shop_package("5554443322", "kalfa")
 
         res_kalfa = self.client.get("/api/quotes?phone_number=5554443322")
         self.assertEqual(res_kalfa.status_code, 200)

@@ -396,7 +396,7 @@ async def get_quotes(phone_number: str = None):
         is_in_trial = False
         if created_at_str:
             try:
-                created_at = datetime.fromisoformat(created_at_str)
+                created_at = datetime.fromisoformat(created_at_str.replace("Z", ""))
                 if datetime.now() <= created_at + timedelta(days=7):
                     is_in_trial = True
             except Exception:
