@@ -64,8 +64,13 @@ class CloudStorage:
         except ModuleNotFoundError:
             from database import engine, SessionLocal, Base
 
-        self.engine = engine
-        self.SessionLocal = SessionLocal
+        if storage_dir and storage_dir != os.getenv("STORAGE_DIR"):
+            sqlite_file = os.path.join(self.storage_dir, "test_db.db")
+            self.engine = create_engine(f"sqlite:///{sqlite_file}", connect_args={"check_same_thread": False})
+            self.SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=self.engine)
+        else:
+            self.engine = engine
+            self.SessionLocal = SessionLocal
         
         # Initialize Database Tables
         try:

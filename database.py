@@ -16,11 +16,27 @@ raw_db_url = (
 if not raw_db_url:
     pghost = os.getenv("PGHOST")
     pguser = os.getenv("PGUSER") or "postgres"
-    pgpass = os.getenv("PGPASSWORD")
+    pgpass = os.getenv("PGPASSWORD") or "EdpOWYqFAQtrctPobiItATrMDlMhkojy"
     pgdb = os.getenv("PGDATABASE") or "railway"
     pgport = os.getenv("PGPORT") or "5432"
-    if pghost and pgpass:
+    if pghost:
         raw_db_url = f"postgresql://{pguser}:{pgpass}@{pghost}:{pgport}/{pgdb}"
+
+if not raw_db_url and os.getenv("PORT"):
+    internal_candidates = [
+        "postgresql://postgres:EdpOWYqFAQtrctPobiItATrMDlMhkojy@postgres.railway.internal:5432/railway",
+        "postgresql://postgres:EdpOWYqFAQtrctPobiItATrMDlMhkojy@Postgres.railway.internal:5432/railway",
+        "postgresql://postgres:EdpOWYqFAQtrctPobiItATrMDlMhkojy@127.0.0.1:5432/railway",
+    ]
+    for cand in internal_candidates:
+        try:
+            temp_eng = create_engine(cand, pool_pre_ping=True)
+            with temp_eng.connect() as conn:
+                raw_db_url = cand
+                print(f"[Railway Network Auto-Discovery] Connected to PostgreSQL via private DNS: {cand}")
+                break
+        except Exception:
+            pass
 
 if raw_db_url:
     if raw_db_url.startswith("postgres://"):
