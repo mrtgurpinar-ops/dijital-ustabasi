@@ -2,6 +2,7 @@ import os
 import json
 import re
 import threading
+import hashlib
 from datetime import datetime, timedelta
 
 def normalize_phone(phone: str) -> str:
@@ -18,6 +19,11 @@ def normalize_phone(phone: str) -> str:
     if len(digits) >= 10:
         return digits[-10:]
     return digits
+
+def hash_password(password: str) -> str:
+    if not password:
+        return ""
+    return hashlib.sha256(password.encode("utf-8")).hexdigest()
 
 class CloudStorage:
     def __init__(self, storage_dir=None):
@@ -69,13 +75,14 @@ class CloudStorage:
         db = self._read_db()
         return db["shops"].get(phone_number)
 
-    def create_shop(self, phone_number, name="Oto Servis", logo_url=""):
+    def create_shop(self, phone_number, password="", name="Oto Servis", logo_url=""):
         phone_number = normalize_phone(phone_number)
         db = self._read_db()
         now = datetime.now()
         expires = now + timedelta(days=7)
         shop = {
             "phone_number": phone_number,
+            "password_hash": hash_password(password),
             "name": name,
             "logo_url": logo_url,
             "package": "usta",  # Deneme süresi usta olarak başlar
@@ -87,6 +94,35 @@ class CloudStorage:
         db["shops"][phone_number] = shop
         self._save_db(db)
         return shop
+
+    def verify_shop_login(self, phone_number, password=""):
+        phone_number = normalize_phone(phone_number)
+        db = self._read_db()
+        shop = db["shops"].get(phone_number)
+        if not shop:
+            return False, "Dükkan kaydı bulunamadı. Lütfen kayıt olun veya ücretsiz deneme başlatın.", None
+        
+        stored_hash = shop.get("password_hash")
+        # Legacy shop migration: If no password set yet, set on first login
+        if not stored_hash:
+            if password:
+                shop["password_hash"] = hash_password(password)
+                self._save_db(db)
+            return True, "Giriş başarılı (İlk şifre tanımlandı).", shop
+
+        if stored_hash == hash_password(password):
+            return True, "Giriş başarılı.", shop
+        
+        return False, "Hatalı şifre! Lütfen şifrenizi kontrol ediniz.", None
+
+    def update_shop_password(self, phone_number, new_password):
+        phone_number = normalize_phone(phone_number)
+        db = self._read_db()
+        if phone_number in db["shops"]:
+            db["shops"][phone_number]["password_hash"] = hash_password(new_password)
+            self._save_db(db)
+            return db["shops"][phone_number]
+        return None
 
     def get_or_create_shop(self, phone_number):
         phone_number = normalize_phone(phone_number)

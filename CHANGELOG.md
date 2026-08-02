@@ -2,6 +2,16 @@
 
 Projedeki tüm majör revizyonlar, güvenlik güncellemeleri me yeni özellikler bu dosyada SemVer prensiplerine uygun olarak kayıt altına alınmaktadır.
 
+## [v1.0.11] - 2026-08-02 (Telefon + Şifre ile Güvenli Kimlik Doğrulama Sistemi)
+
+### 🔑 Telefon + Şifre (Password) Auth Mimarisi (`cloud_storage.py`, `main.py`, `index.html`)
+- **Güvenli Şifre Hashing (`cloud_storage.py`):** Şifre saklama için `hashlib.sha256` SHA-256 özeti algoritması entegre edildi. Dükkan veri yapısına `password_hash` alanı eklendi.
+- **Eski Veri Uyumluğu (Backward Compatibility):** Mevcut dükkan verileri korunarak şifresi henüz olmayan eski dükkanların ilk girişinde şifre tanımlaması otomatik sağlandı.
+- **Yeni Giriş & Kayıt Uç Noktaları (`main.py`):** `POST /api/shop/login`, `POST /api/shop/register` ve `POST /api/shop/change_password` API uç noktaları eklendi. Şifre en az 4 karakter şartına bağlandı.
+- **Arayüz Şifre Göster/Gizle Butonu (`templates/index.html`):** Dükkan giriş kapısına (Auth Gate) şifre input'u ve göz ikonu ile dinamik göster/gizle ikonu yerleştirildi.
+
+---
+
 ## [v1.0.10] - 2026-08-02 (Backend Refactoring & UI/UX Atıl Kod Temizliği)
 
 ### 🧹 Backend & UI/UX Kapsamlı Temizlik (`cloud_storage.py`, `main.py`, `parser.py`, `index.html`)

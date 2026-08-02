@@ -79,13 +79,22 @@
                 </div>
             </div>
 
-            <!-- Step 2: Phone Input & Login / Trial Box -->
+            <!-- Step 2: Phone & Password Input Box -->
             <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 16px; padding: 22px; max-width: 540px; margin: 0 auto; text-align: center;">
-                <label style="font-size: 13px; font-weight: 700; color: #fff; display: block; margin-bottom: 8px;">
+                <label style="font-size: 13px; font-weight: 700; color: #fff; display: block; margin-bottom: 6px; text-align: left;">
                     <i class="fa-solid fa-mobile-screen-button" style="color: #f97316;"></i> Dükkan Cep Telefonu Numaranız:
                 </label>
-                
                 <input type="tel" id="authPhoneInput" placeholder="05XX XXX XX XX" maxlength="14" onkeydown="preventNonNumericInput(event)" oninput="formatTurkishPhoneInput(this)" style="width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.05); color: #fff; font-size: 16px; font-weight: bold; text-align: center; outline: none; box-sizing: border-box; margin-bottom: 12px;" onkeypress="if(event.key === 'Enter') handleLoginClick()">
+
+                <label style="font-size: 13px; font-weight: 700; color: #fff; display: block; margin-bottom: 6px; text-align: left;">
+                    <i class="fa-solid fa-lock" style="color: #f97316;"></i> Dükkan Şifreniz:
+                </label>
+                <div style="position: relative; margin-bottom: 14px;">
+                    <input type="password" id="authPasswordInput" placeholder="Şifreniz (En az 4 karakter)" style="width: 100%; padding: 12px 40px 12px 14px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.05); color: #fff; font-size: 15px; font-weight: bold; outline: none; box-sizing: border-box;" onkeypress="if(event.key === 'Enter') handleLoginClick()">
+                    <button type="button" onclick="togglePasswordVisibility('authPasswordInput', 'passwordToggleIcon')" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: transparent; border: none; color: #94a3b8; font-size: 16px; cursor: pointer; padding: 4px;">
+                        <i class="fa-solid fa-eye" id="passwordToggleIcon"></i>
+                    </button>
+                </div>
 
                 <!-- Error Notification Box (Initially Hidden) -->
                 <div id="authErrorBox" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 10px; padding: 12px; font-size: 12px; color: #ef4444; margin-bottom: 12px; text-align: left; line-height: 1.4;">
@@ -95,7 +104,7 @@
                 <!-- Primary Action Buttons Bar -->
                 <div style="display: flex; flex-direction: column; gap: 10px;">
                     <button onclick="handleLoginClick()" style="width: 100%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.25); color: white; padding: 12px; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                        <i class="fa-solid fa-key" style="color: #facc15;"></i> Kayıtlı Numara İle Giriş Yap
+                        <i class="fa-solid fa-key" style="color: #facc15;"></i> Telefon + Şifre İle Giriş Yap
                     </button>
 
                     <button id="btnRequestPackage" onclick="handleRequestPackageClick()" style="display: none; width: 100%; background: #3b82f6; border: none; color: white; padding: 12px; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; align-items: center; justify-content: center; gap: 8px;">
@@ -104,12 +113,12 @@
 
                     <div style="display: flex; align-items: center; gap: 10px; margin: 4px 0; color: #64748b; font-size: 11px;">
                         <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.1);"></div>
-                        <span>VEYA</span>
+                        <span>VEYA YENİ DÜKKAN İÇİN</span>
                         <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.1);"></div>
                     </div>
 
                     <button onclick="handleStartTrialClick()" style="width: 100%; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); border: none; color: white; padding: 13px; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 18px rgba(249, 115, 22, 0.4);">
-                        <i class="fa-solid fa-rocket"></i> 7 Gün Ücretsiz Denemeyi Başlat (USTA Yetkileri)
+                        <i class="fa-solid fa-user-plus"></i> Şifre Belirle & 7 Gün Ücretsiz Denemeyi Başlat
                     </button>
                 </div>
             </div>
@@ -529,8 +538,24 @@
             }
         });
 
+        function togglePasswordVisibility(inputId, iconId) {
+            const pwdInput = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            if (!pwdInput || !icon) return;
+            if (pwdInput.type === "password") {
+                pwdInput.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                pwdInput.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+
         async function handleLoginClick() {
             const input = document.getElementById("authPhoneInput");
+            const pwdInput = document.getElementById("authPasswordInput");
             const errBox = document.getElementById("authErrorBox");
             const errText = document.getElementById("authErrorMsg");
             const btnReq = document.getElementById("btnRequestPackage");
@@ -548,12 +573,26 @@
                 return;
             }
 
-            showToast("🔍 Dükkan kaydı sorgulanıyor...", "info");
+            const password = pwdInput ? pwdInput.value.trim() : "";
+            if (!password) {
+                showToast("Lütfen dükkan şifrenizi girin.", "error");
+                if (pwdInput) pwdInput.focus();
+                return;
+            }
+
+            showToast("🔑 Dükkan kimliği doğrulanıyor...", "info");
 
             try {
-                const response = await fetch(`/api/shop?phone_number=${encodeURIComponent(phoneDigits)}`);
-                if (response.ok) {
-                    const shop = await response.json();
+                const response = await fetch("/api/shop/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ phone_number: phoneDigits, password: password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    const shop = data.shop;
                     activeShopData = shop;
                     activePhoneNumber = phoneDigits;
                     localStorage.setItem('active_phone', input.value);
@@ -561,7 +600,7 @@
                     const phoneHeader = document.getElementById("phoneNumber");
                     if (phoneHeader) phoneHeader.value = input.value;
 
-                    showToast(`✅ Hoş geldiniz, ${shop.name || 'Oto Servis'}!`, "success");
+                    showToast(`✅ ${data.message || 'Hoş geldiniz!'} (${shop.name || 'Oto Servis'})`, "success");
                     
                     document.getElementById("authLandingView").style.display = "none";
                     document.getElementById("mainWorkspace").style.display = "block";
@@ -570,14 +609,16 @@
                     updateShopIdentityUI(shop);
                     loadQuotes();
                 } else {
-                    // Phone not registered
-                    if (errText) errText.innerText = `Girilen '${input.value}' numarası sistemde kayıtlı değildir! Lütfen seçtiğiniz paket için 'Paket Talep Et' butonuna basın veya '7 Gün Ücretsiz Denemeyi Başlat' butonunu kullanın.`;
+                    const errorDetail = data.detail || data.message || "Giriş başarısız.";
+                    if (errText) errText.innerText = errorDetail;
                     if (errBox) errBox.style.display = "block";
-                    if (btnReq) {
-                        btnReq.style.display = "flex";
-                        document.getElementById("btnRequestPackageText").innerText = "Seçilen Paketi Talep Et (Yönetici Onayına Gönder)";
+                    if (errorDetail.includes("bulunamadı")) {
+                        if (btnReq) {
+                            btnReq.style.display = "flex";
+                            document.getElementById("btnRequestPackageText").innerText = "Seçilen Paketi Talep Et (Yönetici Onayına Gönder)";
+                        }
                     }
-                    showToast("❌ Numaraya ait kayıt bulunamadı.", "error");
+                    showToast(`❌ ${errorDetail}`, "error");
                 }
             } catch (err) {
                 showToast("Giriş yapılırken sunucu hatası oluştu.", "error");
@@ -614,6 +655,8 @@
 
         async function handleStartTrialClick() {
             const input = document.getElementById("authPhoneInput");
+            const pwdInput = document.getElementById("authPasswordInput");
+
             if (!input || !input.value.trim()) {
                 showToast("Lütfen 05XX ile başlayan dükkan numaranızı girin.", "error");
                 return;
@@ -625,17 +668,24 @@
                 return;
             }
 
+            const password = pwdInput ? pwdInput.value.trim() : "";
+            if (!password || password.length < 4) {
+                showToast("Lütfen en az 4 karakterden oluşan bir şifre girin.", "error");
+                if (pwdInput) pwdInput.focus();
+                return;
+            }
+
             showToast("🚀 7 Günlük Ücretsiz Denemeniz oluşturuluyor...", "info");
 
             try {
                 const response = await fetch("/api/shop/register", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ phone_number: phoneDigits, shop_name: "Oto Servis" })
+                    body: JSON.stringify({ phone_number: phoneDigits, password: password, shop_name: "Oto Servis" })
                 });
 
                 const data = await response.json();
-                if (data.success) {
+                if (response.ok && data.success) {
                     activeShopData = data.shop;
                     activePhoneNumber = phoneDigits;
                     localStorage.setItem('active_phone', input.value);
@@ -643,7 +693,7 @@
                     const phoneHeader = document.getElementById("phoneNumber");
                     if (phoneHeader) phoneHeader.value = input.value;
 
-                    showToast("🚀 7 Günlük Denemeniz Başlatıldı! USTA paket yetkileriyle tekliflerinizi hazırlayabilirsiniz.", "success");
+                    showToast("🚀 Şifreniz Kaydedildi & 7 Günlük Denemeniz Başlatıldı!", "success");
                     
                     document.getElementById("authLandingView").style.display = "none";
                     document.getElementById("mainWorkspace").style.display = "block";
@@ -651,6 +701,9 @@
                     updateUIForPackage(data.shop);
                     updateShopIdentityUI(data.shop);
                     loadQuotes();
+                } else {
+                    const errorDetail = data.detail || data.message || "Kayıt oluşturulamadı.";
+                    showToast(`❌ ${errorDetail}`, "error");
                 }
             } catch (err) {
                 showToast("Deneme başlatılırken sunucu hatası oluştu.", "error");

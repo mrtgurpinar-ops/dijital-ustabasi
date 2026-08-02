@@ -320,19 +320,63 @@ async def update_quote_status(req: UpdateQuoteStatusRequest):
 
 class RegisterShopRequest(BaseModel):
     phone_number: str
+    password: str = ""
     shop_name: str = "Oto Servis"
+
+class LoginShopRequest(BaseModel):
+    phone_number: str
+    password: str = ""
+
+class ChangePasswordRequest(BaseModel):
+    phone_number: str
+    old_password: str = ""
+    new_password: str
+
+@app.post("/api/shop/login")
+async def login_shop(req: LoginShopRequest):
+    phone = req.phone_number.strip()
+    password = req.password.strip()
+    if not phone:
+        raise HTTPException(status_code=400, detail="Telefon numarası zorunludur.")
+    if not password:
+        raise HTTPException(status_code=400, detail="Lütfen şifrenizi giriniz.")
+        
+    success, msg, shop = storage.verify_shop_login(phone, password)
+    if not success or not shop:
+        raise HTTPException(status_code=401, detail=msg)
+        
+    check_shop_access(shop)
+    return {"success": True, "message": msg, "shop": shop}
 
 @app.post("/api/shop/register")
 async def register_shop(req: RegisterShopRequest):
     phone = req.phone_number.strip()
+    password = req.password.strip()
     if not phone:
         raise HTTPException(status_code=400, detail="Telefon numarası zorunludur.")
-    shop = storage.get_shop(phone)
-    if not shop:
-        shop = storage.create_shop(phone_number=phone, name=req.shop_name.strip() or "Oto Servis")
-        return {"success": True, "message": "7 Günlük Ücretsiz Deneme kaydınız oluşturuldu.", "shop": shop}
-    else:
-        return {"success": True, "message": "Dükkan kaydınız mevcuttur.", "shop": shop}
+    if not password or len(password) < 4:
+        raise HTTPException(status_code=400, detail="Şifre en az 4 karakter olmalıdır.")
+        
+    existing = storage.get_shop(phone)
+    if existing:
+        raise HTTPException(status_code=400, detail="Bu telefon numarasına ait bir dükkan zaten kayıtlı. Lütfen giriş yapın.")
+        
+    shop = storage.create_shop(phone_number=phone, password=password, name=req.shop_name.strip() or "Oto Servis")
+    return {"success": True, "message": "7 Günlük Ücretsiz Deneme kaydınız oluşturuldu.", "shop": shop}
+
+@app.post("/api/shop/change_password")
+async def change_password(req: ChangePasswordRequest):
+    phone = req.phone_number.strip()
+    new_pwd = req.new_password.strip()
+    if not new_pwd or len(new_pwd) < 4:
+        raise HTTPException(status_code=400, detail="Yeni şifre en az 4 karakter olmalıdır.")
+        
+    success, msg, shop = storage.verify_shop_login(phone, req.old_password.strip())
+    if not success or not shop:
+        raise HTTPException(status_code=401, detail="Mevcut şifreniz hatalı.")
+        
+    updated = storage.update_shop_password(phone, new_pwd)
+    return {"success": True, "message": "Şifreniz başarıyla güncellendi.", "shop": updated}
 
 @app.get("/api/shop")
 async def get_shop_info(phone_number: str):

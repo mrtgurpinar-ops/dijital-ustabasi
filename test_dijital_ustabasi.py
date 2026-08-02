@@ -147,6 +147,26 @@ class TestDijitalUstabasi(unittest.TestCase):
         self.assertIsNotNone(updated_q)
         self.assertEqual(updated_q["status"], "onaylandi")
 
+    def test_password_authentication(self):
+        # Create shop with password
+        shop = self.storage.create_shop("+905329990011", password="secret123password", name="Lider Oto")
+        self.assertIsNotNone(shop)
+        
+        # Verify valid login
+        success, msg, verified_shop = self.storage.verify_shop_login("+905329990011", "secret123password")
+        self.assertTrue(success)
+        self.assertEqual(verified_shop["phone_number"], "5329990011")
+        
+        # Verify invalid login
+        success_invalid, msg_invalid, _ = self.storage.verify_shop_login("+905329990011", "wrongpassword")
+        self.assertFalse(success_invalid)
+        self.assertIn("Hatalı şifre", msg_invalid)
+        
+        # Test password update
+        self.storage.update_shop_password("+905329990011", "newsecret456")
+        success_new, _, _ = self.storage.verify_shop_login("+905329990011", "newsecret456")
+        self.assertTrue(success_new)
+
 
 class TestFastAPIIntegration(unittest.TestCase):
     def setUp(self):
